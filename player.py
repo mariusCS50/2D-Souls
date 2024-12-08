@@ -9,7 +9,7 @@ class Player(arcade.Sprite):
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.speed = 100
+        self.speed = 200
 
         self.move_up = False
         self.move_down = False
@@ -25,9 +25,9 @@ class Player(arcade.Sprite):
         self.dodge_dir_x = 0
         self.dodge_dir_y = 0
 
-        self.dodge_speed = 300
+        self.dodge_speed = 500
 
-        self.dodge_time = 0.2
+        self.dodge_time = 0.3
         self.dodge_timer = 0
 
     def update_dir(self):
@@ -73,8 +73,8 @@ class Player(arcade.Sprite):
             self.dodge_dir_x = self.dir_x
             self.dodge_dir_y = self.dir_y
 
-        self.change_x = self.dodge_dir_x * self.dodge_speed
-        self.change_y = self.dodge_dir_y * self.dodge_speed
+            self.change_x = self.dodge_dir_x * self.dodge_speed
+            self.change_y = self.dodge_dir_y * self.dodge_speed
 
         self.move(delta_time)
 
