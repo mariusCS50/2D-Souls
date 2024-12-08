@@ -16,33 +16,33 @@ class Player(arcade.Sprite):
         self.move_right = False
         self.move_left = False
 
-    def update_speed(self):
-        dir_x = 0
-        dir_y = 0
+        self.dir_x = 0
+        self.dir_y = 0
 
+    def update_dir(self):
         if self.move_right:
-            dir_x += 1
+            self.dir_x += 1
         if self.move_left:
-            dir_x -= 1
+            self.dir_x -= 1
 
         if self.move_up:
-            dir_y += 1
+            self.dir_y += 1
         if self.move_down:
-            dir_y -= 1
+            self.dir_y -= 1
 
         # normalize directions
-        if (abs(dir_x) == 1 and abs(dir_y) == 1):
+        if (abs(self.dir_x) == 1 and abs(self.dir_y) == 1):
             factor = 1 / math.sqrt(2)
 
-            dir_x *= factor
-            dir_y *= factor
-
-        self.change_x = dir_x * self.speed
-        self.change_y = dir_y * self.speed
+            self.dir_x *= factor
+            self.dir_y *= factor
 
     def on_update(self, delta_time):
-        self.update_speed()
+        self.update_dir()
         
+        self.change_x = self.dir_x * self.speed
+        self.change_y = self.dir_y * self.speed
+
         self.center_x += self.change_x * delta_time
         self.center_y += self.change_y * delta_time
     
