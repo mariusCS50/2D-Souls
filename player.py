@@ -30,6 +30,9 @@ class Player(arcade.Sprite):
         self.dodge_time = 0.3
         self.dodge_timer = 0
 
+    def is_moving(self):
+        return self.move_up or self.move_down or self.move_left or self.move_right
+
     def update_dir(self):
         dir_x = 0
         dir_y = 0
