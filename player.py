@@ -4,12 +4,12 @@ import math
 class Player(arcade.Sprite):
     def __init__(self, pos_x = 0, pos_y = 0):
         # temporary sprite
-        super().__init__(":resources:images/animated_characters/male_adventurer/maleAdventurer_idle.png")
+        super().__init__("assets/temp_player.png", scale=0.0625)
 
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.speed = 200
+        self.speed = 3
 
         self.move_up = False
         self.move_down = False
@@ -23,10 +23,10 @@ class Player(arcade.Sprite):
 
         self.is_dodging = False
 
-        self.dodge_speed = 500
+        self.dodge_speed = 6
 
         self.dodge_time = 0.3
-        self.dodge_timer = 0
+        self.dodge_timer = 0.2
 
     def is_moving(self):
         return self.move_up or self.move_down or self.move_left or self.move_right
@@ -89,4 +89,3 @@ class Player(arcade.Sprite):
             self.dodge_logic(delta_time)
         else:
             self.walk_logic(delta_time)
-    
