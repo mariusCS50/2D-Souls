@@ -1,6 +1,6 @@
 import arcade
 import math
-from tiles_and_sprites import player_walking_textures
+from tiles_and_sprites import PlayerTextures
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x = 0, pos_y = 0):
@@ -27,6 +27,9 @@ class Player(arcade.Sprite):
 
         self.dodge_time = 0.3
         self.dodge_timer = 0.2
+
+        self.idle_textures = PlayerTextures().get_idle_textures()
+        self.walking_textures = PlayerTextures().get_walking_textures()
 
         self.current_facing_direction = "up"
         self.texture_index = 0
@@ -77,8 +80,10 @@ class Player(arcade.Sprite):
             self.animation_timer += delta_time
             if self.animation_timer > 0.2:
                 self.texture_index = (self.texture_index + 1) % 2
-                self.texture = player_walking_textures[self.current_facing_direction][self.texture_index]
+                self.texture =  self.walking_textures[self.current_facing_direction][self.texture_index]
                 self.animation_timer = 0
+        else:
+            self.texture = self.idle_textures[self.current_facing_direction]
 
     def walk_logic(self, delta_time):
         self.update_dir()

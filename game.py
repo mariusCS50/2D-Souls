@@ -1,10 +1,13 @@
 import arcade
-from tiles_and_sprites import map_transitions
+from tiles_and_sprites import MapTransitions
 from player import Player
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
         super().__init__(width, height, title)
+
+        self.map_transitions = MapTransitions().get_transitions()
+        self.player = None
 
     def setup(self, map_name="assets/maps/lobby.tmx", spawn_edge="down"):
         self.current_map = map_name
@@ -15,20 +18,21 @@ class Game(arcade.Window):
         self.map_width = tile_map.width * tile_map.tile_width * scaling
         self.map_height = tile_map.height * tile_map.tile_height * scaling
 
-        if spawn_edge == "left":
-            player_spawn_x = tile_map.tile_width * scaling
-            player_spawn_y = self.map_height / 2
-        elif spawn_edge == "right":
-            player_spawn_x = self.map_width - tile_map.tile_width * scaling
-            player_spawn_y = self.map_height / 2
-        elif spawn_edge == "up":
-            player_spawn_x = self.map_width / 2
-            player_spawn_y = self.map_height - tile_map.tile_height * scaling
-        elif spawn_edge == "down":
+        if self.player is None:
             player_spawn_x = self.map_width / 2
             player_spawn_y = tile_map.tile_height * scaling
+            self.player = Player(player_spawn_x, player_spawn_y)
+        else:
+            if spawn_edge == "left":
+                self.player.center_x = tile_map.tile_width * scaling
+            elif spawn_edge == "right":
+                self.player.center_x = self.map_width - tile_map.tile_width * scaling
+            elif spawn_edge == "up":
+                self.player.center_y = self.map_height - tile_map.tile_height * scaling
+            elif spawn_edge == "down":
+                self.player.center_x = self.map_width / 2
+                self.player.center_y = tile_map.tile_height * scaling
 
-        self.player = Player(player_spawn_x, player_spawn_y)
         self.scene.add_sprite("Player", self.player)
         self.camera = arcade.Camera(self.width, self.height)
 
@@ -43,13 +47,13 @@ class Game(arcade.Window):
         spawn_edge = None
 
         if self.player.center_x < 0:
-            transition = map_transitions.get(self.current_map, {}).get("left")
+            transition = self.map_transitions.get(self.current_map, {}).get("left")
         elif self.player.center_x > self.map_width:
-            transition = map_transitions.get(self.current_map, {}).get("right")
+            transition = self.map_transitions.get(self.current_map, {}).get("right")
         elif self.player.center_y < 0:
-            transition = map_transitions.get(self.current_map, {}).get("down")
+            transition = self.map_transitions.get(self.current_map, {}).get("down")
         elif self.player.center_y > self.map_height:
-            transition = map_transitions.get(self.current_map, {}).get("up")
+            transition = self.map_transitions.get(self.current_map, {}).get("up")
 
         if transition:
             target_map, spawn_edge = transition
@@ -108,4 +112,4 @@ class Game(arcade.Window):
 if __name__ == "__main__":
     game = Game()
     game.setup()
-    arcade.run()
+    game.run()
