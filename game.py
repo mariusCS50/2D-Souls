@@ -1,26 +1,10 @@
 import arcade
+from tiles_and_sprites import map_transitions
 from player import Player
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
         super().__init__(width, height, title)
-
-        self.map_transitions = {
-            "assets/maps/lobby.tmx": {
-                "right": ("assets/maps/volcano_island.tmx", "left"),
-                "left": ("assets/maps/snowy_plains.tmx", "right"),
-                "up": ("assets/maps/crystal_cave.tmx", "down"),
-            },
-            "assets/maps/volcano_island.tmx": {
-                "left": ("assets/maps/lobby.tmx", "right")
-            },
-            "assets/maps/snowy_plains.tmx": {
-                "right": ("assets/maps/lobby.tmx", "left")
-            },
-            "assets/maps/crystal_cave.tmx": {
-                "down": ("assets/maps/lobby.tmx", "up")
-            }
-        }
 
     def setup(self, map_name="assets/maps/lobby.tmx", spawn_edge="down"):
         self.current_map = map_name
@@ -59,13 +43,13 @@ class Game(arcade.Window):
         spawn_edge = None
 
         if self.player.center_x < 0:
-            transition = self.map_transitions.get(self.current_map, {}).get("left")
+            transition = map_transitions.get(self.current_map, {}).get("left")
         elif self.player.center_x > self.map_width:
-            transition = self.map_transitions.get(self.current_map, {}).get("right")
+            transition = map_transitions.get(self.current_map, {}).get("right")
         elif self.player.center_y < 0:
-            transition = self.map_transitions.get(self.current_map, {}).get("down")
+            transition = map_transitions.get(self.current_map, {}).get("down")
         elif self.player.center_y > self.map_height:
-            transition = self.map_transitions.get(self.current_map, {}).get("up")
+            transition = map_transitions.get(self.current_map, {}).get("up")
 
         if transition:
             target_map, spawn_edge = transition
@@ -82,9 +66,9 @@ class Game(arcade.Window):
 
     def on_update(self, delta_time):
         self.physics_engine.update()
+        self.check_map_transition()
         self.player.on_update(delta_time)
         self.center_camera_to_player()
-        self.check_map_transition()
 
     def on_draw(self):
         self.clear()
