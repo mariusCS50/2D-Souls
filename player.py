@@ -35,6 +35,19 @@ class Player(arcade.Sprite):
         self.texture_index = 0
         self.animation_timer = 0
 
+        self.set_player_hitbox()
+
+    def set_player_hitbox(self):
+        width = self.width
+        height = self.height
+        hitbox = [
+            (-width / 2, -height),
+            (width / 2, -height),
+            (width, 0),
+            (-width, 0)
+        ]
+        self.set_hit_box(hitbox)
+
     def is_moving(self):
         return self.move_up or self.move_down or self.move_left or self.move_right
 

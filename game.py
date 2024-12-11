@@ -33,13 +33,14 @@ class Game(arcade.Window):
                 self.player.center_x = self.map_width / 2
                 self.player.center_y = tile_map.tile_height * scaling
 
-        self.scene.add_sprite("Player", self.player)
-        self.camera = arcade.Camera(self.width, self.height)
+        self.scene.add_sprite_list_after("Player", "Collision Layer 2")
+        self.scene["Player"].append(self.player)
 
         collision_layers = arcade.SpriteList()
         collision_layers.extend(self.scene["Collision Layer"])
         collision_layers.extend(self.scene["Collision Layer 2"])
 
+        self.camera = arcade.Camera(self.width, self.height)
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
 
     def check_map_transition(self):
@@ -77,14 +78,7 @@ class Game(arcade.Window):
     def on_draw(self):
         self.clear()
         self.camera.use()
-
-        self.scene["Collision Layer"].draw()
-        self.scene["Ground Layer"].draw()
-        self.scene["Ground Layer 2"].draw()
-        self.scene["Ground Layer 3"].draw()
-        self.scene["Collision Layer 2"].draw()
-        self.player.draw()
-        self.scene["Top Layer"].draw()
+        self.scene.draw()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.D:
