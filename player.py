@@ -9,7 +9,7 @@ class Player(arcade.Sprite):
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.speed = 4
+        self.speed = 200
 
         self.move_up = False
         self.move_down = False
@@ -23,10 +23,10 @@ class Player(arcade.Sprite):
 
         self.is_dodging = False
 
-        self.dodge_speed = 6
+        self.dodge_speed = 300
 
         self.dodge_time = 0.3
-        self.dodge_timer = 0.2
+        self.dodge_timer = 0
 
         self.idle_textures = PlayerTextures().get_idle_textures()
         self.walking_textures = PlayerTextures().get_walking_textures()
@@ -84,10 +84,6 @@ class Player(arcade.Sprite):
         self.dir_x = dir_x
         self.dir_y = dir_y
 
-    def move(self, delta_time):
-        self.center_x += self.change_x * delta_time
-        self.center_y += self.change_y * delta_time
-
     def animate(self, delta_time):
         if self.is_moving():
             self.animation_timer += delta_time
@@ -101,10 +97,9 @@ class Player(arcade.Sprite):
     def walk_logic(self, delta_time):
         self.update_dir()
 
-        self.change_x = self.dir_x * self.speed
-        self.change_y = self.dir_y * self.speed
+        self.change_x = self.dir_x * self.speed * delta_time
+        self.change_y = self.dir_y * self.speed * delta_time
 
-        self.move(delta_time)
         self.animate(delta_time)
 
     def dodge_logic(self, delta_time):
@@ -112,10 +107,8 @@ class Player(arcade.Sprite):
             self.update_dir()
             self.lock_dir = True
 
-            self.change_x = self.dir_x * self.dodge_speed
-            self.change_y = self.dir_y * self.dodge_speed
-
-        self.move(delta_time)
+        self.change_x = self.dir_x * self.dodge_speed * delta_time
+        self.change_y = self.dir_y * self.dodge_speed * delta_time
 
         self.dodge_timer += delta_time
         if self.dodge_timer > self.dodge_time:
