@@ -1,6 +1,6 @@
 import arcade
 import math
-from tiles_and_sprites import PlayerTextures
+from game_resources import PlayerResources
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x = 0, pos_y = 0):
@@ -19,32 +19,33 @@ class Player(arcade.Sprite):
         self.dir_x = 0
         self.dir_y = 0
 
-        self.lock_dir = False
-
+        self.direction_lock = False
         self.is_dodging = False
+        self.is_attacking = False
+
+        self.attack_speed = 0.3
+        self.attack_timer = 0
 
         self.dodge_speed = 300
-
         self.dodge_time = 0.3
         self.dodge_timer = 0
 
-        self.idle_textures = PlayerTextures().get_idle_textures()
-        self.walking_textures = PlayerTextures().get_walking_textures()
+        self.idle_textures = PlayerResources().get_idle_textures()
+        self.walking_textures = PlayerResources().get_walking_textures()
+        self.attack_textures = PlayerResources().get_attack_textures()
 
         self.current_facing_direction = "up"
         self.texture_index = 0
         self.animation_timer = 0
 
-        self.set_player_hitbox()
+        self.set_default_hitbox()
 
-    def set_player_hitbox(self):
-        width = self.width
-        height = self.height
+    def set_default_hitbox(self):
         hitbox = [
-            (-width / 2, -height),
-            (width / 2, -height),
-            (width, 0),
-            (-width, 0)
+            (-self.width / 1.5, -self.height),
+            (self.width / 1.5, -self.height),
+            (self.width / 1.5, 0),
+            (-self.width / 1.5, 0)
         ]
         self.set_hit_box(hitbox)
 
@@ -52,37 +53,37 @@ class Player(arcade.Sprite):
         return self.move_up or self.move_down or self.move_left or self.move_right
 
     def update_dir(self):
-        dir_x = 0
-        dir_y = 0
+        offset_x = 0
+        offset_y = 0
 
         if self.move_right:
-            dir_x += 1
+            offset_x += 1
         if self.move_left:
-            dir_x -= 1
+            offset_x -= 1
 
         if self.move_up:
-            dir_y += 1
+            offset_y += 1
         if self.move_down:
-            dir_y -= 1
+            offset_y -= 1
 
         # normalize directions
-        if (abs(dir_x) == 1 and abs(dir_y) == 1):
+        if (abs(offset_x) == 1 and abs(offset_y) == 1):
             factor = 1 / math.sqrt(2)
 
-            dir_x *= factor
-            dir_y *= factor
+            offset_x *= factor
+            offset_y *= factor
 
-        if dir_x > 0:
-            self.current_facing_direction = "right"
-        elif dir_x < 0:
-            self.current_facing_direction = "left"
-        elif dir_y > 0:
+        if offset_y > 0:
             self.current_facing_direction = "up"
-        elif dir_y < 0:
+        elif offset_y < 0:
             self.current_facing_direction = "down"
+        elif offset_x < 0:
+            self.current_facing_direction = "left"
+        elif offset_x > 0:
+            self.current_facing_direction = "right"
 
-        self.dir_x = dir_x
-        self.dir_y = dir_y
+        self.dir_x = offset_x
+        self.dir_y = offset_y
 
     def animate(self, delta_time):
         if self.is_moving():
@@ -94,7 +95,7 @@ class Player(arcade.Sprite):
         else:
             self.texture = self.idle_textures[self.current_facing_direction]
 
-    def walk_logic(self, delta_time):
+    def walk(self, delta_time):
         self.update_dir()
 
         self.change_x = self.dir_x * self.speed * delta_time
@@ -102,10 +103,10 @@ class Player(arcade.Sprite):
 
         self.animate(delta_time)
 
-    def dodge_logic(self, delta_time):
-        if not self.lock_dir:
+    def dodge(self, delta_time):
+        if not self.direction_lock:
             self.update_dir()
-            self.lock_dir = True
+            self.direction_lock = True
 
         self.change_x = self.dir_x * self.dodge_speed * delta_time
         self.change_y = self.dir_y * self.dodge_speed * delta_time
@@ -114,11 +115,26 @@ class Player(arcade.Sprite):
         if self.dodge_timer > self.dodge_time:
             self.is_dodging = False
             self.dodge_timer = 0
-            self.lock_dir = False
+            self.direction_lock = False
             return
 
-    def on_update(self, delta_time):
-        if self.is_dodging:
-            self.dodge_logic(delta_time)
+    def attack(self, delta_time):
+        self.attack_timer += delta_time
+
+        if self.attack_timer <= self.attack_speed:
+            self.texture = self.attack_textures[self.current_facing_direction]
+
         else:
-            self.walk_logic(delta_time)
+            self.is_attacking = False
+            self.attack_timer = 0.0
+            self.scale = 0.5
+            self.texture = self.idle_textures[self.current_facing_direction]
+            self.set_default_hitbox()
+
+    def on_update(self, delta_time):
+        if self.is_attacking:
+            self.attack(delta_time)
+        elif self.is_dodging:
+            self.dodge(delta_time)
+        else:
+            self.walk(delta_time)

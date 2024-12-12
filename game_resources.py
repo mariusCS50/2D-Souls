@@ -1,6 +1,6 @@
 import arcade
 
-class MapTransitions:
+class MapResources:
     def __init__(self):
         self.transitions = {
             "assets/maps/lobby.tmx": {
@@ -23,7 +23,7 @@ class MapTransitions:
         return self.transitions
 
 
-class PlayerTextures:
+class PlayerResources:
     def __init__(self):
         self.idle_textures = {
             "up": arcade.load_texture("assets/player/stay_idle_up.png"),

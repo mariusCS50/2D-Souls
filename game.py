@@ -1,12 +1,13 @@
 import arcade
-from tiles_and_sprites import MapTransitions
+import arcade.key
+from game_resources import MapResources
 from player import Player
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
         super().__init__(width, height, title)
 
-        self.map_transitions = MapTransitions().get_transitions()
+        self.map_transitions = MapResources().get_transitions()
         self.player = None
 
     def setup(self, map_name="assets/maps/lobby.tmx", spawn_edge="down"):
@@ -80,6 +81,15 @@ class Game(arcade.Window):
         self.camera.use()
         self.scene.draw()
 
+        # code to check the hitbox
+        hitbox = self.player.get_hit_box()
+        scaled_hitbox = [
+            (self.player.center_x + point[0] * self.player.scale,
+            self.player.center_y + point[1] * self.player.scale)
+            for point in hitbox
+        ]
+        arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
+
     def on_key_press(self, key, modifiers):
         if key == arcade.key.D:
             self.player.move_right = True
@@ -92,6 +102,8 @@ class Game(arcade.Window):
         elif key == arcade.key.SPACE:
             if self.player.is_moving():
                 self.player.is_dodging = True
+        elif key == arcade.key.K:
+            self.player.is_attacking = True
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.D:
@@ -102,6 +114,10 @@ class Game(arcade.Window):
             self.player.move_up = False
         elif key == arcade.key.S:
             self.player.move_down = False
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            self.player.is_attacking = True
 
 if __name__ == "__main__":
     game = Game()
