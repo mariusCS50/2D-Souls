@@ -54,7 +54,7 @@ class Player(arcade.Sprite):
         self.set_hit_box(hitbox)
 
     def is_moving(self):
-        return self.move_up or self.move_down or self.move_left or self.move_right
+        return self.dir_x != 0 or self.dir_y != 0
 
     def update_dir(self):
         offset_x = 0
