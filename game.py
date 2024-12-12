@@ -100,10 +100,10 @@ class Game(arcade.Window):
         elif key == arcade.key.D:
             self.player.move_right = True
         elif key == arcade.key.SPACE:
-            if self.player.is_moving() and not self.player.is_attacking and self.player.can_dodge:
+            if self.player.is_moving() and self.player.can_dodge and not self.player.is_attacking:
                 self.player.is_dodging = True
                 self.player.can_dodge = False
-        elif key == arcade.key.K:
+        elif key == arcade.key.K and self.player.can_attack:
             self.player.is_attacking = True
 
     def on_key_release(self, key, modifiers):
@@ -117,7 +117,7 @@ class Game(arcade.Window):
             self.player.move_right = False
 
     def on_mouse_press(self, x, y, button, modifiers):
-        if button == arcade.MOUSE_BUTTON_LEFT:
+        if button == arcade.MOUSE_BUTTON_LEFT and self.player.can_attack:
             self.player.is_attacking = True
 
 if __name__ == "__main__":
