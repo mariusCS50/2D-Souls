@@ -11,8 +11,11 @@ class MeleeEnemy(Enemy):
         diff_y = self.target.center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
+        self.dir_x = diff_x / distance
+        self.dir_y = diff_y / distance
+
         self.change_x = self.dir_x * self.speed * delta_time
         self.change_y = self.dir_y * self.speed * delta_time
-        
+
         # TODO: attack player when is attacking with meele weapon
         pass

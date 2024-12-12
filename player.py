@@ -1,6 +1,7 @@
 import arcade
 import math
 from game_resources import PlayerResources
+from melee_weapon import MeleeWeapon
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x = 0, pos_y = 0):
@@ -49,9 +50,12 @@ class Player(arcade.Sprite):
         self.animation_walk_speed = 0.2
         self.animation_walk_timer = 0
 
-        self.set_default_hitbox()
+        self.set_custom_hitbox()
 
-    def set_default_hitbox(self):
+        self.sword = MeleeWeapon(10)
+        self.weapon_hitbox = None
+
+    def set_custom_hitbox(self):
         hitbox = [
             (-self.width / 1.5, -self.height),
             (self.width / 1.5, -self.height),
@@ -145,21 +149,34 @@ class Player(arcade.Sprite):
                 self.can_dodge = True
                 self.dodge_cooldown_timer = 0
 
+    def attack(self, delta_time, enemies):
+        self.weapon_hitbox = self.sword.create_sword_hitbox(self)
 
-    def attack(self, delta_time):
         self.attack_timer += delta_time
-        self.change_x = 0
-        self.change_y = 0
 
         if self.attack_timer <= self.attack_speed:
             self.texture = self.attack_textures[self.current_facing_direction]
+            self.change_x = 0
+            self.change_y = 0
+
+            enemies_hit = arcade.check_for_collision_with_list(self.weapon_hitbox, enemies)
+            for enemy in enemies_hit:
+                enemies.remove(enemy)
 
         else:
             self.is_attacking = False
             self.can_attack = False
             self.attack_timer = 0.0
             self.texture = self.idle_textures[self.current_facing_direction]
-            self.set_default_hitbox()
+            self.set_custom_hitbox()
+            self.weapon_hitbox = None
+
+    def attack_cooldown_update(self, delta_time):
+        if not self.can_attack:
+            self.attack_cooldown_timer += delta_time
+            if self.attack_cooldown_timer > self.attack_cooldown:
+                self.can_attack = True
+                self.attack_cooldown_timer = 0
 
     def attack_cooldown_update(self, delta_time):
         if not self.can_attack:
@@ -172,7 +189,7 @@ class Player(arcade.Sprite):
         if self.is_dodging:
             self.dodge(delta_time)
         elif self.is_attacking:
-            self.attack(delta_time)
+            self.attack(delta_time, enemies)
         else:
             self.walk(delta_time)
 
