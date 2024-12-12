@@ -82,23 +82,23 @@ class Game(arcade.Window):
         self.scene.draw()
 
         # code to check the hitbox
-        hitbox = self.player.get_hit_box()
-        scaled_hitbox = [
-            (self.player.center_x + point[0] * self.player.scale,
-            self.player.center_y + point[1] * self.player.scale)
-            for point in hitbox
-        ]
-        arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
+        # hitbox = self.player.get_hit_box()
+        # scaled_hitbox = [
+        #     (self.player.center_x + point[0] * self.player.scale,
+        #     self.player.center_y + point[1] * self.player.scale)
+        #     for point in hitbox
+        # ]
+        # arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
 
     def on_key_press(self, key, modifiers):
-        if key == arcade.key.D:
-            self.player.move_right = True
+        if key == arcade.key.W:
+            self.player.move_up = True
         elif key == arcade.key.A:
             self.player.move_left = True
-        elif key == arcade.key.W:
-            self.player.move_up = True
         elif key == arcade.key.S:
             self.player.move_down = True
+        elif key == arcade.key.D:
+            self.player.move_right = True
         elif key == arcade.key.SPACE:
             if self.player.is_moving():
                 self.player.is_dodging = True
@@ -106,14 +106,14 @@ class Game(arcade.Window):
             self.player.is_attacking = True
 
     def on_key_release(self, key, modifiers):
-        if key == arcade.key.D:
-            self.player.move_right = False
+        if key == arcade.key.W:
+            self.player.move_up = False
         elif key == arcade.key.A:
             self.player.move_left = False
-        elif key == arcade.key.W:
-            self.player.move_up = False
         elif key == arcade.key.S:
             self.player.move_down = False
+        elif key == arcade.key.D:
+            self.player.move_right = False
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:

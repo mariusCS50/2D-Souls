@@ -26,7 +26,7 @@ class Player(arcade.Sprite):
         self.attack_speed = 0.3
         self.attack_timer = 0
 
-        self.dodge_speed = 300
+        self.dodge_speed = 400
         self.dodge_time = 0.3
         self.dodge_timer = 0
 
@@ -120,6 +120,8 @@ class Player(arcade.Sprite):
 
     def attack(self, delta_time):
         self.attack_timer += delta_time
+        self.change_x = 0
+        self.change_y = 0
 
         if self.attack_timer <= self.attack_speed:
             self.texture = self.attack_textures[self.current_facing_direction]
@@ -127,14 +129,13 @@ class Player(arcade.Sprite):
         else:
             self.is_attacking = False
             self.attack_timer = 0.0
-            self.scale = 0.5
             self.texture = self.idle_textures[self.current_facing_direction]
             self.set_default_hitbox()
 
     def on_update(self, delta_time):
-        if self.is_attacking:
-            self.attack(delta_time)
-        elif self.is_dodging:
+        if self.is_dodging:
             self.dodge(delta_time)
+        elif self.is_attacking:
+            self.attack(delta_time)
         else:
             self.walk(delta_time)
