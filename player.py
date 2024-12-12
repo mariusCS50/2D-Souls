@@ -35,8 +35,12 @@ class Player(arcade.Sprite):
         self.attack_textures = PlayerResources().get_attack_textures()
 
         self.current_facing_direction = "up"
-        self.texture_index = 0
-        self.animation_timer = 0
+        self.last_facing_direction = ""
+
+        self.walk_texture_index = 0
+
+        self.animation_walk_speed = 0.2
+        self.animation_walk_timer = 0
 
         self.set_default_hitbox()
 
@@ -73,6 +77,8 @@ class Player(arcade.Sprite):
             offset_x *= factor
             offset_y *= factor
 
+        self.last_facing_direction = self.current_facing_direction
+
         if offset_y > 0:
             self.current_facing_direction = "up"
         elif offset_y < 0:
@@ -85,27 +91,34 @@ class Player(arcade.Sprite):
         self.dir_x = offset_x
         self.dir_y = offset_y
 
-    def animate(self, delta_time):
+    def animate_walk(self, delta_time):
         if self.is_moving():
-            self.animation_timer += delta_time
-            if self.animation_timer > 0.2:
-                self.texture_index = (self.texture_index + 1) % 2
-                self.texture =  self.walking_textures[self.current_facing_direction][self.texture_index]
-                self.animation_timer = 0
+            if self.animation_walk_timer > self.animation_walk_speed:
+                self.walk_texture_index = (self.walk_texture_index + 1) % 2
+                self.texture = self.walking_textures[self.current_facing_direction][self.walk_texture_index]
+                self.animation_walk_timer = 0
+
+            elif self.current_facing_direction != self.last_facing_direction:
+                self.walk_texture_index = 0
+                self.texture = self.walking_textures[self.current_facing_direction][0]
+                self.animation_walk_timer = 0
+
+            self.animation_walk_timer += delta_time
         else:
             self.texture = self.idle_textures[self.current_facing_direction]
+            self.animation_walk_timer = 0
 
     def walk(self, delta_time):
         self.update_dir()
+        self.animate_walk(delta_time)
 
         self.change_x = self.dir_x * self.speed * delta_time
         self.change_y = self.dir_y * self.speed * delta_time
 
-        self.animate(delta_time)
-
     def dodge(self, delta_time):
         if not self.direction_lock:
             self.update_dir()
+            self.animate_walk(delta_time)
             self.direction_lock = True
 
         self.change_x = self.dir_x * self.dodge_speed * delta_time
