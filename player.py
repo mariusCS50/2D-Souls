@@ -21,14 +21,19 @@ class Player(arcade.Sprite):
 
         self.direction_lock = False
         self.is_dodging = False
+        self.can_dodge = True
         self.is_attacking = False
 
         self.attack_speed = 0.3
         self.attack_timer = 0
 
         self.dodge_speed = 400
+
         self.dodge_time = 0.3
         self.dodge_timer = 0
+        
+        self.dodge_cooldown = 2
+        self.dodge_cooldown_timer = 0
 
         self.idle_textures = PlayerResources().get_idle_textures()
         self.walking_textures = PlayerResources().get_walking_textures()
@@ -130,6 +135,11 @@ class Player(arcade.Sprite):
             self.dodge_timer = 0
             self.direction_lock = False
             return
+        
+    def dodge_cooldown_update(self, delta_time):
+        self.dodge_cooldown_timer += delta_time
+        if self.dodge_cooldown_timer > self.dodge_cooldown:
+            self.can_dodge = True
 
     def attack(self, delta_time):
         self.attack_timer += delta_time
@@ -152,3 +162,6 @@ class Player(arcade.Sprite):
             self.attack(delta_time)
         else:
             self.walk(delta_time)
+
+        if not self.can_dodge:
+            self.dodge_cooldown_update(delta_time)
