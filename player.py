@@ -20,6 +20,9 @@ class Player(arcade.Sprite):
         self.dir_x = 0
         self.dir_y = 0
 
+        self.max_health = 100
+        self.health = 100
+
         self.direction_lock = False
 
         self.is_dodging = False

@@ -1,11 +1,17 @@
 import arcade
+import arcade.key
+import arcade.gui
 from game_resources import MapResources
+from health_bar import HealthBar
 from player import Player
 from melee_enemy import MeleeEnemy
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
         super().__init__(width, height, title)
+
+        self.ui_manager = arcade.gui.UIManager()
+        self.ui_manager.enable()
 
         self.map_transitions = MapResources().get_transitions()
         self.player = None
@@ -34,6 +40,11 @@ class Game(arcade.Window):
             elif spawn_edge == "down":
                 self.player.center_x = self.map_width / 2
                 self.player.center_y = tile_map.tile_height * scaling
+
+        self.scene.add_sprite_list_after("Player", "Collision Layer 2")
+        self.scene["Player"].append(self.player)
+
+        self.ui_manager.add(HealthBar(self.player))
 
         collision_layers = arcade.SpriteList()
         collision_layers.extend(self.scene["Collision Layer"])
@@ -120,6 +131,8 @@ class Game(arcade.Window):
                 for point in sword_hitbox_vertices
             ]
             arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
+
+        self.ui_manager.draw()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
