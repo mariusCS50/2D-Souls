@@ -13,6 +13,6 @@ class MeleeEnemy(Enemy):
 
         self.change_x = self.dir_x * self.speed * delta_time
         self.change_y = self.dir_y * self.speed * delta_time
-        
+
         # TODO: attack player when is attacking with meele weapon
         pass

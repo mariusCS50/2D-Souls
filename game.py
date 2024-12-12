@@ -1,7 +1,7 @@
 import arcade
-import arcade.key
 from game_resources import MapResources
 from player import Player
+from melee_enemy import MeleeEnemy
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
@@ -9,6 +9,7 @@ class Game(arcade.Window):
 
         self.map_transitions = MapResources().get_transitions()
         self.player = None
+        self.enemies = None
 
     def setup(self, map_name="assets/maps/lobby.tmx", spawn_edge="down"):
         self.current_map = map_name
@@ -41,8 +42,24 @@ class Game(arcade.Window):
         collision_layers.extend(self.scene["Collision Layer"])
         collision_layers.extend(self.scene["Collision Layer 2"])
 
+        self.generate_enemies(collision_layers)
+
         self.camera = arcade.Camera(self.width, self.height)
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
+
+    def generate_enemies(self, collision_layers):
+        self.enemies = arcade.SpriteList()
+
+        enemy = MeleeEnemy(
+            sprite="assets/temp_player.png",
+            pos_x=self.map_width / 2,
+            pos_y=300,
+            speed=100,
+            target=self.player,
+            vision_radius=200,
+            collision_layers=collision_layers,
+        )
+        self.enemies.append(enemy)
 
     def check_map_transition(self):
         transition = None
@@ -73,22 +90,34 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         self.physics_engine.update()
         self.check_map_transition()
-        self.player.on_update(delta_time)
+        self.enemies.on_update(delta_time)
+        self.player.on_update(delta_time, self.enemies)
         self.center_camera_to_player()
 
     def on_draw(self):
         self.clear()
         self.camera.use()
         self.scene.draw()
+        self.enemies.draw()
 
         # code to check the hitbox
-        # hitbox = self.player.get_hit_box()
-        # scaled_hitbox = [
-        #     (self.player.center_x + point[0] * self.player.scale,
-        #     self.player.center_y + point[1] * self.player.scale)
-        #     for point in hitbox
-        # ]
-        # arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
+        hitbox = self.player.get_hit_box()
+        scaled_hitbox = [
+            (self.player.center_x + point[0] * self.player.scale,
+            self.player.center_y + point[1] * self.player.scale)
+            for point in hitbox
+        ]
+        arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
+
+        if self.player.is_attacking and self.player.weapon_hitbox:
+            sword_hitbox = self.player.weapon_hitbox
+            sword_hitbox_vertices = sword_hitbox.get_hit_box()
+            scaled_sword_hitbox = [
+                (sword_hitbox.center_x + point[0],
+                sword_hitbox.center_y + point[1])
+                for point in sword_hitbox_vertices
+            ]
+            arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
@@ -100,10 +129,10 @@ class Game(arcade.Window):
         elif key == arcade.key.D:
             self.player.move_right = True
         elif key == arcade.key.SPACE:
-            if self.player.is_moving() and not self.player.is_attacking and self.player.can_dodge:
+            if self.player.is_moving() and self.player.can_dodge and not self.player.is_attacking:
                 self.player.is_dodging = True
                 self.player.can_dodge = False
-        elif key == arcade.key.K:
+        elif key == arcade.key.K and self.player.can_attack:
             self.player.is_attacking = True
 
     def on_key_release(self, key, modifiers):
@@ -117,7 +146,7 @@ class Game(arcade.Window):
             self.player.move_right = False
 
     def on_mouse_press(self, x, y, button, modifiers):
-        if button == arcade.MOUSE_BUTTON_LEFT:
+        if button == arcade.MOUSE_BUTTON_LEFT and self.player.can_attack:
             self.player.is_attacking = True
 
 if __name__ == "__main__":

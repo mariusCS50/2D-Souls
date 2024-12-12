@@ -1,5 +1,5 @@
 import arcade
-from weapon import Weapon
+from weapons import Weapon
 
 class RangedWeapon(Weapon):
     def __init__(self, damage, projectile):
