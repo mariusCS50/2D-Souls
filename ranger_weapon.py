@@ -1,7 +1,7 @@
 import arcade
-from weapons import Weapon
+from weapon import Weapon
 
-class RangedWeapon(Weapon):
+class RangerWeapon(Weapon):
     def __init__(self, damage, projectile):
         super().__init__(damage)
 
