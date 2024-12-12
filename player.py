@@ -185,7 +185,7 @@ class Player(arcade.Sprite):
                 self.can_attack = True
                 self.attack_cooldown_timer = 0
 
-    def on_update(self, delta_time):
+    def on_update(self, delta_time, enemies):
         if self.is_dodging:
             self.dodge(delta_time)
         elif self.is_attacking:
