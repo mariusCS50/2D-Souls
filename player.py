@@ -23,7 +23,7 @@ class Player(arcade.Sprite):
         self.is_dodging = False
         self.is_attacking = False
 
-        self.attack_speed = 0.3
+        self.attack_speed = 0.35
         self.attack_timer = 0
 
         self.dodge_speed = 400
@@ -129,7 +129,6 @@ class Player(arcade.Sprite):
             self.is_dodging = False
             self.dodge_timer = 0
             self.direction_lock = False
-            return
 
     def attack(self, delta_time):
         self.attack_timer += delta_time

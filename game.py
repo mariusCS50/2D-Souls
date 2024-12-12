@@ -100,7 +100,7 @@ class Game(arcade.Window):
         elif key == arcade.key.D:
             self.player.move_right = True
         elif key == arcade.key.SPACE:
-            if self.player.is_moving():
+            if self.player.is_moving() and not self.player.is_attacking:
                 self.player.is_dodging = True
         elif key == arcade.key.K:
             self.player.is_attacking = True
