@@ -2,9 +2,9 @@ import arcade
 from abc import ABC, abstractmethod
 
 class Enemy(arcade.Sprite, ABC):
-    def __init__(self, pos_x, pos_y, speed, target, vision_radius):
+    def __init__(self, sprite, pos_x, pos_y, speed, target, vision_radius, collision_layers):
         # temporary sprite
-        super().__init__("assets/temp_player.png", scale=0.0625)
+        super().__init__(sprite, scale=0.0625)
 
         self.center_x = pos_x
         self.center_y = pos_y
@@ -20,6 +20,8 @@ class Enemy(arcade.Sprite, ABC):
         self.wandering = True
         self.found_target = False
 
+        self.physics_engine = arcade.PhysicsEngineSimple(self, collision_layers)
+
     def wandering_logic(self, delta_time):
         # TODO: wandering logic
         pass
@@ -29,6 +31,8 @@ class Enemy(arcade.Sprite, ABC):
         pass
 
     def on_update(self, delta_time):
+        self.physics_engine.update()
+
         distance = arcade.get_distance_between_sprites(self, self.target)
 
         if distance <= self.vision_radius:
