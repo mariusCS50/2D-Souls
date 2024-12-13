@@ -2,7 +2,6 @@ import arcade
 import arcade.key
 import arcade.gui
 from game_resources import MapResources
-from health_bar import HealthBar
 from player import Player
 from simple_enemy import SimpleEnemy
 
@@ -51,10 +50,7 @@ class Game(arcade.Window):
         self.collision_layers.extend(self.scene["Collision Layer"])
         self.collision_layers.extend(self.scene["Collision Layer 2"])
 
-        self.generate_enemies(collision_layers)
-
-        self.scene.add_sprite_list_after("Player", "Collision Layer 2")
-        self.scene["Player"].append(self.player)
+        self.generate_enemies(self.collision_layers)
 
         self.enemies = self.generate_enemies(self.collision_layers)
 
@@ -77,7 +73,7 @@ class Game(arcade.Window):
             scene=self.scene,
             vision_radius=200,
             collision_layers=collision_layers,
-            melee_weapon="sword"
+            damage=5
         )
         enemies.append(enemy)
         return enemies
@@ -147,8 +143,6 @@ class Game(arcade.Window):
                 for point in sword_hitbox_vertices
             ]
             arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
-
-        self.ui_manager.draw()
         
         for enemy in self.enemies:
                 if arcade.has_line_of_sight(self.player.position,
@@ -164,6 +158,8 @@ class Game(arcade.Window):
                                  enemy.center_y,
                                  color,
                                  2)
+                
+        self.ui_manager.draw()
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
