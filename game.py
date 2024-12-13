@@ -36,14 +36,14 @@ class Game(arcade.Window):
                 self.player.center_x = self.map_width / 2
                 self.player.center_y = tile_map.tile_height * scaling
 
-        collision_layers = arcade.SpriteList()
-        collision_layers.extend(self.scene["Collision Layer"])
-        collision_layers.extend(self.scene["Collision Layer 2"])
+        self.collision_layers = arcade.SpriteList(use_spatial_hash=True)
+        self.collision_layers.extend(self.scene["Collision Layer"])
+        self.collision_layers.extend(self.scene["Collision Layer 2"])
 
         self.scene.add_sprite_list_after("Player", "Collision Layer 2")
         self.scene["Player"].append(self.player)
 
-        self.enemies = self.generate_enemies(collision_layers)
+        self.enemies = self.generate_enemies(self.collision_layers)
 
         self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
         self.scene["Enemies"].extend(self.enemies)
@@ -51,7 +51,7 @@ class Game(arcade.Window):
         self.scene.add_sprite_list_after("Projectiles", "Collision Layer 2")
 
         self.camera = arcade.Camera(self.width, self.height)
-        self.physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player, self.collision_layers)
 
     def generate_enemies(self, collision_layers):
         enemies = arcade.SpriteList()
@@ -62,7 +62,7 @@ class Game(arcade.Window):
             pos_y=300,
             speed=50,
             scene=self.scene,
-            vision_radius=300,
+            vision_radius=200,
             collision_layers=collision_layers,
             melee_weapon="sword"
         )
@@ -124,6 +124,21 @@ class Game(arcade.Window):
                 for point in sword_hitbox_vertices
             ]
             arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
+
+        for enemy in self.enemies:
+                if arcade.has_line_of_sight(self.player.position,
+                                            enemy.position,
+                                            self.collision_layers,
+                                            enemy.vision_radius):
+                    color = arcade.color.RED
+                else:
+                    color = arcade.color.WHITE
+                arcade.draw_line(self.player.center_x,
+                                 self.player.center_y,
+                                 enemy.center_x,
+                                 enemy.center_y,
+                                 color,
+                                 2)
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:

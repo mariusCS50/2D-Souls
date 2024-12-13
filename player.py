@@ -71,39 +71,39 @@ class Player(arcade.Sprite):
         return self.dir_x != 0 or self.dir_y != 0
 
     def update_dir(self):
-        offset_x = 0
-        offset_y = 0
+        dir_x = 0
+        dir_y = 0
 
         if self.move_right:
-            offset_x += 1
+            dir_x += 1
         if self.move_left:
-            offset_x -= 1
+            dir_x -= 1
 
         if self.move_up:
-            offset_y += 1
+            dir_y += 1
         if self.move_down:
-            offset_y -= 1
+            dir_y -= 1
 
         # normalize directions
-        if (abs(offset_x) == 1 and abs(offset_y) == 1):
+        if (abs(dir_x) == 1 and abs(dir_y) == 1):
             factor = 1 / math.sqrt(2)
 
-            offset_x *= factor
-            offset_y *= factor
+            dir_x *= factor
+            dir_y *= factor
 
         self.last_facing_direction = self.current_facing_direction
 
-        if offset_y > 0:
+        if dir_y > 0:
             self.current_facing_direction = "up"
-        elif offset_y < 0:
+        elif dir_y < 0:
             self.current_facing_direction = "down"
-        elif offset_x < 0:
+        elif dir_x < 0:
             self.current_facing_direction = "left"
-        elif offset_x > 0:
+        elif dir_x > 0:
             self.current_facing_direction = "right"
 
-        self.dir_x = offset_x
-        self.dir_y = offset_y
+        self.dir_x = dir_x
+        self.dir_y = dir_y
 
     def animate_walk(self, delta_time):
         if self.is_moving():
