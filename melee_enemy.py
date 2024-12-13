@@ -4,8 +4,10 @@ import random
 from enemy import Enemy
 
 class MeleeEnemy(Enemy):
-    def __init__(self, sprite, pos_x, pos_y, speed, target, vision_radius, collision_layers):
-        super().__init__(sprite, pos_x, pos_y, speed, target, vision_radius, collision_layers)
+    def __init__(self, sprite, pos_x, pos_y, speed, vision_radius, scene, collision_layers, melee_weapon):
+        super().__init__(sprite, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
+        
+        self.melee_weapon = melee_weapon
 
         # self.barrier_list = arcade.AStarBarrierList(self, collision_layers, 32, 0, 1280, 0, 1280)
         # self.path = None

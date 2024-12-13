@@ -3,8 +3,10 @@ import math
 from enemy import Enemy
 
 class RangerEnemy(Enemy):
-    def __init__(self, sprite, pos_x, pos_y, speed, target, vision_radius, collision_layers):
-        super().__init__(sprite, pos_x, pos_y, speed, target, vision_radius, collision_layers)
+    def __init__(self, sprite, pos_x, pos_y, speed, vision_radius, scene, collision_layers, ranger_weapon):
+        super().__init__(sprite, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
+
+        self.ranger_weapon = ranger_weapon
 
         self.avoidance_distance = 150
 

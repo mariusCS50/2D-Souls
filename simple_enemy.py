@@ -3,8 +3,8 @@ import math
 from enemy import Enemy
 
 class SimpleEnemy(Enemy):
-    def __init__(self, sprite, pos_x, pos_y, speed, target, vision_radius, collision_layers):
-        super().__init__(sprite, pos_x, pos_y, speed, target, vision_radius, collision_layers)
+    def __init__(self, sprite, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
+        super().__init__(sprite, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
 
     def found_target_logic(self, delta_time):
         diff_x = self.target.center_x - self.center_x

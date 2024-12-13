@@ -1,7 +1,7 @@
 import arcade
 from game_resources import MapResources
 from player import Player
-from melee_enemy import MeleeEnemy
+from simple_enemy import SimpleEnemy
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
@@ -9,7 +9,6 @@ class Game(arcade.Window):
 
         self.map_transitions = MapResources().get_transitions()
         self.player = None
-        self.enemies = None
 
     def setup(self, map_name="assets/maps/lobby.tmx", spawn_edge="down"):
         self.current_map = map_name
@@ -23,8 +22,10 @@ class Game(arcade.Window):
         if self.player is None:
             player_spawn_x = self.map_width / 2
             player_spawn_y = tile_map.tile_height * scaling
-            self.player = Player(player_spawn_x, player_spawn_y)
+            self.player = Player(player_spawn_x, player_spawn_y, self.scene)
         else:
+            self.player.scene = self.scene
+
             if spawn_edge == "left":
                 self.player.center_x = tile_map.tile_width * scaling
             elif spawn_edge == "right":
@@ -39,13 +40,12 @@ class Game(arcade.Window):
         collision_layers.extend(self.scene["Collision Layer"])
         collision_layers.extend(self.scene["Collision Layer 2"])
 
-        self.generate_enemies(collision_layers)
-
         self.scene.add_sprite_list_after("Player", "Collision Layer 2")
         self.scene["Player"].append(self.player)
 
         self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
-        self.scene["Enemies"].extend(self.enemies)
+
+        self.scene.add_sprite_list_after("Projectiles", "Collision Layer 2")
 
         self.camera = arcade.Camera(self.width, self.height)
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
@@ -93,8 +93,7 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         self.physics_engine.update()
         self.check_map_transition()
-        self.enemies.on_update(delta_time)
-        self.player.on_update(delta_time, self.scene)
+        self.scene.on_update(delta_time)
         self.center_camera_to_player()
 
     def on_draw(self):
@@ -111,15 +110,15 @@ class Game(arcade.Window):
         ]
         arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
 
-        if self.player.is_attacking and self.player.weapon_hitbox:
-            sword_hitbox = self.player.weapon_hitbox
-            sword_hitbox_vertices = sword_hitbox.get_hit_box()
-            scaled_sword_hitbox = [
-                (sword_hitbox.center_x + point[0],
-                sword_hitbox.center_y + point[1])
-                for point in sword_hitbox_vertices
-            ]
-            arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
+        # if self.player.is_attacking:
+        #     sword_hitbox = self.player.weapon.melee_hitbox_generator.generate_melee_hitbox(self.player.current_facing_direction)
+        #     sword_hitbox_vertices = sword_hitbox.get_hit_box()
+        #     scaled_sword_hitbox = [
+        #         (sword_hitbox.center_x + point[0],
+        #         sword_hitbox.center_y + point[1])
+        #         for point in sword_hitbox_vertices
+        #     ]
+        #     arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
