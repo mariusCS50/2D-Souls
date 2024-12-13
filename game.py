@@ -59,7 +59,7 @@ class Game(arcade.Window):
             pos_y=300,
             speed=50,
             target=self.player,
-            vision_radius=200,
+            vision_radius=300,
             collision_layers=collision_layers,
         )
         self.enemies.append(enemy)

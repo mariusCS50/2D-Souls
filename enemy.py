@@ -38,7 +38,7 @@ class Enemy(arcade.Sprite, ABC):
             if self.timer > self.staying_idle_time:
                 self.timer = 0
                 self.is_idle = False
-                self.offset_x, self.offset_y = self.directions[random.randint(0, 3)]
+                self.offset_x, self.offset_y = self.directions[random.randrange(0, 3)]
 
         else:
             self.change_x = self.offset_x * self.speed * delta_time
