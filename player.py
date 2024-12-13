@@ -2,11 +2,14 @@ import arcade
 import math
 from game_resources import PlayerResources
 from melee_weapon import MeleeWeapon
+from ranger_weapon import RangerWeapon
 from player_sword_hitbox_generator import PlayerSwordHitboxGenerator
 
 class Player(arcade.Sprite):
-    def __init__(self, pos_x = 0, pos_y = 0):
+    def __init__(self, pos_x, pos_y, scene):
         super().__init__(texture=arcade.load_texture("assets/player/walk_up_1.png"), scale=0.5)
+
+        self.scene = scene
 
         self.center_x = pos_x
         self.center_y = pos_y
@@ -51,7 +54,7 @@ class Player(arcade.Sprite):
         self.animation_walk_speed = 0.2
         self.animation_walk_timer = 0
 
-        self.weapon = MeleeWeapon(10, PlayerSwordHitboxGenerator(self))
+        self.weapon = MeleeWeapon(self, 10, PlayerSwordHitboxGenerator())
 
         self.set_custom_hitbox()
 
@@ -149,13 +152,13 @@ class Player(arcade.Sprite):
                 self.can_dodge = True
                 self.dodge_cooldown_timer = 0
 
-    def attack(self, delta_time, scene):
+    def attack(self, delta_time):
         if self.attack_timer <= self.attack_speed:
             self.texture = self.attack_textures[self.current_facing_direction]
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
-            self.weapon.update(self.current_facing_direction, scene, "Enemies")
+            self.weapon.update(self.current_facing_direction, self.scene, "Enemies")
 
         else:
             self.weapon.stop_update()
@@ -180,11 +183,11 @@ class Player(arcade.Sprite):
                 self.can_attack = True
                 self.attack_cooldown_timer = 0
 
-    def on_update(self, delta_time, scene):
+    def on_update(self, delta_time):
         if self.is_dodging:
             self.dodge(delta_time)
         elif self.is_attacking:
-            self.attack(delta_time, scene)
+            self.attack(delta_time)
         else:
             self.walk(delta_time)
 
