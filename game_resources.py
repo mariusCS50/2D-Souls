@@ -66,3 +66,15 @@ class PlayerResources:
 
     def get_attack_textures(self):
         return self.attack_textures
+
+class EnemyResources:
+    def __init__(self):
+        self.walking_directions = [
+            [0, 1],
+            [0, -1],
+            [-1, 0],
+            [1, 0],
+        ]
+
+    def get_walking_directions(self):
+        return self.walking_directions

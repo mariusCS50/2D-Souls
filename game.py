@@ -57,7 +57,7 @@ class Game(arcade.Window):
             sprite="assets/temp_player.png",
             pos_x=self.map_width / 2,
             pos_y=300,
-            speed=100,
+            speed=50,
             target=self.player,
             vision_radius=200,
             collision_layers=collision_layers,
