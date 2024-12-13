@@ -2,6 +2,7 @@ import arcade
 import math
 from game_resources import PlayerResources
 from melee_weapon import MeleeWeapon
+from player_sword_hitbox_generator import PlayerSwordHitboxGenerator
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x = 0, pos_y = 0):
@@ -50,10 +51,9 @@ class Player(arcade.Sprite):
         self.animation_walk_speed = 0.2
         self.animation_walk_timer = 0
 
-        self.set_custom_hitbox()
+        self.weapon = MeleeWeapon(10, PlayerSwordHitboxGenerator(self))
 
-        self.sword = MeleeWeapon(10)
-        self.weapon_hitbox = None
+        self.set_custom_hitbox()
 
     def set_custom_hitbox(self):
         hitbox = [
@@ -150,26 +150,21 @@ class Player(arcade.Sprite):
                 self.dodge_cooldown_timer = 0
 
     def attack(self, delta_time, scene):
-        self.weapon_hitbox = self.sword.create_sword_hitbox(self)
-
-        self.attack_timer += delta_time
-
         if self.attack_timer <= self.attack_speed:
             self.texture = self.attack_textures[self.current_facing_direction]
-            self.change_x = 0
-            self.change_y = 0
+            self.change_x = self.dir_x = 0
+            self.change_y = self.dir_y = 0
 
-            enemies_hit = arcade.check_for_collision_with_list(self.weapon_hitbox, scene["Enemies"])
-            for enemy in enemies_hit:
-                scene["Enemies"].remove(enemy)
+            self.weapon.update(self.current_facing_direction, scene, "Enemies")
 
         else:
+            self.weapon.stop_update()
             self.is_attacking = False
             self.can_attack = False
             self.attack_timer = 0.0
             self.texture = self.idle_textures[self.current_facing_direction]
-            self.set_custom_hitbox()
-            self.weapon_hitbox = None
+
+        self.attack_timer += delta_time
 
     def attack_cooldown_update(self, delta_time):
         if not self.can_attack:

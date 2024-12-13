@@ -111,8 +111,8 @@ class Game(arcade.Window):
         ]
         arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
 
-        if self.player.is_attacking and self.player.weapon_hitbox:
-            sword_hitbox = self.player.weapon_hitbox
+        if self.player.is_attacking:
+            sword_hitbox = self.player.weapon.melee_hitbox_generator.generate_melee_hitbox(self.player.current_facing_direction)
             sword_hitbox_vertices = sword_hitbox.get_hit_box()
             scaled_sword_hitbox = [
                 (sword_hitbox.center_x + point[0],

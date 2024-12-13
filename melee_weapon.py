@@ -2,38 +2,18 @@ import arcade
 from weapon import Weapon
 
 class MeleeWeapon(Weapon):
-    def __init__(self, damage):
+    def __init__(self, damage, melee_hitbox_generator):
         super().__init__(damage)
+        self.melee_hitbox_generator = melee_hitbox_generator
+        self.hitbox = None
 
-    def create_sword_hitbox(self, player):
-        sword_width = 25
-        sword_height = 45
+    def update(self, facing_dir, scene, hit_layer_name):
+        if not self.hitbox:
+            self.hitbox = self.melee_hitbox_generator.generate(facing_dir)
 
-        if player.current_facing_direction == "up":
-            sword_hitbox = arcade.SpriteSolidColor(sword_width, sword_height, arcade.color.BLUE)
-            sword_hitbox.center_x = player.center_x - 5
-            sword_hitbox.center_y = player.center_y + 20
+        hit_list = arcade.check_for_collision_with_list(self.hitbox, scene[hit_layer_name])
+        for hit in hit_list:
+            pass
 
-        elif player.current_facing_direction == "down":
-            sword_hitbox = arcade.SpriteSolidColor(sword_width, sword_height, arcade.color.BLUE)
-            sword_hitbox.center_x = player.center_x + 5
-            sword_hitbox.center_y = player.center_y - 40
-
-        elif player.current_facing_direction == "left":
-            sword_hitbox = arcade.SpriteSolidColor(sword_height, sword_width, arcade.color.BLUE)
-            sword_hitbox.center_x = player.center_x - 40
-            sword_hitbox.center_y = player.center_y - 2
-
-        elif player.current_facing_direction == "right":
-            sword_hitbox = arcade.SpriteSolidColor(sword_height, sword_width, arcade.color.BLUE)
-            sword_hitbox.center_x = player.center_x + 40
-            sword_hitbox.center_y = player.center_y - 2
-
-        return sword_hitbox
-
-    # def update(self, owner, looking_dir_x, looking_dir_y, sprites_to_hit):
-    #     collider = self.create_sword_hitbox(owner, looking_dir_x, looking_dir_y)
-
-    #     hit_list = arcade.check_for_collision_with_list(collider, sprites_to_hit)
-    #     for hit in hit_list:
-    #         hit.damage()
+    def stop_update(self):
+        self.hitbox = None
