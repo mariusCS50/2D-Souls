@@ -149,7 +149,7 @@ class Player(arcade.Sprite):
                 self.can_dodge = True
                 self.dodge_cooldown_timer = 0
 
-    def attack(self, delta_time, enemies):
+    def attack(self, delta_time, scene):
         self.weapon_hitbox = self.sword.create_sword_hitbox(self)
 
         self.attack_timer += delta_time
@@ -159,9 +159,9 @@ class Player(arcade.Sprite):
             self.change_x = 0
             self.change_y = 0
 
-            enemies_hit = arcade.check_for_collision_with_list(self.weapon_hitbox, enemies)
+            enemies_hit = arcade.check_for_collision_with_list(self.weapon_hitbox, scene["Enemies"])
             for enemy in enemies_hit:
-                enemies.remove(enemy)
+                scene["Enemies"].remove(enemy)
 
         else:
             self.is_attacking = False
@@ -185,11 +185,11 @@ class Player(arcade.Sprite):
                 self.can_attack = True
                 self.attack_cooldown_timer = 0
 
-    def on_update(self, delta_time, enemies):
+    def on_update(self, delta_time, scene):
         if self.is_dodging:
             self.dodge(delta_time)
         elif self.is_attacking:
-            self.attack(delta_time, enemies)
+            self.attack(delta_time, scene)
         else:
             self.walk(delta_time)
 

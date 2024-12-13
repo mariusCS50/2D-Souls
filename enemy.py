@@ -23,8 +23,8 @@ class Enemy(arcade.Sprite, ABC):
         self.physics_engine = arcade.PhysicsEngineSimple(self, collision_layers)
 
     def wandering_logic(self, delta_time):
-        # TODO: wandering logic
-        pass
+        self.change_x = 0
+        self.change_y = 0
 
     @abstractmethod
     def found_target_logic(self, delta_time):
@@ -36,13 +36,6 @@ class Enemy(arcade.Sprite, ABC):
         distance = arcade.get_distance_between_sprites(self, self.target)
 
         if distance <= self.vision_radius:
-            self.wandering = False
-            self.found_target = True
-        else:
-            self.wandering = True
-            self.found_target = False
-
-        if self.wandering:
-            self.wandering_logic(delta_time)
-        elif self.found_target:
             self.found_target_logic(delta_time)
+        else:
+            self.wandering_logic(delta_time)

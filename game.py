@@ -35,14 +35,17 @@ class Game(arcade.Window):
                 self.player.center_x = self.map_width / 2
                 self.player.center_y = tile_map.tile_height * scaling
 
-        self.scene.add_sprite_list_after("Player", "Collision Layer 2")
-        self.scene["Player"].append(self.player)
-
         collision_layers = arcade.SpriteList()
         collision_layers.extend(self.scene["Collision Layer"])
         collision_layers.extend(self.scene["Collision Layer 2"])
 
         self.generate_enemies(collision_layers)
+
+        self.scene.add_sprite_list_after("Player", "Collision Layer 2")
+        self.scene["Player"].append(self.player)
+
+        self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
+        self.scene["Enemies"].extend(self.enemies)
 
         self.camera = arcade.Camera(self.width, self.height)
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
@@ -91,14 +94,13 @@ class Game(arcade.Window):
         self.physics_engine.update()
         self.check_map_transition()
         self.enemies.on_update(delta_time)
-        self.player.on_update(delta_time, self.enemies)
+        self.player.on_update(delta_time, self.scene)
         self.center_camera_to_player()
 
     def on_draw(self):
         self.clear()
         self.camera.use()
         self.scene.draw()
-        self.enemies.draw()
 
         # code to check the hitbox
         hitbox = self.player.get_hit_box()
