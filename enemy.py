@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from game_resources import EnemyResources
 
 class Enemy(arcade.Sprite, ABC):
-    def __init__(self, sprite, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
-        super().__init__(sprite, scale=0.0625)
+    def __init__(self, enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
+        super().__init__(texture=arcade.load_texture("assets/temp_player.png"), scale=0.5)
 
         self.center_x = pos_x
         self.center_y = pos_y
@@ -28,24 +28,68 @@ class Enemy(arcade.Sprite, ABC):
         self.collision_layers = collision_layers
         self.physics_engine = arcade.PhysicsEngineSimple(self, self.collision_layers)
 
+        self.enemy_textures = EnemyResources().get_textures(enemy_type)
+
+        self.current_facing_direction = "down"
+        self.texture = self.enemy_textures["idle"][self.current_facing_direction]
+
+        self.walk_texture_index = 0
+        self.animation_walk_speed = 0.2
+        self.animation_walk_timer = 0
+
+        self.set_custom_hitbox()
+
+    def set_custom_hitbox(self):
+        hitbox = [
+            (-self.width / 2, -self.height),
+            (self.width / 2, -self.height),
+            (self.width / 2, 0),
+            (-self.width / 2, 0)
+        ]
+        self.set_hit_box(hitbox)
+
+    def get_facing_direction(self):
+        if abs(self.dir_x) > abs(self.dir_y):
+            if self.dir_x > 0:
+                return "right"
+            else:
+                return "left"
+        else:
+            if self.dir_y > 0:
+                return "up"
+            else:
+                return "down"
+
+    def animate_walk(self, delta_time):
+        self.animation_walk_timer += delta_time
+        if self.animation_walk_timer > self.animation_walk_speed:
+            self.walk_texture_index = (self.walk_texture_index + 1) % 2
+            self.texture = self.enemy_textures["walk"][self.current_facing_direction][self.walk_texture_index]
+            self.animation_walk_timer = 0
+
     def wandering_logic(self, delta_time):
         self.timer += delta_time
 
+        self.change_x = 0
+        self.change_y = 0
+
         if self.is_idle:
+            self.texture = self.enemy_textures["idle"][self.current_facing_direction]
+
             if self.timer > self.staying_idle_time:
                 self.timer = 0
                 self.is_idle = False
                 self.dir_x, self.dir_y = self.directions[random.randint(0, 3)]
+                self.current_facing_direction = self.get_facing_direction()
 
         else:
-            self.change_x = self.dir_x * self.speed * delta_time
-            self.change_y = self.dir_y * self.speed * delta_time
+            self.change_x = self.dir_x * 50 * delta_time
+            self.change_y = self.dir_y * 50 * delta_time
+            self.animate_walk(delta_time)
 
             if self.timer > self.wandering_time:
                 self.timer = 0
                 self.is_idle = True
-                self.change_x = 0
-                self.change_y = 0
 
     def has_line_of_sight(self):
         return arcade.has_line_of_sight(

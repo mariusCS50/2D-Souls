@@ -50,12 +50,11 @@ class Game(arcade.Window):
         self.collision_layers.extend(self.scene["Collision Layer"])
         self.collision_layers.extend(self.scene["Collision Layer 2"])
 
-        self.generate_enemies(self.collision_layers)
-
         self.enemies = self.generate_enemies(self.collision_layers)
 
         self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
         self.scene["Enemies"].extend(self.enemies)
+        # self.collision_layers.extend(self.enemies)
 
         self.scene.add_sprite_list_after("Projectiles", "Collision Layer 2")
 
@@ -66,10 +65,10 @@ class Game(arcade.Window):
         enemies = arcade.SpriteList()
 
         enemy = SimpleEnemy(
-            sprite="assets/temp_player.png",
+            enemy_type="winter_orc",
             pos_x=self.map_width / 2,
             pos_y=300,
-            speed=50,
+            speed=100,
             scene=self.scene,
             vision_radius=200,
             collision_layers=collision_layers,
@@ -143,22 +142,31 @@ class Game(arcade.Window):
                 for point in sword_hitbox_vertices
             ]
             arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
-        
+
+        # for enemy in self.enemies:
+        #         if arcade.has_line_of_sight(self.player.position,
+        #                                     enemy.position,
+        #                                     self.collision_layers,
+        #                                     enemy.vision_radius):
+        #             color = arcade.color.RED
+        #         else:
+        #             color = arcade.color.WHITE
+        #         arcade.draw_line(self.player.center_x,
+        #                          self.player.center_y,
+        #                          enemy.center_x,
+        #                          enemy.center_y,
+        #                          color,
+        #                          2)
+
         for enemy in self.enemies:
-                if arcade.has_line_of_sight(self.player.position,
-                                            enemy.position,
-                                            self.collision_layers,
-                                            enemy.vision_radius):
-                    color = arcade.color.RED
-                else:
-                    color = arcade.color.WHITE
-                arcade.draw_line(self.player.center_x,
-                                 self.player.center_y,
-                                 enemy.center_x,
-                                 enemy.center_y,
-                                 color,
-                                 2)
-                
+            hitbox = enemy.get_hit_box()
+            scaled_hitbox = [
+				(enemy.center_x + point[0] * enemy.scale,
+				enemy.center_y + point[1] * enemy.scale)
+				for point in hitbox
+			]
+            arcade.draw_polygon_outline(scaled_hitbox, arcade.color.PAKISTAN_GREEN, 2)
+
         self.ui_manager.draw()
 
     def on_key_press(self, key, modifiers):

@@ -26,10 +26,10 @@ class MapResources:
 class PlayerResources:
     def __init__(self):
         self.idle_textures = {
-            "up": arcade.load_texture("assets/player/stay_idle_up.png"),
-            "down": arcade.load_texture("assets/player/stay_idle_down.png"),
-            "left": arcade.load_texture("assets/player/stay_idle_left.png"),
-            "right": arcade.load_texture("assets/player/stay_idle_right.png"),
+            "up": arcade.load_texture("assets/player/idle_up.png"),
+            "down": arcade.load_texture("assets/player/idle_down.png"),
+            "left": arcade.load_texture("assets/player/idle_left.png"),
+            "right": arcade.load_texture("assets/player/idle_right.png"),
         }
 
         self.walking_textures = {
@@ -76,5 +76,38 @@ class EnemyResources:
             [1, 0],
         ]
 
+        self.textures = {
+            "winter_orc": {
+                "idle": {
+                    "up": arcade.load_texture("assets/enemies/orc/winter/idle_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/winter/idle_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/winter/idle_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/winter/idle_right.png"),
+                },
+                "walk": {
+                    "up": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_up_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_up_2.png"),
+                    ],
+                    "down": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_down_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_down_2.png"),
+                    ],
+                    "left": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_left_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_left_2.png"),
+                    ],
+                    "right": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_right_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_right_2.png"),
+                    ],
+                },
+            },
+        }
+
     def get_walking_directions(self):
         return self.walking_directions
+
+    def get_textures(self, enemy_type):
+        return self.textures[enemy_type]
+

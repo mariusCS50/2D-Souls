@@ -4,7 +4,7 @@ from game_resources import PlayerResources
 from health_bar import HealthBar
 from melee_weapon import MeleeWeapon
 from ranger_weapon import RangerWeapon
-from player_sword_hitbox_generator import PlayerSwordHitboxGenerator
+from sword_hitbox_generator import SwordHitboxGenerator
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x, pos_y, scene):
@@ -64,7 +64,7 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon = MeleeWeapon(self, 10, PlayerSwordHitboxGenerator())
+        self.weapon = MeleeWeapon(self, 10, SwordHitboxGenerator())
 
         self.set_custom_hitbox()
 
@@ -76,7 +76,7 @@ class Player(arcade.Sprite):
     def health(self, val):
         if val < 0:
             val = 0
-            
+
         self._health = val
         self.health_bar.update_bar(self._health, self.max_health)
 
@@ -84,8 +84,8 @@ class Player(arcade.Sprite):
         hitbox = [
             (-self.width / 1.5, -self.height),
             (self.width / 1.5, -self.height),
-            (self.width / 1.5, 0),
-            (-self.width / 1.5, 0)
+            (self.width / 1.5, 10),
+            (-self.width / 1.5, 10)
         ]
         self.set_hit_box(hitbox)
 

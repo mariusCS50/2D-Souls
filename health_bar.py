@@ -4,9 +4,9 @@ import arcade.gui
 class HealthBar(arcade.gui.UIWidget):
     def __init__(self, x, y, width, height, border_thickness, health, max_health):
         super().__init__()
-        
+
         percentange = health / max_health
-        
+
         self.health_bar = arcade.gui.UISpace(x, y, width, height, (127, 0, 0))
         self.fill = arcade.gui.UISpace(x, y, percentange * width, height, (255, 0, 0))
 
@@ -34,6 +34,5 @@ class HealthBar(arcade.gui.UIWidget):
         )
 
         self.remove(self.fill)
-
         self.fill = new_fill
         self.add(self.fill)

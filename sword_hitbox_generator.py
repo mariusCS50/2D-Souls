@@ -1,7 +1,6 @@
 import arcade
-from melee_hitbox_generator import MeleeHitboxGenerator
 
-class PlayerSwordHitboxGenerator(MeleeHitboxGenerator):
+class SwordHitboxGenerator():
     def generate(self, owner, facing_dir):
         sword_width = 25
         sword_height = 45
