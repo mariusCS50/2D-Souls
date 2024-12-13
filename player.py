@@ -3,10 +3,14 @@ import math
 from game_resources import PlayerResources
 from health_bar import HealthBar
 from melee_weapon import MeleeWeapon
+from ranger_weapon import RangerWeapon
+from player_sword_hitbox_generator import PlayerSwordHitboxGenerator
 
 class Player(arcade.Sprite):
-    def __init__(self, pos_x = 0, pos_y = 0):
+    def __init__(self, pos_x, pos_y, scene):
         super().__init__(texture=arcade.load_texture("assets/player/walk_up_1.png"), scale=0.5)
+
+        self.scene = scene
 
         self.center_x = pos_x
         self.center_y = pos_y
@@ -56,10 +60,9 @@ class Player(arcade.Sprite):
         self.animation_walk_speed = 0.2
         self.animation_walk_timer = 0
 
-        self.set_custom_hitbox()
+        self.weapon = MeleeWeapon(self, 10, PlayerSwordHitboxGenerator())
 
-        self.sword = MeleeWeapon(10)
-        self.weapon_hitbox = None
+        self.set_custom_hitbox()
 
     @property
     def health(self):
@@ -89,39 +92,39 @@ class Player(arcade.Sprite):
         return self.dir_x != 0 or self.dir_y != 0
 
     def update_dir(self):
-        offset_x = 0
-        offset_y = 0
+        dir_x = 0
+        dir_y = 0
 
         if self.move_right:
-            offset_x += 1
+            dir_x += 1
         if self.move_left:
-            offset_x -= 1
+            dir_x -= 1
 
         if self.move_up:
-            offset_y += 1
+            dir_y += 1
         if self.move_down:
-            offset_y -= 1
+            dir_y -= 1
 
         # normalize directions
-        if (abs(offset_x) == 1 and abs(offset_y) == 1):
+        if (abs(dir_x) == 1 and abs(dir_y) == 1):
             factor = 1 / math.sqrt(2)
 
-            offset_x *= factor
-            offset_y *= factor
+            dir_x *= factor
+            dir_y *= factor
 
         self.last_facing_direction = self.current_facing_direction
 
-        if offset_y > 0:
+        if dir_y > 0:
             self.current_facing_direction = "up"
-        elif offset_y < 0:
+        elif dir_y < 0:
             self.current_facing_direction = "down"
-        elif offset_x < 0:
+        elif dir_x < 0:
             self.current_facing_direction = "left"
-        elif offset_x > 0:
+        elif dir_x > 0:
             self.current_facing_direction = "right"
 
-        self.dir_x = offset_x
-        self.dir_y = offset_y
+        self.dir_x = dir_x
+        self.dir_y = dir_y
 
     def animate_walk(self, delta_time):
         if self.is_moving():
@@ -170,27 +173,22 @@ class Player(arcade.Sprite):
                 self.can_dodge = True
                 self.dodge_cooldown_timer = 0
 
-    def attack(self, delta_time, scene):
-        self.weapon_hitbox = self.sword.create_sword_hitbox(self)
-
-        self.attack_timer += delta_time
-
+    def attack(self, delta_time):
         if self.attack_timer <= self.attack_speed:
             self.texture = self.attack_textures[self.current_facing_direction]
-            self.change_x = 0
-            self.change_y = 0
+            self.change_x = self.dir_x = 0
+            self.change_y = self.dir_y = 0
 
-            enemies_hit = arcade.check_for_collision_with_list(self.weapon_hitbox, scene["Enemies"])
-            for enemy in enemies_hit:
-                scene["Enemies"].remove(enemy)
+            self.weapon.update(self.current_facing_direction, self.scene, "Enemies")
 
         else:
+            self.weapon.stop_update()
             self.is_attacking = False
             self.can_attack = False
             self.attack_timer = 0.0
             self.texture = self.idle_textures[self.current_facing_direction]
-            self.set_custom_hitbox()
-            self.weapon_hitbox = None
+
+        self.attack_timer += delta_time
 
     def attack_cooldown_update(self, delta_time):
         if not self.can_attack:
@@ -206,11 +204,11 @@ class Player(arcade.Sprite):
                 self.can_attack = True
                 self.attack_cooldown_timer = 0
 
-    def on_update(self, delta_time, scene):
+    def on_update(self, delta_time):
         if self.is_dodging:
             self.dodge(delta_time)
         elif self.is_attacking:
-            self.attack(delta_time, scene)
+            self.attack(delta_time)
         else:
             self.walk(delta_time)
 
