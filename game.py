@@ -4,7 +4,7 @@ import arcade.gui
 from game_resources import MapResources
 from health_bar import HealthBar
 from player import Player
-from melee_enemy import MeleeEnemy
+from simple_enemy import SimpleEnemy
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
@@ -44,7 +44,7 @@ class Game(arcade.Window):
         self.scene.add_sprite_list_after("Player", "Collision Layer 2")
         self.scene["Player"].append(self.player)
 
-        self.ui_manager.add(HealthBar(self.player))
+        self.ui_manager.add(self.player.health_bar)
 
         collision_layers = arcade.SpriteList()
         collision_layers.extend(self.scene["Collision Layer"])
@@ -64,7 +64,7 @@ class Game(arcade.Window):
     def generate_enemies(self, collision_layers):
         self.enemies = arcade.SpriteList()
 
-        enemy = MeleeEnemy(
+        enemy = SimpleEnemy(
             sprite="assets/temp_player.png",
             pos_x=self.map_width / 2,
             pos_y=300,
@@ -108,6 +108,16 @@ class Game(arcade.Window):
         self.player.on_update(delta_time, self.scene)
         self.center_camera_to_player()
 
+        self.check_player_dead()
+
+    def check_player_dead(self):
+        if self.player.health == 0:
+            self.reset()
+
+    def reset(self):
+        self.player = None
+        self.setup()
+
     def on_draw(self):
         self.clear()
         self.camera.use()
@@ -149,6 +159,8 @@ class Game(arcade.Window):
                 self.player.can_dodge = False
         elif key == arcade.key.K and self.player.can_attack:
             self.player.is_attacking = True
+        elif key == arcade.key.G:
+            self.player.health -= 10
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W:
