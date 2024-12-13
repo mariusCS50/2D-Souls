@@ -37,6 +37,7 @@ class Enemy(arcade.Sprite, ABC):
                 self.is_idle = False
                 self.dir_x, self.dir_y = self.directions[random.randint(0, 3)]
 
+
         self.change_x = self.dir_x * self.speed * delta_time
         self.change_y = self.dir_y * self.speed * delta_time
 

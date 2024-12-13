@@ -50,6 +50,20 @@ class Game(arcade.Window):
         self.camera = arcade.Camera(self.width, self.height)
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
 
+    def generate_enemies(self, collision_layers):
+        self.enemies = arcade.SpriteList()
+
+        enemy = MeleeEnemy(
+            sprite="assets/temp_player.png",
+            pos_x=self.map_width / 2,
+            pos_y=300,
+            speed=50,
+            target=self.player,
+            vision_radius=300,
+            collision_layers=collision_layers,
+        )
+        self.enemies.append(enemy)
+
     def check_map_transition(self):
         transition = None
         spawn_edge = None
