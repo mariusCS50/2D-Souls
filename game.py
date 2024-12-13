@@ -1,11 +1,17 @@
 import arcade
+import arcade.key
+import arcade.gui
 from game_resources import MapResources
+from health_bar import HealthBar
 from player import Player
-from melee_enemy import MeleeEnemy
+from simple_enemy import SimpleEnemy
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
         super().__init__(width, height, title)
+
+        self.ui_manager = arcade.gui.UIManager()
+        self.ui_manager.enable()
 
         self.map_transitions = MapResources().get_transitions()
         self.player = None
@@ -36,9 +42,16 @@ class Game(arcade.Window):
                 self.player.center_x = self.map_width / 2
                 self.player.center_y = tile_map.tile_height * scaling
 
+        self.scene.add_sprite_list_after("Player", "Collision Layer 2")
+        self.scene["Player"].append(self.player)
+
+        self.ui_manager.add(self.player.health_bar)
+
         self.collision_layers = arcade.SpriteList(use_spatial_hash=True)
         self.collision_layers.extend(self.scene["Collision Layer"])
         self.collision_layers.extend(self.scene["Collision Layer 2"])
+
+        self.generate_enemies(collision_layers)
 
         self.scene.add_sprite_list_after("Player", "Collision Layer 2")
         self.scene["Player"].append(self.player)
@@ -56,7 +69,7 @@ class Game(arcade.Window):
     def generate_enemies(self, collision_layers):
         enemies = arcade.SpriteList()
 
-        enemy = MeleeEnemy(
+        enemy = SimpleEnemy(
             sprite="assets/temp_player.png",
             pos_x=self.map_width / 2,
             pos_y=300,
@@ -101,6 +114,16 @@ class Game(arcade.Window):
         self.scene.on_update(delta_time)
         self.center_camera_to_player()
 
+        self.check_player_dead()
+
+    def check_player_dead(self):
+        if self.player.health == 0:
+            self.reset()
+
+    def reset(self):
+        self.player = None
+        self.setup()
+
     def on_draw(self):
         self.clear()
         self.camera.use()
@@ -125,6 +148,8 @@ class Game(arcade.Window):
             ]
             arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
 
+        self.ui_manager.draw()
+        
         for enemy in self.enemies:
                 if arcade.has_line_of_sight(self.player.position,
                                             enemy.position,
@@ -155,6 +180,8 @@ class Game(arcade.Window):
                 self.player.can_dodge = False
         elif key == arcade.key.K and self.player.can_attack:
             self.player.is_attacking = True
+        elif key == arcade.key.G:
+            self.player.health -= 10
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W:

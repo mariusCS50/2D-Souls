@@ -1,6 +1,7 @@
 import arcade
 import math
 from game_resources import PlayerResources
+from health_bar import HealthBar
 from melee_weapon import MeleeWeapon
 from ranger_weapon import RangerWeapon
 from player_sword_hitbox_generator import PlayerSwordHitboxGenerator
@@ -23,6 +24,11 @@ class Player(arcade.Sprite):
 
         self.dir_x = 0
         self.dir_y = 0
+
+        self.max_health = 100
+
+        self._health = 100
+        self.health_bar = HealthBar(16, 16, 200, 16, 2, self._health, self.max_health)
 
         self.direction_lock = False
 
@@ -57,6 +63,21 @@ class Player(arcade.Sprite):
         self.weapon = MeleeWeapon(self, 10, PlayerSwordHitboxGenerator())
 
         self.set_custom_hitbox()
+
+    @property
+    def health(self):
+        return self._health
+
+    @health.setter
+    def health(self, val):
+        if val < 0:
+            val = 0
+            
+        self._health = val
+        self.health_bar.update_bar(self._health, self.max_health)
+
+    def on_changed_health_add_event(self, event):
+        self.on_changed_health_events.append(event)
 
     def set_custom_hitbox(self):
         hitbox = [
