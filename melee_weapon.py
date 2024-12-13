@@ -15,6 +15,7 @@ class MeleeWeapon(Weapon):
         hit_list = arcade.check_for_collision_with_list(self.hitbox, scene[hit_layer_name])
         for hit in hit_list:
             # TODO: Damage the hits
+            scene[hit_layer_name].remove(hit)
             pass
 
     def stop_update(self):

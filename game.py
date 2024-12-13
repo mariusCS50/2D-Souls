@@ -1,7 +1,7 @@
 import arcade
 from game_resources import MapResources
 from player import Player
-from simple_enemy import SimpleEnemy
+from melee_enemy import MeleeEnemy
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
@@ -43,7 +43,10 @@ class Game(arcade.Window):
         self.scene.add_sprite_list_after("Player", "Collision Layer 2")
         self.scene["Player"].append(self.player)
 
+        self.enemies = self.generate_enemies(collision_layers)
+
         self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
+        self.scene["Enemies"].extend(self.enemies)
 
         self.scene.add_sprite_list_after("Projectiles", "Collision Layer 2")
 
@@ -51,18 +54,20 @@ class Game(arcade.Window):
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
 
     def generate_enemies(self, collision_layers):
-        self.enemies = arcade.SpriteList()
+        enemies = arcade.SpriteList()
 
         enemy = MeleeEnemy(
             sprite="assets/temp_player.png",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=50,
-            target=self.player,
+            scene=self.scene,
             vision_radius=300,
             collision_layers=collision_layers,
+            melee_weapon="sword"
         )
-        self.enemies.append(enemy)
+        enemies.append(enemy)
+        return enemies
 
     def check_map_transition(self):
         transition = None
@@ -110,15 +115,15 @@ class Game(arcade.Window):
         ]
         arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
 
-        # if self.player.is_attacking:
-        #     sword_hitbox = self.player.weapon.melee_hitbox_generator.generate_melee_hitbox(self.player.current_facing_direction)
-        #     sword_hitbox_vertices = sword_hitbox.get_hit_box()
-        #     scaled_sword_hitbox = [
-        #         (sword_hitbox.center_x + point[0],
-        #         sword_hitbox.center_y + point[1])
-        #         for point in sword_hitbox_vertices
-        #     ]
-        #     arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
+        if self.player.is_attacking:
+            sword_hitbox = self.player.weapon.melee_hitbox_generator.generate(self.player, self.player.current_facing_direction)
+            sword_hitbox_vertices = sword_hitbox.get_hit_box()
+            scaled_sword_hitbox = [
+                (sword_hitbox.center_x + point[0],
+                sword_hitbox.center_y + point[1])
+                for point in sword_hitbox_vertices
+            ]
+            arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
