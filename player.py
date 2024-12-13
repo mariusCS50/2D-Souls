@@ -34,6 +34,7 @@ class Player(arcade.Sprite):
 
         self.is_dodging = False
         self.is_attacking = False
+        self.is_invincible = False
 
         self.can_dodge = True
         self.can_attack = True
@@ -60,6 +61,9 @@ class Player(arcade.Sprite):
         self.animation_walk_speed = 0.2
         self.animation_walk_timer = 0
 
+        self.invincible_time = 1
+        self.invincible_timer = 0
+
         self.weapon = MeleeWeapon(self, 10, PlayerSwordHitboxGenerator())
 
         self.set_custom_hitbox()
@@ -75,9 +79,6 @@ class Player(arcade.Sprite):
             
         self._health = val
         self.health_bar.update_bar(self._health, self.max_health)
-
-    def on_changed_health_add_event(self, event):
-        self.on_changed_health_events.append(event)
 
     def set_custom_hitbox(self):
         hitbox = [
@@ -197,12 +198,18 @@ class Player(arcade.Sprite):
                 self.can_attack = True
                 self.attack_cooldown_timer = 0
 
-    def attack_cooldown_update(self, delta_time):
-        if not self.can_attack:
-            self.attack_cooldown_timer += delta_time
-            if self.attack_cooldown_timer > self.attack_cooldown:
-                self.can_attack = True
-                self.attack_cooldown_timer = 0
+    def take_damage(self, damage):
+        if not self.is_invincible:
+            self.health -= damage
+            self.is_invincible = True
+
+    def invincible_timer_update(self, delta_time):
+        if self.is_invincible:
+            self.invincible_timer += delta_time
+
+            if self.invincible_timer > self.invincible_time:
+                self.is_invincible = False
+                self.invincible_timer = 0
 
     def on_update(self, delta_time):
         if self.is_dodging:
@@ -214,3 +221,4 @@ class Player(arcade.Sprite):
 
         self.dodge_cooldown_update(delta_time)
         self.attack_cooldown_update(delta_time)
+        self.invincible_timer_update(delta_time)
