@@ -2,7 +2,8 @@ import arcade
 from abc import ABC, abstractmethod
 
 class Weapon(ABC):
-    def __init__(self, damage):
+    def __init__(self, owner, damage):
+        self.owner = owner
         self.damage = damage
 
     @abstractmethod
@@ -10,5 +11,5 @@ class Weapon(ABC):
         pass
 
     @abstractmethod
-    def stop_update():
+    def stop_update(self):
         pass
