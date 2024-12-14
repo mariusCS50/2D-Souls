@@ -13,7 +13,7 @@ class RangerEnemy(Enemy):
         self.shoot_dir_x = 0
         self.shoot_dir_y = 0
 
-    def found_target_logic(self, delta_time):
+    def follow_target(self, delta_time):
         diff_x = self.target.center_x - self.center_x
         diff_y = self.target.center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)

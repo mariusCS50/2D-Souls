@@ -9,10 +9,8 @@ class MeleeEnemy(Enemy):
         self.damage = damage
 
     def attack(self, delta_time):
-        self.is_attacking = True
-
         if self.attack_timer == 0:
-                self.target.take_damage(self.damage)
+            self.target.take_damage(self.damage)
 
         self.attack_timer += delta_time
         if self.attack_timer <= self.attack_speed:
@@ -21,8 +19,6 @@ class MeleeEnemy(Enemy):
             self.change_y = 0
         else:
             self.is_attacking = False
-            self.can_attack = False
-            self.cooldown_timer = self.attack_cooldown
             self.attack_timer = 0.0
             self.texture = self.enemy_textures["idle"][self.current_facing_direction]
 
@@ -33,12 +29,12 @@ class MeleeEnemy(Enemy):
                 self.can_attack = True
                 self.attack_cooldown_timer = 0.0
 
-    def found_target_logic(self, delta_time):
+    def follow_target(self, delta_time):
         diff_x = self.target.center_x - self.center_x
         diff_y = self.target.center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
-        if not self.is_attacking and self.can_attack and distance > 50:
+        if distance > 50:
             self.dir_x = diff_x / distance
             self.dir_y = diff_y / distance
 
@@ -66,14 +62,21 @@ class MeleeEnemy(Enemy):
             self.current_facing_direction = self.get_facing_direction()
             self.animate_walk(delta_time)
 
-        elif self.can_attack:
-            self.attack(delta_time)
+        return distance
 
     def on_update(self, delta_time):
         self.physics_engine.update()
 
-        if self.has_line_of_sight():
-            self.found_target_logic(delta_time)
+        if self.is_attacking:
+            self.attack(delta_time)
+
+        elif self.has_line_of_sight():
+            distance = self.follow_target(delta_time)
+
+            if self.can_attack and distance <= 50:
+                self.is_attacking = True
+                self.can_attack = False
+
         else:
             self.wandering_logic(delta_time)
 
