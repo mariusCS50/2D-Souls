@@ -28,13 +28,13 @@ class Enemy(arcade.Sprite, ABC):
 
         self.is_attacking = False
         self.is_idle = True
-        self.directions = EnemyResources().get_walking_directions()
+        self.directions = EnemyResources.get_walking_directions()
 
         self.collision_layers = collision_layers
         self.physics_engine = arcade.PhysicsEngineSimple(self, self.collision_layers)
 
-        self.enemy_textures = EnemyResources().get_textures(enemy_type)
-        self.weapons = WeaponResources().get_weapons()
+        self.enemy_textures = EnemyResources.get_textures(enemy_type)
+        self.weapons = WeaponResources.get_weapons()
 
         self.current_facing_direction = "down"
         self.texture = self.enemy_textures["idle"][self.current_facing_direction]
