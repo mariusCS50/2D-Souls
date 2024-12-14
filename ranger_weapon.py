@@ -3,15 +3,15 @@ from projectile import Projectile
 from weapon import Weapon
 
 class RangerWeapon(Weapon):
-    def __init__(self, owner, damage, projectile_sprite, projectile_speed):
-        super().__init__(owner, damage)
+    def __init__(self, damage, projectile_sprite, projectile_speed):
+        super().__init__(damage)
 
         self.projectile_sprite = projectile_sprite
         self.projectile_speed = projectile_speed
 
         self.shot_projectile = False
 
-    def update(self, facing_dir, scene, hit_layer_name):
+    def update(self, owner, facing_dir, scene, hit_layer_name):
         if not self.shot_projectile:
             projectile_x_dir = 0
             projectile_y_dir = 0
@@ -27,8 +27,8 @@ class RangerWeapon(Weapon):
 
             projectile = Projectile(
                 self.projectile_sprite,
-                self.owner.center_x,
-                self.owner.center_y,
+                owner.center_x,
+                owner.center_y,
                 projectile_x_dir,
                 projectile_y_dir,
                 self.projectile_speed,

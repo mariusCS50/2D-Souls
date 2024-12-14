@@ -62,7 +62,7 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon = MeleeWeapon(self, 10, SwordHitboxGenerator())
+        self.weapon = MeleeWeapon(10, SwordHitboxGenerator())
 
         self.set_custom_hitbox()
 
@@ -201,7 +201,7 @@ class Player(arcade.Sprite):
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
-            self.weapon.update(self.current_facing_direction, self.scene, "Enemies")
+            self.weapon.update(self, self.current_facing_direction, self.scene, "Enemies")
 
         else:
             self.weapon.stop_update()
