@@ -55,7 +55,7 @@ class Game(arcade.Window):
         self.enemies = self.generate_enemies(self.collision_layers)
 
         self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
-        self.scene["Enemies"].extend(self.enemies)
+        #self.scene["Enemies"].extend(self.enemies)
 
         self.scene.add_sprite_list_after("Projectiles", "Collision Layer 2")
 
@@ -215,6 +215,9 @@ class Game(arcade.Window):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT and self.player.can_attack:
+            self.player.mouse_x = x + self.camera.position[0]
+            self.player.mouse_y = y + self.camera.position[1]
+
             self.player.is_attacking = True
 
 if __name__ == "__main__":

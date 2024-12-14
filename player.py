@@ -61,10 +61,13 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon_name = "sword"
+        self.weapon_name = "wand"
 
         self.melee_hitbox = None
         self.shot_projectile = False
+
+        self.mouse_x = 0
+        self.mouse_y = 0
 
         self.set_custom_hitbox()
 
@@ -126,6 +129,18 @@ class Player(arcade.Sprite):
 
         self.dir_x = dir_x
         self.dir_y = dir_y
+
+    def get_facing_direction(self, dir_x, dir_y):
+        if abs(dir_x) > abs(dir_y):
+            if dir_x > 0:
+                return "right"
+            else:
+                return "left"
+        else:
+            if dir_y > 0:
+                return "up"
+            else:
+                return "down"
 
     def animate_walk(self, delta_time):
         if self.is_moving():
@@ -199,11 +214,12 @@ class Player(arcade.Sprite):
 
     def attack(self, delta_time):
         if self.attack_timer <= self.attack_speed:
-            self.texture = self.action_textures["attack"][self.current_facing_direction]
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
             if self.weapons[self.weapon_name]["type"] == "melee":
+                self.texture = self.action_textures["attack"][self.current_facing_direction]
+
                 if not self.melee_hitbox:
                     hitbox_generator = self.weapons[self.weapon_name]["hitbox_generator"]
                     self.melee_hitbox = hitbox_generator.generate(self, self.current_facing_direction)
@@ -212,15 +228,30 @@ class Player(arcade.Sprite):
                 for hit in hit_list:
                     hit.take_damage(self.weapons[self.weapon_name]["damage"])
 
-            elif self.weapons[self.weapon_name]["type"] == "range":
+            elif self.weapons[self.weapon_name]["type"] == "ranged":
                 if not self.shot_projectile:
+                    shoot_x_dir = self.mouse_x - self.center_x
+                    shoot_y_dir = self.mouse_y - self.center_y
+                    distance = math.sqrt(shoot_x_dir ** 2 + shoot_y_dir ** 2)
+
+                    if distance == 0:
+                        shoot_x_dir = 0
+                        shoot_y_dir = 1
+
+                    shoot_x_dir /= distance
+                    shoot_y_dir /= distance
+
+                    shoot_facing_direction = self.get_facing_direction(shoot_x_dir, shoot_y_dir)
+                    self.texture = self.action_textures["attack"][shoot_facing_direction]
+
                     projectile = Projectile(
-                        self.projectile_texture,
+                        self.weapons[self.weapon_name]["projectile_texture"],
                         self.center_x,
                         self.center_y,
-                        self.shoot_dir_x,
-                        self.shoot_dir_y,
-                        self.projectile_speed,
+                        shoot_x_dir,
+                        shoot_y_dir,
+                        self.weapons[self.weapon_name]["projectile_speed"],
+                        self.weapons[self.weapon_name]["damage"],
                         self.scene,
                         "Enemies"
                     )
