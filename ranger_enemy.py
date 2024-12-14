@@ -86,9 +86,6 @@ class RangerEnemy(Enemy):
                 self.can_shoot = True
                 self.shoot_cooldown_timer = 0
 
-    def found_target_logic(self, delta_time):
-        pass
-
     def on_update(self, delta_time):
         self.physics_engine.update()
 
