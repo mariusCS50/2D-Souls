@@ -180,7 +180,7 @@ class Player(arcade.Sprite):
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
-            self.weapon.update(self.current_facing_direction, self.scene, "Enemies")
+            self.weapon.update(self, self.current_facing_direction, self.scene, "Enemies")
 
         else:
             self.weapon.stop_update()
