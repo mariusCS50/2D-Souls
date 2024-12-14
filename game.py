@@ -14,7 +14,7 @@ class Game(arcade.Window):
         self.ui_manager = arcade.gui.UIManager()
         self.ui_manager.enable()
 
-        self.map_transitions = MapResources().get_transitions()
+        self.map_transitions = MapResources.get_transitions()
         self.player = None
 
     def setup(self, map_name="assets/maps/lobby.tmx", spawn_edge="down"):
