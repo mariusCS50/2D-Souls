@@ -48,8 +48,8 @@ class Player(arcade.Sprite):
         self.dodge_cooldown = 1.2
         self.dodge_cooldown_timer = 0
 
-        self.action_textures = PlayerResources().get_textures()
-        self.weapons = WeaponResources().get_weapons()
+        self.action_textures = PlayerResources.get_textures()
+        self.weapons = WeaponResources.get_weapons()
 
         self.current_facing_direction = "up"
         self.last_facing_direction = ""
