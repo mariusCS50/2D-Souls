@@ -127,47 +127,112 @@ class PlayerResources:
         return PlayerResources.action_textures
 
 class EnemyResources:
-    walking_directions = [
-        [0, 1],
-        [0, -1],
-        [-1, 0],
-        [1, 0],
-    ]
+    def __init__(self):
+        self.walking_directions = [
+            [0, 1],
+            [0, -1],
+            [-1, 0],
+            [1, 0],
+        ]
 
-    textures = {
-        "winter_orc": {
-            "idle": {
-                "up": arcade.load_texture("assets/enemies/orc/winter/idle_up.png"),
-                "down": arcade.load_texture("assets/enemies/orc/winter/idle_down.png"),
-                "left": arcade.load_texture("assets/enemies/orc/winter/idle_left.png"),
-                "right": arcade.load_texture("assets/enemies/orc/winter/idle_right.png"),
+        self.textures = {
+            "cave_orc": {
+                "idle": {
+                    "up": arcade.load_texture("assets/enemies/orc/cave/idle_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/cave/idle_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/cave/idle_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/cave/idle_right.png"),
+                },
+                "walk": {
+                    "up": [
+                        arcade.load_texture("assets/enemies/orc/cave/walk_up_1.png"),
+                        arcade.load_texture("assets/enemies/orc/cave/walk_up_2.png"),
+                    ],
+                    "down": [
+                        arcade.load_texture("assets/enemies/orc/cave/walk_down_1.png"),
+                        arcade.load_texture("assets/enemies/orc/cave/walk_down_2.png"),
+                    ],
+                    "left": [
+                        arcade.load_texture("assets/enemies/orc/cave/walk_left_1.png"),
+                        arcade.load_texture("assets/enemies/orc/cave/walk_left_2.png"),
+                    ],
+                    "right": [
+                        arcade.load_texture("assets/enemies/orc/cave/walk_right_1.png"),
+                        arcade.load_texture("assets/enemies/orc/cave/walk_right_2.png"),
+                    ],
+                },
+                "attack": {
+                    "up": arcade.load_texture("assets/enemies/orc/cave/attack_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/cave/attack_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/cave/attack_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/cave/attack_right.png"),
+                }
             },
-            "walk": {
-                "up": [
-                    arcade.load_texture("assets/enemies/orc/winter/walk_up_1.png"),
-                    arcade.load_texture("assets/enemies/orc/winter/walk_up_2.png"),
-                ],
-                "down": [
-                    arcade.load_texture("assets/enemies/orc/winter/walk_down_1.png"),
-                    arcade.load_texture("assets/enemies/orc/winter/walk_down_2.png"),
-                ],
-                "left": [
-                    arcade.load_texture("assets/enemies/orc/winter/walk_left_1.png"),
-                    arcade.load_texture("assets/enemies/orc/winter/walk_left_2.png"),
-                ],
-                "right": [
-                    arcade.load_texture("assets/enemies/orc/winter/walk_right_1.png"),
-                    arcade.load_texture("assets/enemies/orc/winter/walk_right_2.png"),
-                ],
+            "winter_orc": {
+                "idle": {
+                    "up": arcade.load_texture("assets/enemies/orc/winter/idle_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/winter/idle_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/winter/idle_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/winter/idle_right.png"),
+                },
+                "walk": {
+                    "up": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_up_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_up_2.png"),
+                    ],
+                    "down": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_down_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_down_2.png"),
+                    ],
+                    "left": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_left_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_left_2.png"),
+                    ],
+                    "right": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_right_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_right_2.png"),
+                    ],
+                },
+                "attack": {
+                    "up": arcade.load_texture("assets/enemies/orc/winter/attack_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/winter/attack_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/winter/attack_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/winter/attack_right.png"),
+                }
             },
-            "attack": {
-                "up": arcade.load_texture("assets/enemies/orc/winter/attack_up.png"),
-                "down": arcade.load_texture("assets/enemies/orc/winter/attack_down.png"),
-                "left": arcade.load_texture("assets/enemies/orc/winter/attack_left.png"),
-                "right": arcade.load_texture("assets/enemies/orc/winter/attack_right.png"),
+            "volcano_orc": {
+                "idle": {
+                    "up": arcade.load_texture("assets/enemies/orc/volcano/idle_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/volcano/idle_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/volcano/idle_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/volcano/idle_right.png"),
+                },
+                "walk": {
+                    "up": [
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_up_1.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_up_2.png"),
+                    ],
+                    "down": [
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_down_1.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_down_2.png"),
+                    ],
+                    "left": [
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_left_1.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_left_2.png"),
+                    ],
+                    "right": [
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_right_1.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_right_2.png"),
+                    ],
+                },
+                "attack": {
+                    "up": arcade.load_texture("assets/enemies/orc/volcano/attack_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/volcano/attack_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/volcano/attack_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/volcano/attack_right.png"),
+                }
             }
-        },
-    }
+        }
 
     @staticmethod
     def get_walking_directions():

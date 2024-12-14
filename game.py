@@ -3,9 +3,7 @@ import arcade.key
 import arcade.gui
 from game_resources import MapResources
 from player import Player
-from ranger_enemy import RangerEnemy
 from melee_enemy import MeleeEnemy
-
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
@@ -65,19 +63,33 @@ class Game(arcade.Window):
     def generate_enemies(self, collision_layers):
         enemies = arcade.SpriteList()
 
-        enemy = RangerEnemy(
-            enemy_type="winter_orc",
-            weapon_name="wand",
-            pos_x=self.map_width / 2,
-            pos_y=300,
-            speed=100,
-            health=20,
-            vision_radius=300,
-            scene=self.scene,
-            collision_layers=collision_layers
-        )
+        for i in range(0,1):
+            enemy = MeleeEnemy(
+                enemy_type="cave_orc",
+                weapon_name="sword",
+                pos_x=self.map_width / 2,
+                pos_y=300,
+                speed=50,
+                scene=self.scene,
+                vision_radius=200,
+                collision_layers=collision_layers,
+            )
+            enemies.append(enemy)
+            
+#         enemy = RangerEnemy(
+#             enemy_type="winter_orc",
+#             weapon_name="wand",
+#             pos_x=self.map_width / 2,
+#             pos_y=300,
+#             speed=100,
+#             health=20,
+#             vision_radius=300,
+#             scene=self.scene,
+#             collision_layers=collision_layers
+#         )
 
-        enemies.append(enemy)
+#         enemies.append(enemy)
+
         return enemies
 
     def check_map_transition(self):
@@ -151,30 +163,31 @@ class Game(arcade.Window):
         ]
         arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
 
-        # if self.player.is_attacking:
-        #     sword_hitbox = self.player.weapon.melee_hitbox_generator.generate(self.player, self.player.current_facing_direction)
-        #     sword_hitbox_vertices = sword_hitbox.get_hit_box()
-        #     scaled_sword_hitbox = [
-        #         (sword_hitbox.center_x + point[0],
-        #         sword_hitbox.center_y + point[1])
-        #         for point in sword_hitbox_vertices
-        #     ]
-        #     arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
+        if self.player.is_attacking:
+            sword_hitbox = self.player.weapons["sword"]["hitbox_generator"].generate(self.player, self.player.current_facing_direction)
+            sword_hitbox_vertices = sword_hitbox.get_hit_box()
+            scaled_sword_hitbox = [
+                (sword_hitbox.center_x + point[0],
+                sword_hitbox.center_y + point[1])
+                for point in sword_hitbox_vertices
+            ]
+            arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
 
-        for enemy in self.enemies:
-                if arcade.has_line_of_sight(self.player.position,
-                                            enemy.position,
-                                            self.collision_layers,
-                                            enemy.vision_radius):
-                    color = arcade.color.RED
-                else:
-                    color = arcade.color.WHITE
-                arcade.draw_line(self.player.center_x,
-                                 self.player.center_y,
-                                 enemy.center_x,
-                                 enemy.center_y,
-                                 color,
-                                 2)
+        # for enemy in self.enemies:
+        #         if arcade.has_line_of_sight(self.player.position,
+        #                                     enemy.position,
+        #                                     self.collision_layers,
+        #                                     enemy.vision_radius):
+        #             color = arcade.color.RED
+        #         else:
+        #             color = arcade.color.WHITE
+        #         arcade.draw_line(self.player.center_x,
+        #                          self.player.center_y,
+        #                          enemy.center_x,
+        #                          enemy.center_y,
+        #                          color,
+        #                          2)
+
 
         for enemy in self.enemies:
             hitbox = enemy.get_hit_box()

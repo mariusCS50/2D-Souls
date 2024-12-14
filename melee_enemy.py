@@ -8,6 +8,15 @@ class MeleeEnemy(Enemy):
         
         self.damage = self.weapons[weapon_name]["damage"]
 
+    def set_custom_hitbox(self):
+        hitbox = [
+            (-self.width / 2, -self.height),
+            (self.width / 2, -self.height),
+            (self.width / 2, 0),
+            (-self.width / 2, 0)
+        ]
+        self.set_hit_box(hitbox)
+
     def attack(self, delta_time):
         if self.attack_timer == 0:
             self.target.take_damage(self.damage)
