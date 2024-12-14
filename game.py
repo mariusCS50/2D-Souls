@@ -52,10 +52,10 @@ class Game(arcade.Window):
         self.collision_layers.extend(self.scene["Collision Layer"])
         self.collision_layers.extend(self.scene["Collision Layer 2"])
 
-        #self.enemies = self.generate_enemies(self.collision_layers)
+        self.enemies = self.generate_enemies(self.collision_layers)
 
         self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
-        #self.scene["Enemies"].extend(self.enemies)
+        self.scene["Enemies"].extend(self.enemies)
 
         self.scene.add_sprite_list_after("Projectiles", "Collision Layer 2")
 
@@ -67,16 +67,17 @@ class Game(arcade.Window):
 
         enemy = RangerEnemy(
             enemy_type="winter_orc",
+            weapon_name="wand",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
+            vision_radius=300,
             scene=self.scene,
-            vision_radius=200,
-            collision_layers=collision_layers,
-            ranger_weapon=RangerWeapon(10, "assets/projectile.png", 300)
+            collision_layers=collision_layers
         )
-        enemies.append(enemy)
 
+        enemies.append(enemy)
+        return enemies
 
     def check_map_transition(self):
         transition = None
@@ -128,6 +129,7 @@ class Game(arcade.Window):
         self.scene["Ground Layer 2"].draw()
         self.scene["Ground Layer 3"].draw()
         self.scene["Collision Layer 2"].draw()
+        self.scene["Projectiles"].draw()
 
         draw_priority = arcade.SpriteList()
         draw_priority.extend(self.scene["Player"])
@@ -158,29 +160,29 @@ class Game(arcade.Window):
         #     ]
         #     arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
 
-        # for enemy in self.enemies:
-        #         if arcade.has_line_of_sight(self.player.position,
-        #                                     enemy.position,
-        #                                     self.collision_layers,
-        #                                     enemy.vision_radius):
-        #             color = arcade.color.RED
-        #         else:
-        #             color = arcade.color.WHITE
-        #         arcade.draw_line(self.player.center_x,
-        #                          self.player.center_y,
-        #                          enemy.center_x,
-        #                          enemy.center_y,
-        #                          color,
-        #                          2)
+        for enemy in self.enemies:
+                if arcade.has_line_of_sight(self.player.position,
+                                            enemy.position,
+                                            self.collision_layers,
+                                            enemy.vision_radius):
+                    color = arcade.color.RED
+                else:
+                    color = arcade.color.WHITE
+                arcade.draw_line(self.player.center_x,
+                                 self.player.center_y,
+                                 enemy.center_x,
+                                 enemy.center_y,
+                                 color,
+                                 2)
 
-        # for enemy in self.enemies:
-        #     hitbox = enemy.get_hit_box()
-        #     scaled_hitbox = [
-        #         (enemy.center_x + point[0] * enemy.scale,
-        #         enemy.center_y + point[1] * enemy.scale)
-        #         for point in hitbox
-        #     ]
-        #     arcade.draw_polygon_outline(scaled_hitbox, arcade.color.PAKISTAN_GREEN, 2)
+        for enemy in self.enemies:
+            hitbox = enemy.get_hit_box()
+            scaled_hitbox = [
+                (enemy.center_x + point[0] * enemy.scale,
+                enemy.center_y + point[1] * enemy.scale)
+                for point in hitbox
+            ]
+            arcade.draw_polygon_outline(scaled_hitbox, arcade.color.PAKISTAN_GREEN, 2)
 
         self.ui_manager.draw()
 
@@ -199,8 +201,6 @@ class Game(arcade.Window):
                 self.player.can_dodge = False
         elif key == arcade.key.K and self.player.can_attack:
             self.player.is_attacking = True
-        elif key == arcade.key.G:
-            self.player.health -= 10
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W:

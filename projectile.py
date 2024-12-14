@@ -1,8 +1,10 @@
 import arcade
 
 class Projectile(arcade.Sprite):
-    def __init__(self, sprite, pos_x, pos_y, dir_x, dir_y, speed, scene, hit_layer_name):
-        super().__init__(sprite)
+    def __init__(self, texture, pos_x, pos_y, dir_x, dir_y, speed, scene, hit_layer_name):
+        super().__init__()
+
+        self.texture = texture
 
         self.center_x = pos_x
         self.center_y = pos_y

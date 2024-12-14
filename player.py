@@ -63,7 +63,7 @@ class Player(arcade.Sprite):
 
         self.weapon_name = "sword"
 
-        self.hitbox = None
+        self.melee_hitbox = None
         self.shot_projectile = False
 
         self.set_custom_hitbox()
@@ -204,11 +204,11 @@ class Player(arcade.Sprite):
             self.change_y = self.dir_y = 0
 
             if self.weapons[self.weapon_name]["type"] == "melee":
-                if not self.hitbox:
+                if not self.melee_hitbox:
                     hitbox_generator = self.weapons[self.weapon_name]["hitbox_generator"]
-                    self.hitbox = hitbox_generator.generate(self, self.current_facing_direction)
+                    self.melee_hitbox = hitbox_generator.generate(self, self.current_facing_direction)
 
-                hit_list = arcade.check_for_collision_with_list(self.hitbox, self.scene["Enemies"])
+                hit_list = arcade.check_for_collision_with_list(self.melee_hitbox, self.scene["Enemies"])
                 for hit in hit_list:
                     # TODO: Damage the hits
                     self.scene["Enemies"].remove(hit)
@@ -231,7 +231,7 @@ class Player(arcade.Sprite):
                     self.shot_projectile = True
 
         else:
-            self.hitbox = None
+            self.melee_hitbox = None
             self.shot_projectile = False
 
             self.is_attacking = False
