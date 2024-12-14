@@ -71,6 +71,7 @@ class Game(arcade.Window):
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
+            health=20,
             vision_radius=300,
             scene=self.scene,
             collision_layers=collision_layers
@@ -214,6 +215,9 @@ class Game(arcade.Window):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT and self.player.can_attack:
+            self.player.mouse_x = x + self.camera.position[0]
+            self.player.mouse_y = y + self.camera.position[1]
+
             self.player.is_attacking = True
 
 if __name__ == "__main__":

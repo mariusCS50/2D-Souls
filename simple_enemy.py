@@ -3,8 +3,8 @@ import math
 from enemy import Enemy
 
 class SimpleEnemy(Enemy):
-    def __init__(self, enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers, damage):
-        super().__init__(enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
+    def __init__(self, enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers, damage):
+        super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers)
 
         self.damage = damage
 

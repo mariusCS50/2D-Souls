@@ -115,19 +115,21 @@ class EnemyResources:
         return EnemyResources.textures[enemy_type]
 
 class WeaponResources:
-    weapons = {
-        "sword": {
-            "type": "melee",
-            "damage": 5,
-            "sprite": None,
-            "hitbox_generator": SwordHitboxGenerator()
-        },
-        "wand": {
-            "type": "ranged",
-            "damage": 10,
-            "sprite": None,
-            "projectile_texture": arcade.load_texture("assets/projectile.png"),
-            "projectile_speed": 128
+    def __init__(self):
+        self.weapons = {
+            "sword": {
+                "type": "melee",
+                "damage": 5,
+                "sprite": None,
+                "hitbox_generator": SwordHitboxGenerator()
+            },
+            "wand": {
+                "type": "ranged",
+                "damage": 10,
+                "sprite": None,
+                "projectile_texture": arcade.load_texture("assets/projectile.png"),
+                "projectile_speed": 128
+            }
         }
     }
 

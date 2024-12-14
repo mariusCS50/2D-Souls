@@ -4,11 +4,11 @@ from enemy import Enemy
 from projectile import Projectile
 
 class RangerEnemy(Enemy):
-    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
-        super().__init__(enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
+    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers):
+        super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers)
 
         self.damage = self.weapons[weapon_name]["damage"]
-        self.projectile_texture = self.weapons[weapon_name]["projectile_sprite"]
+        self.projectile_texture = self.weapons[weapon_name]["projectile_texture"]
         self.projectile_speed = self.weapons[weapon_name]["projectile_speed"]
 
         self.avoidance_distance = 150
@@ -54,6 +54,7 @@ class RangerEnemy(Enemy):
 
     def shoot(self, delta_time):
         if self.shoot_timer <= self.shoot_time:
+            self.texture = self.enemy_textures["attack"][self.current_facing_direction]
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
@@ -65,6 +66,7 @@ class RangerEnemy(Enemy):
                     self.shoot_dir_x,
                     self.shoot_dir_y,
                     self.projectile_speed,
+                    self.damage,
                     self.scene,
                     "Player"
                 )
@@ -104,3 +106,4 @@ class RangerEnemy(Enemy):
             self.wandering_logic(delta_time)
 
         self.shoot_cooldown_update(delta_time)
+        self.invincible_timer_update(delta_time)
