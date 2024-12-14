@@ -1,10 +1,7 @@
 import arcade
 import math
-from game_resources import PlayerResources
+from game_resources import PlayerResources, WeaponResources
 from health_bar import HealthBar
-from melee_weapon import MeleeWeapon
-from ranger_weapon import RangerWeapon
-from sword_hitbox_generator import SwordHitboxGenerator
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x, pos_y, scene):
@@ -51,6 +48,7 @@ class Player(arcade.Sprite):
         self.dodge_cooldown_timer = 0
 
         self.action_textures = PlayerResources().get_textures()
+        self.weapons = WeaponResources().get_weapons()
 
         self.current_facing_direction = "up"
         self.last_facing_direction = ""
@@ -62,7 +60,10 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon = MeleeWeapon(10, SwordHitboxGenerator())
+        self.weapon_name = "sword"
+
+        self.hitbox = None
+        self.shot_projectile = False
 
         self.set_custom_hitbox()
 
@@ -201,10 +202,25 @@ class Player(arcade.Sprite):
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
-            self.weapon.update(self, self.current_facing_direction, self.scene, "Enemies")
+            if self.weapons[self.weapon_name]["type"] == "melee":
+                if not self.hitbox:
+                    hitbox_generator = self.weapons["sword"]["hitbox_generator"]
+                    self.hitbox = hitbox_generator.generate(self, self.current_facing_direction)
+
+                hit_list = arcade.check_for_collision_with_list(self.hitbox, self.scene["Enemies"])
+                for hit in hit_list:
+                    # TODO: Damage the hits
+                    self.scene["Enemies"].remove(hit)
+                    pass
+
+            elif self.weapons[self.weapon_name]["type"] == "range":
+                # TODO: Player range
+                pass
 
         else:
-            self.weapon.stop_update()
+            self.hitbox = None
+            self.shot_projectile = False
+
             self.is_attacking = False
             self.can_attack = False
             self.attack_timer = 0.0

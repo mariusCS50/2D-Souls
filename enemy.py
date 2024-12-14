@@ -1,7 +1,7 @@
 import arcade
 import random
 from abc import ABC, abstractmethod
-from game_resources import EnemyResources
+from game_resources import EnemyResources, WeaponResources
 
 class Enemy(arcade.Sprite, ABC):
     def __init__(self, enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
@@ -32,6 +32,7 @@ class Enemy(arcade.Sprite, ABC):
         self.physics_engine = arcade.PhysicsEngineSimple(self, self.collision_layers)
 
         self.enemy_textures = EnemyResources().get_textures(enemy_type)
+        self.weapons = WeaponResources().get_weapons()
 
         self.current_facing_direction = "down"
         self.texture = self.enemy_textures["idle"][self.current_facing_direction]
