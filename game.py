@@ -12,7 +12,7 @@ class Game(arcade.Window):
         self.ui_manager = arcade.gui.UIManager()
         self.ui_manager.enable()
 
-        self.map_transitions = MapResources().get_transitions()
+        self.map_transitions = MapResources.get_transitions()
         self.player = None
 
     def setup(self, map_name="assets/maps/lobby.tmx", spawn_edge="down"):
@@ -75,6 +75,21 @@ class Game(arcade.Window):
                 collision_layers=collision_layers,
             )
             enemies.append(enemy)
+            
+#         enemy = RangerEnemy(
+#             enemy_type="winter_orc",
+#             weapon_name="wand",
+#             pos_x=self.map_width / 2,
+#             pos_y=300,
+#             speed=100,
+#             health=20,
+#             vision_radius=300,
+#             scene=self.scene,
+#             collision_layers=collision_layers
+#         )
+
+#         enemies.append(enemy)
+
         return enemies
 
     def check_map_transition(self):
@@ -127,6 +142,7 @@ class Game(arcade.Window):
         self.scene["Ground Layer 2"].draw()
         self.scene["Ground Layer 3"].draw()
         self.scene["Collision Layer 2"].draw()
+        self.scene["Projectiles"].draw()
 
         draw_priority = arcade.SpriteList()
         draw_priority.extend(self.scene["Player"])
@@ -172,6 +188,7 @@ class Game(arcade.Window):
         #                          color,
         #                          2)
 
+
         for enemy in self.enemies:
             hitbox = enemy.get_hit_box()
             scaled_hitbox = [
@@ -198,8 +215,6 @@ class Game(arcade.Window):
                 self.player.can_dodge = False
         elif key == arcade.key.K and self.player.can_attack:
             self.player.is_attacking = True
-        elif key == arcade.key.G:
-            self.player.health -= 10
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W:
@@ -213,6 +228,9 @@ class Game(arcade.Window):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT and self.player.can_attack:
+            self.player.mouse_x = x + self.camera.position[0]
+            self.player.mouse_y = y + self.camera.position[1]
+
             self.player.is_attacking = True
 
 if __name__ == "__main__":

@@ -3,9 +3,9 @@ import math
 from enemy import Enemy
 
 class MeleeEnemy(Enemy):
-    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
-        super().__init__(enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
-
+    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers):
+        super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers)
+        
         self.damage = self.weapons[weapon_name]["damage"]
 
     def set_custom_hitbox(self):
@@ -90,3 +90,4 @@ class MeleeEnemy(Enemy):
             self.wandering_logic(delta_time)
 
         self.attack_cooldown_update(delta_time)
+        self.invincible_timer_update(delta_time)
