@@ -111,19 +111,6 @@ class Enemy(arcade.Sprite, ABC):
     def found_target_logic(self, delta_time):
         pass
 
-    def attack_cooldown_update(self, delta_time):
-        if not self.can_attack:
-            self.attack_cooldown_timer += delta_time
-            if self.attack_cooldown_timer >= self.attack_cooldown:
-                self.can_attack = True
-                self.attack_cooldown_timer = 0.0
-
+    @abstractmethod
     def on_update(self, delta_time):
-        self.physics_engine.update()
-
-        if self.has_line_of_sight():
-            self.found_target_logic(delta_time)
-        else:
-            self.wandering_logic(delta_time)
-
-        self.attack_cooldown_update(delta_time)
+        pass
