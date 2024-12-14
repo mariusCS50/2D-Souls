@@ -4,6 +4,7 @@ import arcade.gui
 from game_resources import MapResources
 from player import Player
 from melee_enemy import MeleeEnemy
+from ranger_enemy import RangerEnemy
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
@@ -63,33 +64,33 @@ class Game(arcade.Window):
     def generate_enemies(self, collision_layers):
         enemies = arcade.SpriteList()
 
-        for i in range(0,1):
-            enemy = MeleeEnemy(
-                enemy_type="cave_orc",
-                weapon_name="sword",
-                pos_x=self.map_width / 2,
-                pos_y=300,
-                speed=50,
-                health=20,
-                scene=self.scene,
-                vision_radius=200,
-                collision_layers=collision_layers,
-            )
-            enemies.append(enemy)
-            
-#         enemy = RangerEnemy(
-#             enemy_type="winter_orc",
-#             weapon_name="wand",
-#             pos_x=self.map_width / 2,
-#             pos_y=300,
-#             speed=100,
-#             health=20,
-#             vision_radius=300,
-#             scene=self.scene,
-#             collision_layers=collision_layers
-#         )
+        # for i in range(0,1):
+        #     enemy = MeleeEnemy(
+        #         enemy_type="cave_orc",
+        #         weapon_name="sword",
+        #         pos_x=self.map_width / 2,
+        #         pos_y=300,
+        #         speed=50,
+        #         health=20,
+        #         scene=self.scene,
+        #         vision_radius=200,
+        #         collision_layers=collision_layers,
+        #     )
+        #     enemies.append(enemy)
 
-#         enemies.append(enemy)
+        enemy = RangerEnemy(
+            enemy_type="volcano_slime",
+            weapon_name="wand",
+            pos_x=self.map_width / 2,
+            pos_y=300,
+            speed=100,
+            health=20,
+            vision_radius=300,
+            scene=self.scene,
+            collision_layers=collision_layers
+        )
+
+        enemies.append(enemy)
 
         return enemies
 

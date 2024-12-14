@@ -26,6 +26,15 @@ class RangerEnemy(Enemy):
         self.shoot_dir_x = 0
         self.shoot_dir_y = 0
 
+    def set_custom_hitbox(self):
+        hitbox = [
+            (-self.width / 4, -self.height / 4),
+            (self.width / 4, -self.height / 4),
+            (self.width / 4, self.height / 4),
+            (-self.width / 4, self.height / 4)
+        ]
+        self.set_hit_box(hitbox)
+
     def walk(self, delta_time):
         diff_x = self.target.center_x - self.center_x
         diff_y = self.target.center_y - self.center_y
@@ -101,7 +110,7 @@ class RangerEnemy(Enemy):
                 self.is_shooting = True
                 self.can_shoot = False
 
-                self.shoot(delta_time) 
+                self.shoot(delta_time)
         else:
             self.wandering_logic(delta_time)
 
