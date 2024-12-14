@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from game_resources import EnemyResources, WeaponResources
 
 class Enemy(arcade.Sprite, ABC):
-    def __init__(self, enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
-        super().__init__(texture=arcade.load_texture("assets/temp_player.png"), scale=0.5)
+    def __init__(self, enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers):
+        super().__init__(scale=0.5)
 
         self.scene = scene
 
@@ -16,6 +16,8 @@ class Enemy(arcade.Sprite, ABC):
 
         self.dir_x = 0
         self.dir_y = 0
+
+        self.max_health = self._health = health
 
         self.target = scene["Player"][0]
         self.vision_radius = vision_radius
@@ -28,6 +30,11 @@ class Enemy(arcade.Sprite, ABC):
 
         self.is_attacking = False
         self.is_idle = True
+        self.is_invincible = False
+
+        self.invincible_time = 1
+        self.invincible_timer = 0
+
         self.directions = EnemyResources().get_walking_directions()
 
         self.collision_layers = collision_layers
@@ -49,6 +56,17 @@ class Enemy(arcade.Sprite, ABC):
         self.animation_walk_timer = 0
 
         self.set_custom_hitbox()
+
+    @property
+    def health(self):
+        return self._health
+
+    @health.setter
+    def health(self, val):
+        if val <= 0:
+            self.scene["Enemies"].remove(self)
+
+        self._health = val
 
     def set_custom_hitbox(self):
         hitbox = [
@@ -101,6 +119,19 @@ class Enemy(arcade.Sprite, ABC):
             if self.timer > self.wandering_time:
                 self.timer = 0
                 self.is_idle = True
+
+    def take_damage(self, damage):
+        if not self.is_invincible:
+            self.health -= damage
+            self.is_invincible = True
+
+    def invincible_timer_update(self, delta_time):
+        if self.is_invincible:
+            self.invincible_timer += delta_time
+
+            if self.invincible_timer > self.invincible_time:
+                self.is_invincible = False
+                self.invincible_timer = 0
 
     def has_line_of_sight(self):
         return arcade.has_line_of_sight(

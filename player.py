@@ -210,9 +210,7 @@ class Player(arcade.Sprite):
 
                 hit_list = arcade.check_for_collision_with_list(self.melee_hitbox, self.scene["Enemies"])
                 for hit in hit_list:
-                    # TODO: Damage the hits
-                    self.scene["Enemies"].remove(hit)
-                    pass
+                    hit.take_damage(self.weapons[self.weapon_name]["damage"])
 
             elif self.weapons[self.weapon_name]["type"] == "range":
                 if not self.shot_projectile:

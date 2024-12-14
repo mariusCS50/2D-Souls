@@ -4,8 +4,8 @@ from enemy import Enemy
 from projectile import Projectile
 
 class RangerEnemy(Enemy):
-    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
-        super().__init__(enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
+    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers):
+        super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers)
 
         self.damage = self.weapons[weapon_name]["damage"]
         self.projectile_texture = self.weapons[weapon_name]["projectile_sprite"]
@@ -65,6 +65,7 @@ class RangerEnemy(Enemy):
                     self.shoot_dir_x,
                     self.shoot_dir_y,
                     self.projectile_speed,
+                    self.damage,
                     self.scene,
                     "Player"
                 )
@@ -104,3 +105,4 @@ class RangerEnemy(Enemy):
             self.wandering_logic(delta_time)
 
         self.shoot_cooldown_update(delta_time)
+        self.invincible_timer_update(delta_time)
