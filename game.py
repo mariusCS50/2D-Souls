@@ -3,6 +3,8 @@ import arcade.key
 import arcade.gui
 from game_resources import MapResources
 from player import Player
+from ranger_enemy import RangerEnemy
+from ranger_weapon import RangerWeapon
 from simple_enemy import SimpleEnemy
 
 class Game(arcade.Window):
@@ -64,7 +66,7 @@ class Game(arcade.Window):
     def generate_enemies(self, collision_layers):
         enemies = arcade.SpriteList()
 
-        enemy = SimpleEnemy(
+        enemy = RangerEnemy(
             enemy_type="winter_orc",
             pos_x=self.map_width / 2,
             pos_y=300,
@@ -72,7 +74,7 @@ class Game(arcade.Window):
             scene=self.scene,
             vision_radius=200,
             collision_layers=collision_layers,
-            damage=5
+            ranger_weapon=RangerWeapon(10, "assets/projectile.png", 300)
         )
         enemies.append(enemy)
         return enemies
