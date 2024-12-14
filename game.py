@@ -55,7 +55,7 @@ class Game(arcade.Window):
         self.enemies = self.generate_enemies(self.collision_layers)
 
         self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
-        #self.scene["Enemies"].extend(self.enemies)
+        self.scene["Enemies"].extend(self.enemies)
 
         self.scene.add_sprite_list_after("Projectiles", "Collision Layer 2")
 

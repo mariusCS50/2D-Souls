@@ -54,6 +54,7 @@ class RangerEnemy(Enemy):
 
     def shoot(self, delta_time):
         if self.shoot_timer <= self.shoot_time:
+            self.texture = self.enemy_textures["attack"][self.current_facing_direction]
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
