@@ -65,7 +65,7 @@ class Game(arcade.Window):
 
         for i in range(0,1):
             enemy = MeleeEnemy(
-                enemy_type="volcano_orc",
+                enemy_type="cave_orc",
                 weapon_name="sword",
                 pos_x=self.map_width / 2,
                 pos_y=300,
