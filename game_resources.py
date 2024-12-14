@@ -3,23 +3,6 @@ import arcade
 from sword_hitbox_generator import SwordHitboxGenerator
 
 class MapResources:
-    transitions = {
-        "assets/maps/lobby.tmx": {
-            "right": ("assets/maps/volcano_island.tmx", "left"),
-            "left": ("assets/maps/snowy_plains.tmx", "right"),
-            "up": ("assets/maps/crystal_cave.tmx", "down"),
-        },
-        "assets/maps/volcano_island.tmx": {
-            "left": ("assets/maps/lobby.tmx", "right")
-        },
-        "assets/maps/snowy_plains.tmx": {
-            "right": ("assets/maps/lobby.tmx", "left")
-        },
-        "assets/maps/crystal_cave.tmx": {
-            "down": ("assets/maps/lobby.tmx", "up")
-        }
-    }
-    
     enemies = {
         "volcano_island" : [
             (656, 848, "volcano_orc"),
