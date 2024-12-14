@@ -3,10 +3,10 @@ import math
 from enemy import Enemy
 
 class MeleeEnemy(Enemy):
-    def __init__(self, enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers, damage):
+    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
         super().__init__(enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
-
-        self.damage = damage
+        
+        self.damage = self.weapons[weapon_name]["damage"]
 
     def attack(self, delta_time):
         if self.attack_timer == 0:

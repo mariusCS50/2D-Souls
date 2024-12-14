@@ -1,5 +1,7 @@
 import arcade
 
+from sword_hitbox_generator import SwordHitboxGenerator
+
 class MapResources:
     def __init__(self):
         self.transitions = {
@@ -111,3 +113,23 @@ class EnemyResources:
     def get_textures(self, enemy_type):
         return self.textures[enemy_type]
 
+class WeaponResources:
+    def __init__(self):
+        self.weapons = {
+            "sword": {
+                "type": "melee",
+                "damage": 5,
+                "sprite": None,
+                "hitbox_generator": SwordHitboxGenerator()
+            },
+            "wand": {
+                "type": "ranged",
+                "damage": 10,
+                "sprite": None,
+                "projectile_sprite": None,
+                "projectile_speed": 128
+            }
+        }
+
+    def get_weapons(self):
+        return self.weapons

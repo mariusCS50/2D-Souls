@@ -1,6 +1,9 @@
 import arcade
 
 class SwordHitboxGenerator():
+    def __init__(self):
+        pass
+
     def generate(self, owner, facing_dir):
         sword_width = 25
         sword_height = 45
