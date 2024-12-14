@@ -20,6 +20,69 @@ class MapResources:
             }
         }
     
+    enemies = {
+        "volcano_island" : [
+            (656, 848, "volcano_orc"),
+            (560, 464, "volcano_orc"),
+            (592, 1040, "volcano_slime"),
+            (816, 1104, "volcano_slime"),
+            (816, 336, "volcano_slime"),
+            (720, 240, "volcano_orc"),
+            (1104, 1200, "volcano_orc"),
+            (1488, 1168, "volcano_slime"),
+            (1040, 176, "volcano_slime"),
+            (1392, 144, "volcano_orc"),
+            (1840, 1200, "volcano_orc"),
+            (2096, 1104, "volcano_slime"),
+            (1712, 208, "volcano_orc"),
+            (2160, 176, "volcano_orc"),
+            (2256, 464, "volcano_slime"),
+            (2128, 688, "volcano_orc"),
+            (2352, 880, "volcano_slime"),
+            (1552, 464, "volcano_slime"),
+            (1712, 944, "volcano_slime"),
+            (1008, 688, "volcano_org"),
+            (2416, 272, "volcano_orc"),
+            (1232, 880, "volcano_orc"),
+            (1040, 496, "volcano_slime"),
+            (1392, 688, "volcano_orc")
+        ],
+        "snowy_plains" : [
+            (240, 976, "winter_slime"),
+            (208, 368, "winter_orc"),
+            (624, 1104, "winter_orc"),
+            (592, 272, "winter_slime"),
+            (976, 1072, "winter_slime"),
+            (944, 368, "winter_orc"),
+            (496, 592, "winter_orc"),
+            (784, 784, "winter_orc"),
+            (1232, 816, "winter_slime"),
+            (1584, 496, "winter_orc"),
+            (1584, 880, "winter_orc"),
+            (1584, 1168, "winter_orc"),
+            (1840, 720, "winter_slime"),
+            (2032, 1040, "winter_orc"),
+            (1936, 304, "winter_slime"),
+            (2192, 368, "winter_orc"),
+            (2224, 752, "winter_slime"),
+            (1264, 528, "winter_slime")
+        ],
+        "crystal_cave": [
+            (400, 720, "cave_org"),
+            (880, 725, "cave_org"),
+            (304, 1328, "cave_slime"),
+            (944, 1296, "cave_org"),
+            (656, 1456, "cave_org"),
+            (336, 1968, "cave_slime"),
+            (880, 2064, "cave_slime"),
+            (592, 1904, "cave_org"),
+            (656, 2256, "cave_org"),
+            (336, 2480, "cave_org"),
+            (624, 2448, "cave_slime"),
+            (912, 2512, "cave_org")
+        ]
+    }
+    
     @staticmethod
     def get_transitions():
         return MapResources.transitions
