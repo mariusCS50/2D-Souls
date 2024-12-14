@@ -4,21 +4,21 @@ from sword_hitbox_generator import SwordHitboxGenerator
 
 class MapResources:
     transitions = {
-            "assets/maps/lobby.tmx": {
-                "right": ("assets/maps/volcano_island.tmx", "left"),
-                "left": ("assets/maps/snowy_plains.tmx", "right"),
-                "up": ("assets/maps/crystal_cave.tmx", "down"),
-            },
-            "assets/maps/volcano_island.tmx": {
-                "left": ("assets/maps/lobby.tmx", "right")
-            },
-            "assets/maps/snowy_plains.tmx": {
-                "right": ("assets/maps/lobby.tmx", "left")
-            },
-            "assets/maps/crystal_cave.tmx": {
-                "down": ("assets/maps/lobby.tmx", "up")
-            }
+        "assets/maps/lobby.tmx": {
+            "right": ("assets/maps/volcano_island.tmx", "left"),
+            "left": ("assets/maps/snowy_plains.tmx", "right"),
+            "up": ("assets/maps/crystal_cave.tmx", "down"),
+        },
+        "assets/maps/volcano_island.tmx": {
+            "left": ("assets/maps/lobby.tmx", "right")
+        },
+        "assets/maps/snowy_plains.tmx": {
+            "right": ("assets/maps/lobby.tmx", "left")
+        },
+        "assets/maps/crystal_cave.tmx": {
+            "down": ("assets/maps/lobby.tmx", "up")
         }
+    }
     
     @staticmethod
     def get_transitions():
@@ -115,21 +115,19 @@ class EnemyResources:
         return EnemyResources.textures[enemy_type]
 
 class WeaponResources:
-    def __init__(self):
-        self.weapons = {
-            "sword": {
-                "type": "melee",
-                "damage": 5,
-                "sprite": None,
-                "hitbox_generator": SwordHitboxGenerator()
-            },
-            "wand": {
-                "type": "ranged",
-                "damage": 10,
-                "sprite": None,
-                "projectile_texture": arcade.load_texture("assets/projectile.png"),
-                "projectile_speed": 128
-            }
+    weapons = {
+        "sword": {
+            "type": "melee",
+            "damage": 5,
+            "sprite": None,
+            "hitbox_generator": SwordHitboxGenerator()
+        },
+        "wand": {
+            "type": "ranged",
+            "damage": 10,
+            "sprite": None,
+            "projectile_texture": arcade.load_texture("assets/projectile.png"),
+            "projectile_speed": 128
         }
     }
 
