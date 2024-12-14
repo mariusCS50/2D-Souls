@@ -3,7 +3,7 @@ import arcade.key
 import arcade.gui
 from game_resources import MapResources
 from player import Player
-from simple_enemy import SimpleEnemy
+from melee_enemy import MeleeEnemy
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
@@ -54,7 +54,6 @@ class Game(arcade.Window):
 
         self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
         self.scene["Enemies"].extend(self.enemies)
-        # self.collision_layers.extend(self.enemies)
 
         self.scene.add_sprite_list_after("Projectiles", "Collision Layer 2")
 
@@ -64,17 +63,18 @@ class Game(arcade.Window):
     def generate_enemies(self, collision_layers):
         enemies = arcade.SpriteList()
 
-        enemy = SimpleEnemy(
-            enemy_type="winter_orc",
-            pos_x=self.map_width / 2,
-            pos_y=300,
-            speed=100,
-            scene=self.scene,
-            vision_radius=200,
-            collision_layers=collision_layers,
-            damage=5
-        )
-        enemies.append(enemy)
+        for i in range(0,1):
+            enemy = MeleeEnemy(
+                enemy_type="winter_orc",
+                pos_x=self.map_width / 2,
+                pos_y=300,
+                speed=100,
+                scene=self.scene,
+                vision_radius=200,
+                collision_layers=collision_layers,
+                damage=5
+            )
+            enemies.append(enemy)
         return enemies
 
     def check_map_transition(self):
@@ -122,7 +122,21 @@ class Game(arcade.Window):
     def on_draw(self):
         self.clear()
         self.camera.use()
-        self.scene.draw()
+        self.scene["Collision Layer"].draw()
+        self.scene["Ground Layer"].draw()
+        self.scene["Ground Layer 2"].draw()
+        self.scene["Ground Layer 3"].draw()
+        self.scene["Collision Layer 2"].draw()
+
+        draw_priority = arcade.SpriteList()
+        draw_priority.extend(self.scene["Player"])
+        draw_priority.extend(self.scene["Enemies"])
+        sprite_priority = sorted(draw_priority, key=lambda sprite: sprite.center_y, reverse=True)
+
+        for sprite in sprite_priority:
+            sprite.draw()
+
+        self.scene["Top Layer"].draw()
 
         # code to check the hitbox
         hitbox = self.player.get_hit_box()
@@ -161,10 +175,10 @@ class Game(arcade.Window):
         for enemy in self.enemies:
             hitbox = enemy.get_hit_box()
             scaled_hitbox = [
-				(enemy.center_x + point[0] * enemy.scale,
-				enemy.center_y + point[1] * enemy.scale)
-				for point in hitbox
-			]
+                (enemy.center_x + point[0] * enemy.scale,
+                enemy.center_y + point[1] * enemy.scale)
+                for point in hitbox
+            ]
             arcade.draw_polygon_outline(scaled_hitbox, arcade.color.PAKISTAN_GREEN, 2)
 
         self.ui_manager.draw()
