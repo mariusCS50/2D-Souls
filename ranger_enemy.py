@@ -1,18 +1,21 @@
 import arcade
 import math
 from enemy import Enemy
+from projectile import Projectile
 
 class RangerEnemy(Enemy):
     def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
         super().__init__(enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
 
         self.damage = self.weapons[weapon_name]["damage"]
-        self.projectile_texture = self.weapons[weapon_name]["projectile"]
+        self.projectile_texture = self.weapons[weapon_name]["projectile_sprite"]
+        self.projectile_speed = self.weapons[weapon_name]["projectile_speed"]
 
         self.avoidance_distance = 150
 
         self.is_shooting = False
         self.can_shoot = True
+        self.shot_projectile = False
 
         self.shoot_time = 0.35
         self.shoot_timer = 0
@@ -20,10 +23,16 @@ class RangerEnemy(Enemy):
         self.shoot_cooldown = 1.5
         self.shoot_cooldown_timer = 0
 
+        self.shoot_dir_x = 0
+        self.shoot_dir_y = 0
+
     def walk(self, delta_time):
         diff_x = self.target.center_x - self.center_x
         diff_y = self.target.center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
+
+        self.shoot_dir_x = diff_x / distance
+        self.shoot_dir_y = diff_y / distance
 
         if abs(distance - self.avoidance_distance) < 10:
             self.dir_x = self.dir_y = 0
@@ -48,9 +57,23 @@ class RangerEnemy(Enemy):
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
-            self.ranger_weapon.update(self, self.current_facing_direction, self.scene, "Player")
+            if not self.shot_projectile:
+                projectile = Projectile(
+                    self.projectile_texture,
+                    self.center_x,
+                    self.center_y,
+                    self.shoot_dir_x,
+                    self.shoot_dir_y,
+                    self.projectile_speed,
+                    self.scene,
+                    "Player"
+                )
+
+                self.scene["Projectiles"].append(projectile)
+                self.shot_projectile = True
+
         else:
-            self.ranger_weapon.stop_update()
+            self.shot_projectile = False
             self.is_shooting = False
             self.shoot_timer = 0.0
 
