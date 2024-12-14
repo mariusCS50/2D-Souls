@@ -111,9 +111,5 @@ class Enemy(arcade.Sprite, ABC):
         )
 
     @abstractmethod
-    def follow_target(self, delta_time):
-        pass
-
-    @abstractmethod
     def on_update(self, delta_time):
         pass
