@@ -70,9 +70,7 @@ class IslandScene(arcade.Scene):
         draw_priority = arcade.SpriteList()
         draw_priority.extend(self["Player"])
         draw_priority.extend(self["Projectiles"])
-
-        if not self.is_lobby:
-            draw_priority.extend(self["Enemies"])
+        draw_priority.extend(self["Enemies"])
 
         sprite_priority = sorted(draw_priority, key=lambda sprite: sprite.center_y, reverse=True)
         for sprite in sprite_priority:

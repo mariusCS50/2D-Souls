@@ -19,7 +19,6 @@ class Enemy(arcade.Sprite, ABC):
 
         self.max_health = self._health = health
 
-        self.target = scene["Player"][0]
         self.vision_radius = vision_radius
 
         self.timer = 0
@@ -57,6 +56,9 @@ class Enemy(arcade.Sprite, ABC):
         self.animation_walk_timer = 0
 
         self.set_custom_hitbox()
+
+    def get_target(self):
+        return self.scene["Player"][0]
 
     @property
     def health(self):
@@ -132,7 +134,7 @@ class Enemy(arcade.Sprite, ABC):
     def has_line_of_sight(self):
         return arcade.has_line_of_sight(
             self.position,
-            self.target.position,
+            self.get_target().position,
             self.collision_layers,
             self.vision_radius
         )

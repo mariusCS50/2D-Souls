@@ -19,7 +19,7 @@ class MeleeEnemy(Enemy):
 
     def attack(self, delta_time):
         if self.attack_timer == 0:
-            self.target.take_damage(self.damage)
+            self.get_target().take_damage(self.damage)
 
         self.attack_timer += delta_time
         if self.attack_timer <= self.attack_speed:
@@ -39,8 +39,8 @@ class MeleeEnemy(Enemy):
                 self.attack_cooldown_timer = 0.0
 
     def follow_target(self, delta_time):
-        diff_x = self.target.center_x - self.center_x
-        diff_y = self.target.center_y - self.center_y
+        diff_x = self.get_target().center_x - self.center_x
+        diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
         if distance > 50:
@@ -51,11 +51,11 @@ class MeleeEnemy(Enemy):
             new_y = self.center_y + self.dir_y * self.speed * delta_time
 
             self.center_x = new_x
-            collides_x = arcade.check_for_collision(self, self.target)
+            collides_x = arcade.check_for_collision(self, self.get_target())
             self.center_x = self.center_x - self.dir_x * self.speed * delta_time
 
             self.center_y = new_y
-            collides_y = arcade.check_for_collision(self, self.target)
+            collides_y = arcade.check_for_collision(self, self.get_target())
             self.center_y = self.center_y - self.dir_y * self.speed * delta_time
 
             if not collides_x:
