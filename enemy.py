@@ -36,7 +36,7 @@ class Enemy(arcade.Sprite, ABC):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.directions = EnemyResources().get_walking_directions()
+        self.directions = EnemyResources.get_walking_directions()
 
         self.collision_layers = collision_layers
         self.physics_engine = arcade.PhysicsEngineSimple(self, self.collision_layers)

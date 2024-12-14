@@ -70,6 +70,7 @@ class Game(arcade.Window):
                 pos_x=self.map_width / 2,
                 pos_y=300,
                 speed=50,
+                health=20,
                 scene=self.scene,
                 vision_radius=200,
                 collision_layers=collision_layers,
