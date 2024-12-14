@@ -8,12 +8,37 @@ class MeleeEnemy(Enemy):
 
         self.damage = damage
 
+    def attack(self, delta_time):
+        self.is_attacking = True
+
+        if self.attack_timer == 0:
+                self.target.take_damage(self.damage)
+
+        self.attack_timer += delta_time
+        if self.attack_timer <= self.attack_speed:
+            self.texture = self.enemy_textures["attack"][self.current_facing_direction]
+            self.change_x = 0
+            self.change_y = 0
+        else:
+            self.is_attacking = False
+            self.can_attack = False
+            self.cooldown_timer = self.attack_cooldown
+            self.attack_timer = 0.0
+            self.texture = self.enemy_textures["idle"][self.current_facing_direction]
+
+    def attack_cooldown_update(self, delta_time):
+        if not self.can_attack:
+            self.attack_cooldown_timer += delta_time
+            if self.attack_cooldown_timer >= self.attack_cooldown:
+                self.can_attack = True
+                self.attack_cooldown_timer = 0.0
+
     def found_target_logic(self, delta_time):
         diff_x = self.target.center_x - self.center_x
         diff_y = self.target.center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
-        if distance > 50:
+        if not self.is_attacking and self.can_attack and distance > 50:
             self.dir_x = diff_x / distance
             self.dir_y = diff_y / distance
 
@@ -41,9 +66,7 @@ class MeleeEnemy(Enemy):
             self.current_facing_direction = self.get_facing_direction()
             self.animate_walk(delta_time)
 
-        else:
-            self.change_x = 0
-            self.change_y = 0
+        elif self.can_attack:
+            self.attack(delta_time)
 
-        # if arcade.check_for_collision(self, self.target):
-            # self.target.take_damage(self.damage)
+        self.attack_cooldown_update(delta_time)

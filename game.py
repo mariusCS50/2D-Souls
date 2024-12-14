@@ -68,7 +68,7 @@ class Game(arcade.Window):
                 enemy_type="winter_orc",
                 pos_x=self.map_width / 2,
                 pos_y=300,
-                speed=100,
+                speed=150,
                 scene=self.scene,
                 vision_radius=200,
                 collision_layers=collision_layers,

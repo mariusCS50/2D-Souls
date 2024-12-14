@@ -22,6 +22,9 @@ class Enemy(arcade.Sprite, ABC):
         self.wandering_time = 2
         self.staying_idle_time = 2
 
+        self.can_attack = True
+
+        self.is_attacking = False
         self.is_idle = True
         self.directions = EnemyResources().get_walking_directions()
 
@@ -32,6 +35,11 @@ class Enemy(arcade.Sprite, ABC):
 
         self.current_facing_direction = "down"
         self.texture = self.enemy_textures["idle"][self.current_facing_direction]
+
+        self.attack_speed = 0.3
+        self.attack_timer = 0
+        self.attack_cooldown = 0.5
+        self.attack_cooldown_timer = 0
 
         self.walk_texture_index = 0
         self.animation_walk_speed = 0.2

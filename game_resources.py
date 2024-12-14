@@ -96,6 +96,12 @@ class EnemyResources:
                         arcade.load_texture("assets/enemies/orc/winter/walk_right_2.png"),
                     ],
                 },
+                "attack": {
+                    "up": arcade.load_texture("assets/enemies/orc/winter/attack_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/winter/attack_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/winter/attack_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/winter/attack_right.png"),
+                }
             },
         }
 
