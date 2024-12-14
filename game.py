@@ -4,6 +4,7 @@ import arcade.gui
 from game_resources import MapResources
 from player import Player
 from melee_enemy import MeleeEnemy
+from ranger_enemy import RangerEnemy
 from island_scene import IslandScene
 
 class Game(arcade.Window):
@@ -46,6 +47,9 @@ class Game(arcade.Window):
         self.current_scene.set_right_scene(volcano_island)
 
         volcano_island["Player"].append(self.player)
+        
+        self.camera = arcade.Camera(self.width, self.height)
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player, self.collision_layers)
     
     def check_map_transition(self):
         new_scene = None

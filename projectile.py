@@ -36,7 +36,7 @@ class Projectile(arcade.Sprite):
             if arcade.check_for_collision_with_list(self, self.scene["Collision Layer 2"]):
                 self.scene["Projectiles"].remove(self)
                 return
-        
+
         hit_list = arcade.check_for_collision_with_list(self, self.scene[self.hit_layer_name])
         for hit in hit_list:
             hit.take_damage(self.damage)
