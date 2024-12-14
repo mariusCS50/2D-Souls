@@ -126,7 +126,7 @@ class WeaponResources:
                 "type": "ranged",
                 "damage": 10,
                 "sprite": None,
-                "projectile_sprite": arcade.load_texture("assets/projectile.png"),
+                "projectile_texture": arcade.load_texture("assets/projectile.png"),
                 "projectile_speed": 128
             }
         }

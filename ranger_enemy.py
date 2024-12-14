@@ -8,7 +8,7 @@ class RangerEnemy(Enemy):
         super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers)
 
         self.damage = self.weapons[weapon_name]["damage"]
-        self.projectile_texture = self.weapons[weapon_name]["projectile_sprite"]
+        self.projectile_texture = self.weapons[weapon_name]["projectile_texture"]
         self.projectile_speed = self.weapons[weapon_name]["projectile_speed"]
 
         self.avoidance_distance = 150
