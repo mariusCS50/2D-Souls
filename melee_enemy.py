@@ -5,8 +5,17 @@ from enemy import Enemy
 class MeleeEnemy(Enemy):
     def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
         super().__init__(enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers)
-        
+
         self.damage = self.weapons[weapon_name]["damage"]
+
+    def set_custom_hitbox(self):
+        hitbox = [
+            (-self.width / 2, -self.height),
+            (self.width / 2, -self.height),
+            (self.width / 2, 0),
+            (-self.width / 2, 0)
+        ]
+        self.set_hit_box(hitbox)
 
     def attack(self, delta_time):
         if self.attack_timer == 0:

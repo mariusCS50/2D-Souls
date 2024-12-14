@@ -105,6 +105,38 @@ class EnemyResources:
                     "right": arcade.load_texture("assets/enemies/orc/winter/attack_right.png"),
                 }
             },
+            "volcano_orc": {
+                "idle": {
+                    "up": arcade.load_texture("assets/enemies/orc/volcano/idle_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/volcano/idle_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/volcano/idle_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/volcano/idle_right.png"),
+                },
+                "walk": {
+                    "up": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_up_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_up_2.png"),
+                    ],
+                    "down": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_down_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_down_2.png"),
+                    ],
+                    "left": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_left_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_left_2.png"),
+                    ],
+                    "right": [
+                        arcade.load_texture("assets/enemies/orc/winter/walk_right_1.png"),
+                        arcade.load_texture("assets/enemies/orc/winter/walk_right_2.png"),
+                    ],
+                },
+                "attack": {
+                    "up": arcade.load_texture("assets/enemies/orc/winter/attack_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/winter/attack_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/winter/attack_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/winter/attack_right.png"),
+                }
+            }
         }
 
     def get_walking_directions(self):

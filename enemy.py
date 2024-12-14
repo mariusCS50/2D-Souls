@@ -50,14 +50,9 @@ class Enemy(arcade.Sprite, ABC):
 
         self.set_custom_hitbox()
 
+    @abstractmethod
     def set_custom_hitbox(self):
-        hitbox = [
-            (-self.width / 2, -self.height),
-            (self.width / 2, -self.height),
-            (self.width / 2, 0),
-            (-self.width / 2, 0)
-        ]
-        self.set_hit_box(hitbox)
+        pass
 
     def get_facing_direction(self):
         if abs(self.dir_x) > abs(self.dir_y):
@@ -94,8 +89,8 @@ class Enemy(arcade.Sprite, ABC):
                 self.current_facing_direction = self.get_facing_direction()
 
         else:
-            self.change_x = self.dir_x * 50 * delta_time
-            self.change_y = self.dir_y * 50 * delta_time
+            self.change_x = self.dir_x * (self.speed / 2) * delta_time
+            self.change_y = self.dir_y * (self.speed / 2) * delta_time
             self.animate_walk(delta_time)
 
             if self.timer > self.wandering_time:
