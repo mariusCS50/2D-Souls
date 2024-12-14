@@ -1,10 +1,7 @@
 import arcade
 import math
-from game_resources import PlayerResources
+from game_resources import PlayerResources, WeaponResources
 from health_bar import HealthBar
-from melee_weapon import MeleeWeapon
-from ranger_weapon import RangerWeapon
-from sword_hitbox_generator import SwordHitboxGenerator
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x, pos_y, scene):
@@ -50,9 +47,8 @@ class Player(arcade.Sprite):
         self.dodge_cooldown = 1.2
         self.dodge_cooldown_timer = 0
 
-        self.idle_textures = PlayerResources().get_idle_textures()
-        self.walking_textures = PlayerResources().get_walking_textures()
-        self.attack_textures = PlayerResources().get_attack_textures()
+        self.action_textures = PlayerResources().get_textures()
+        self.weapons = WeaponResources().get_weapons()
 
         self.current_facing_direction = "up"
         self.last_facing_direction = ""
@@ -64,7 +60,10 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon = MeleeWeapon(10, SwordHitboxGenerator())
+        self.weapon_name = "sword"
+
+        self.hitbox = None
+        self.shot_projectile = False
 
         self.set_custom_hitbox()
 
@@ -131,25 +130,48 @@ class Player(arcade.Sprite):
         if self.is_moving():
             if self.animation_walk_timer > self.animation_walk_speed:
                 self.walk_texture_index = (self.walk_texture_index + 1) % 2
-                self.texture = self.walking_textures[self.current_facing_direction][self.walk_texture_index]
+                self.texture = self.action_textures["walk"][self.current_facing_direction][self.walk_texture_index]
                 self.animation_walk_timer = 0
 
             elif self.current_facing_direction != self.last_facing_direction:
                 self.walk_texture_index = 0
-                self.texture = self.walking_textures[self.current_facing_direction][0]
+                self.texture = self.action_textures["walk"][self.current_facing_direction][0]
                 self.animation_walk_timer = 0
 
             self.animation_walk_timer += delta_time
         else:
-            self.texture = self.idle_textures[self.current_facing_direction]
+            self.texture = self.action_textures["idle"][self.current_facing_direction]
             self.animation_walk_timer = 0
 
     def walk(self, delta_time):
         self.update_dir()
         self.animate_walk(delta_time)
 
-        self.change_x = self.dir_x * self.speed * delta_time
-        self.change_y = self.dir_y * self.speed * delta_time
+        new_x = self.center_x + self.dir_x * self.speed * delta_time
+        new_y = self.center_y + self.dir_y * self.speed * delta_time
+
+        enemies_layer = self.scene["Enemies"]
+        if enemies_layer:
+            self.center_x = new_x
+            collides_x = len(arcade.check_for_collision_with_list(self, enemies_layer)) > 0
+            self.center_x = self.center_x - self.dir_x * self.speed * delta_time
+
+            self.center_y = new_y
+            collides_y = len(arcade.check_for_collision_with_list(self, enemies_layer)) > 0
+            self.center_y = self.center_y - self.dir_y * self.speed * delta_time
+
+            if not collides_x:
+                self.change_x = self.dir_x * self.speed * delta_time
+            else:
+                self.change_x = 0
+
+            if not collides_y:
+                self.change_y = self.dir_y * self.speed * delta_time
+            else:
+                self.change_y = 0
+        else:
+            self.change_x = self.dir_x * self.speed * delta_time
+            self.change_y = self.dir_y * self.speed * delta_time
 
     def dodge(self, delta_time):
         if not self.direction_lock:
@@ -176,18 +198,33 @@ class Player(arcade.Sprite):
 
     def attack(self, delta_time):
         if self.attack_timer <= self.attack_speed:
-            self.texture = self.attack_textures[self.current_facing_direction]
+            self.texture = self.action_textures["attack"][self.current_facing_direction]
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
-            self.weapon.update(self, self.current_facing_direction, self.scene, "Enemies")
+            if self.weapons[self.weapon_name]["type"] == "melee":
+                if not self.hitbox:
+                    hitbox_generator = self.weapons["sword"]["hitbox_generator"]
+                    self.hitbox = hitbox_generator.generate(self, self.current_facing_direction)
+
+                hit_list = arcade.check_for_collision_with_list(self.hitbox, self.scene["Enemies"])
+                for hit in hit_list:
+                    # TODO: Damage the hits
+                    self.scene["Enemies"].remove(hit)
+                    pass
+
+            elif self.weapons[self.weapon_name]["type"] == "range":
+                # TODO: Player range
+                pass
 
         else:
-            self.weapon.stop_update()
+            self.hitbox = None
+            self.shot_projectile = False
+
             self.is_attacking = False
             self.can_attack = False
             self.attack_timer = 0.0
-            self.texture = self.idle_textures[self.current_facing_direction]
+            self.texture = self.action_textures["idle"][self.current_facing_direction]
 
         self.attack_timer += delta_time
 
@@ -199,7 +236,7 @@ class Player(arcade.Sprite):
                 self.attack_cooldown_timer = 0
 
     def take_damage(self, damage):
-        if not self.is_invincible:
+        if not self.is_invincible and not self.is_dodging:
             self.health -= damage
             self.is_invincible = True
 

@@ -1,5 +1,7 @@
 import arcade
 
+from sword_hitbox_generator import SwordHitboxGenerator
+
 class MapResources:
     def __init__(self):
         self.transitions = {
@@ -25,47 +27,41 @@ class MapResources:
 
 class PlayerResources:
     def __init__(self):
-        self.idle_textures = {
-            "up": arcade.load_texture("assets/player/idle_up.png"),
-            "down": arcade.load_texture("assets/player/idle_down.png"),
-            "left": arcade.load_texture("assets/player/idle_left.png"),
-            "right": arcade.load_texture("assets/player/idle_right.png"),
+        self.action_textures = {
+            "idle" : {
+                "up": arcade.load_texture("assets/player/idle_up.png"),
+                "down": arcade.load_texture("assets/player/idle_down.png"),
+                "left": arcade.load_texture("assets/player/idle_left.png"),
+                "right": arcade.load_texture("assets/player/idle_right.png"),
+            },
+            "walk" : {
+                "up": [
+                    arcade.load_texture("assets/player/walk_up_1.png"),
+                    arcade.load_texture("assets/player/walk_up_2.png")
+                ],
+                "down": [
+                    arcade.load_texture("assets/player/walk_down_1.png"),
+                    arcade.load_texture("assets/player/walk_down_2.png")
+                ],
+                "left": [
+                    arcade.load_texture("assets/player/walk_left_1.png"),
+                    arcade.load_texture("assets/player/walk_left_2.png")
+                ],
+                "right": [
+                    arcade.load_texture("assets/player/walk_right_1.png"),
+                    arcade.load_texture("assets/player/walk_right_2.png")
+                ],
+            },
+            "attack" : {
+                "up": arcade.load_texture("assets/player/attack_up.png"),
+                "down": arcade.load_texture("assets/player/attack_down.png"),
+                "left": arcade.load_texture("assets/player/attack_left.png"),
+                "right": arcade.load_texture("assets/player/attack_right.png"),
+            }
         }
 
-        self.walking_textures = {
-            "up": [
-                arcade.load_texture("assets/player/walk_up_1.png"),
-                arcade.load_texture("assets/player/walk_up_2.png")
-            ],
-            "down": [
-                arcade.load_texture("assets/player/walk_down_1.png"),
-                arcade.load_texture("assets/player/walk_down_2.png")
-            ],
-            "left": [
-                arcade.load_texture("assets/player/walk_left_1.png"),
-                arcade.load_texture("assets/player/walk_left_2.png")
-            ],
-            "right": [
-                arcade.load_texture("assets/player/walk_right_1.png"),
-                arcade.load_texture("assets/player/walk_right_2.png")
-            ],
-        }
-
-        self.attack_textures = {
-            "up": arcade.load_texture("assets/player/attack_up.png"),
-            "down": arcade.load_texture("assets/player/attack_down.png"),
-            "left": arcade.load_texture("assets/player/attack_left.png"),
-            "right": arcade.load_texture("assets/player/attack_right.png"),
-        }
-
-    def get_idle_textures(self):
-        return self.idle_textures
-
-    def get_walking_textures(self):
-        return self.walking_textures
-
-    def get_attack_textures(self):
-        return self.attack_textures
+    def get_textures(self):
+        return self.action_textures
 
 class EnemyResources:
     def __init__(self):
@@ -102,6 +98,12 @@ class EnemyResources:
                         arcade.load_texture("assets/enemies/orc/winter/walk_right_2.png"),
                     ],
                 },
+                "attack": {
+                    "up": arcade.load_texture("assets/enemies/orc/winter/attack_up.png"),
+                    "down": arcade.load_texture("assets/enemies/orc/winter/attack_down.png"),
+                    "left": arcade.load_texture("assets/enemies/orc/winter/attack_left.png"),
+                    "right": arcade.load_texture("assets/enemies/orc/winter/attack_right.png"),
+                }
             },
         }
 
@@ -111,3 +113,23 @@ class EnemyResources:
     def get_textures(self, enemy_type):
         return self.textures[enemy_type]
 
+class WeaponResources:
+    def __init__(self):
+        self.weapons = {
+            "sword": {
+                "type": "melee",
+                "damage": 5,
+                "sprite": None,
+                "hitbox_generator": SwordHitboxGenerator()
+            },
+            "wand": {
+                "type": "ranged",
+                "damage": 10,
+                "sprite": None,
+                "projectile_sprite": None,
+                "projectile_speed": 128
+            }
+        }
+
+    def get_weapons(self):
+        return self.weapons

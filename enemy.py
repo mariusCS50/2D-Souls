@@ -1,7 +1,7 @@
 import arcade
 import random
 from abc import ABC, abstractmethod
-from game_resources import EnemyResources
+from game_resources import EnemyResources, WeaponResources
 
 class Enemy(arcade.Sprite, ABC):
     def __init__(self, enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
@@ -24,6 +24,9 @@ class Enemy(arcade.Sprite, ABC):
         self.wandering_time = 2
         self.staying_idle_time = 2
 
+        self.can_attack = False
+
+        self.is_attacking = False
         self.is_idle = True
         self.directions = EnemyResources().get_walking_directions()
 
@@ -31,9 +34,15 @@ class Enemy(arcade.Sprite, ABC):
         self.physics_engine = arcade.PhysicsEngineSimple(self, self.collision_layers)
 
         self.enemy_textures = EnemyResources().get_textures(enemy_type)
+        self.weapons = WeaponResources().get_weapons()
 
         self.current_facing_direction = "down"
         self.texture = self.enemy_textures["idle"][self.current_facing_direction]
+
+        self.attack_speed = 0.4
+        self.attack_timer = 0
+        self.attack_cooldown = 0.6
+        self.attack_cooldown_timer = 0
 
         self.walk_texture_index = 0
         self.animation_walk_speed = 0.2
@@ -102,13 +111,9 @@ class Enemy(arcade.Sprite, ABC):
         )
 
     @abstractmethod
-    def found_target_logic(self, delta_time):
+    def follow_target(self, delta_time):
         pass
 
+    @abstractmethod
     def on_update(self, delta_time):
-        self.physics_engine.update()
-
-        if self.has_line_of_sight():
-            self.found_target_logic(delta_time)
-        else:
-            self.wandering_logic(delta_time)
+        pass

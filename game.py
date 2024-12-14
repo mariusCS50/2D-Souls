@@ -4,8 +4,8 @@ import arcade.gui
 from game_resources import MapResources
 from player import Player
 from ranger_enemy import RangerEnemy
-from ranger_weapon import RangerWeapon
-from simple_enemy import SimpleEnemy
+from melee_enemy import MeleeEnemy
+
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
@@ -52,11 +52,10 @@ class Game(arcade.Window):
         self.collision_layers.extend(self.scene["Collision Layer"])
         self.collision_layers.extend(self.scene["Collision Layer 2"])
 
-        self.enemies = self.generate_enemies(self.collision_layers)
+        #self.enemies = self.generate_enemies(self.collision_layers)
 
         self.scene.add_sprite_list_after("Enemies", "Collision Layer 2")
-        self.scene["Enemies"].extend(self.enemies)
-        # self.collision_layers.extend(self.enemies)
+        #self.scene["Enemies"].extend(self.enemies)
 
         self.scene.add_sprite_list_after("Projectiles", "Collision Layer 2")
 
@@ -77,7 +76,7 @@ class Game(arcade.Window):
             ranger_weapon=RangerWeapon(10, "assets/projectile.png", 300)
         )
         enemies.append(enemy)
-        return enemies
+
 
     def check_map_transition(self):
         transition = None
@@ -124,7 +123,21 @@ class Game(arcade.Window):
     def on_draw(self):
         self.clear()
         self.camera.use()
-        self.scene.draw()
+        self.scene["Collision Layer"].draw()
+        self.scene["Ground Layer"].draw()
+        self.scene["Ground Layer 2"].draw()
+        self.scene["Ground Layer 3"].draw()
+        self.scene["Collision Layer 2"].draw()
+
+        draw_priority = arcade.SpriteList()
+        draw_priority.extend(self.scene["Player"])
+        draw_priority.extend(self.scene["Enemies"])
+        sprite_priority = sorted(draw_priority, key=lambda sprite: sprite.center_y, reverse=True)
+
+        for sprite in sprite_priority:
+            sprite.draw()
+
+        self.scene["Top Layer"].draw()
 
         # code to check the hitbox
         hitbox = self.player.get_hit_box()
@@ -135,15 +148,15 @@ class Game(arcade.Window):
         ]
         arcade.draw_polygon_outline(scaled_hitbox, arcade.color.RED, 2)
 
-        if self.player.is_attacking:
-            sword_hitbox = self.player.weapon.melee_hitbox_generator.generate(self.player, self.player.current_facing_direction)
-            sword_hitbox_vertices = sword_hitbox.get_hit_box()
-            scaled_sword_hitbox = [
-                (sword_hitbox.center_x + point[0],
-                sword_hitbox.center_y + point[1])
-                for point in sword_hitbox_vertices
-            ]
-            arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
+        # if self.player.is_attacking:
+        #     sword_hitbox = self.player.weapon.melee_hitbox_generator.generate(self.player, self.player.current_facing_direction)
+        #     sword_hitbox_vertices = sword_hitbox.get_hit_box()
+        #     scaled_sword_hitbox = [
+        #         (sword_hitbox.center_x + point[0],
+        #         sword_hitbox.center_y + point[1])
+        #         for point in sword_hitbox_vertices
+        #     ]
+        #     arcade.draw_polygon_outline(scaled_sword_hitbox, arcade.color.BLUE, 2)
 
         # for enemy in self.enemies:
         #         if arcade.has_line_of_sight(self.player.position,
@@ -160,14 +173,14 @@ class Game(arcade.Window):
         #                          color,
         #                          2)
 
-        for enemy in self.enemies:
-            hitbox = enemy.get_hit_box()
-            scaled_hitbox = [
-				(enemy.center_x + point[0] * enemy.scale,
-				enemy.center_y + point[1] * enemy.scale)
-				for point in hitbox
-			]
-            arcade.draw_polygon_outline(scaled_hitbox, arcade.color.PAKISTAN_GREEN, 2)
+        # for enemy in self.enemies:
+        #     hitbox = enemy.get_hit_box()
+        #     scaled_hitbox = [
+        #         (enemy.center_x + point[0] * enemy.scale,
+        #         enemy.center_y + point[1] * enemy.scale)
+        #         for point in hitbox
+        #     ]
+        #     arcade.draw_polygon_outline(scaled_hitbox, arcade.color.PAKISTAN_GREEN, 2)
 
         self.ui_manager.draw()
 
