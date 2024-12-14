@@ -7,6 +7,8 @@ class Enemy(arcade.Sprite, ABC):
     def __init__(self, enemy_type, pos_x, pos_y, speed, vision_radius, scene, collision_layers):
         super().__init__(texture=arcade.load_texture("assets/temp_player.png"), scale=0.5)
 
+        self.scene = scene
+
         self.center_x = pos_x
         self.center_y = pos_y
 

@@ -3,7 +3,9 @@ import arcade.key
 import arcade.gui
 from game_resources import MapResources
 from player import Player
+from ranger_enemy import RangerEnemy
 from melee_enemy import MeleeEnemy
+
 
 class Game(arcade.Window):
     def __init__(self, width=800, height=600, title="2D Souls"):
@@ -63,19 +65,18 @@ class Game(arcade.Window):
     def generate_enemies(self, collision_layers):
         enemies = arcade.SpriteList()
 
-        for i in range(0,1):
-            enemy = MeleeEnemy(
-                enemy_type="winter_orc",
-                pos_x=self.map_width / 2,
-                pos_y=300,
-                speed=50,
-                scene=self.scene,
-                vision_radius=200,
-                collision_layers=collision_layers,
-                damage=5
-            )
-            enemies.append(enemy)
-        return enemies
+        enemy = RangerEnemy(
+            enemy_type="winter_orc",
+            pos_x=self.map_width / 2,
+            pos_y=300,
+            speed=100,
+            scene=self.scene,
+            vision_radius=200,
+            collision_layers=collision_layers,
+            ranger_weapon=RangerWeapon(10, "assets/projectile.png", 300)
+        )
+        enemies.append(enemy)
+
 
     def check_map_transition(self):
         transition = None

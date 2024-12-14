@@ -11,28 +11,76 @@ class RangerEnemy(Enemy):
 
         self.avoidance_distance = 150
 
-        self.shoot_dir_x = 0
-        self.shoot_dir_y = 0
+        self.is_shooting = False
+        self.can_shoot = True
 
-    def follow_target(self, delta_time):
+        self.shoot_time = 0.35
+        self.shoot_timer = 0
+
+        self.shoot_cooldown = 1.5
+        self.shoot_cooldown_timer = 0
+
+    def walk(self, delta_time):
         diff_x = self.target.center_x - self.center_x
         diff_y = self.target.center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
-        self.shoot_dir_x = diff_x / distance
-        self.shoot_dir_y = diff_y / distance
-
-        if distance > self.avoidance_distance:
-            self.dir_x = self.shoot_dir_x
-            self.dir_y = self.shoot_dir_y
-        elif abs(distance - self.avoidance_distance) < 1:
+        if abs(distance - self.avoidance_distance) < 10:
             self.dir_x = self.dir_y = 0
+            self.texture = self.enemy_textures["idle"][self.current_facing_direction]
         else:
-            self.dir_x = -self.shoot_dir_x
-            self.dir_y = -self.shoot_dir_y
+            self.dir_x = diff_x / distance
+            self.dir_y = diff_y / distance
+
+            self.current_facing_direction = self.get_facing_direction()
+
+            if distance <= self.avoidance_distance:
+                self.dir_x *= -1
+                self.dir_y *= -1
+
+            self.animate_walk(delta_time)
 
         self.change_x = self.dir_x * self.speed * delta_time
         self.change_y = self.dir_y * self.speed * delta_time
 
-        # TODO: shoot player with arrows
+    def shoot(self, delta_time):
+        if self.shoot_timer <= self.shoot_time:
+            self.change_x = self.dir_x = 0
+            self.change_y = self.dir_y = 0
+
+            self.ranger_weapon.update(self, self.current_facing_direction, self.scene, "Player")
+        else:
+            self.ranger_weapon.stop_update()
+            self.is_shooting = False
+            self.shoot_timer = 0.0
+
+        self.shoot_timer += delta_time
+
+    def shoot_cooldown_update(self, delta_time):
+        if not self.can_shoot:
+            self.shoot_cooldown_timer += delta_time
+            if self.shoot_cooldown_timer > self.shoot_cooldown:
+                self.can_shoot = True
+                self.shoot_cooldown_timer = 0
+
+    def found_target_logic(self, delta_time):
         pass
+
+    def on_update(self, delta_time):
+        self.physics_engine.update()
+
+        if self.is_shooting:
+            self.shoot(delta_time)
+
+        elif self.has_line_of_sight():
+            self.walk(delta_time)
+
+            if self.can_shoot:
+                self.is_shooting = True
+                self.can_shoot = False
+
+                self.shoot(delta_time) 
+        else:
+            self.wandering_logic(delta_time)
+
+        self.shoot_cooldown_update(delta_time)
