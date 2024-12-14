@@ -231,36 +231,100 @@ class EnemyResources:
                 "right": arcade.load_texture("assets/enemies/orc/volcano/attack_right.png"),
             }
         },
-        "volcano_slime": {
+        "cave_slime": {
             "idle": {
-                "up": arcade.load_texture("assets/enemies/orc/volcano/idle_up.png"),
-                "down": arcade.load_texture("assets/enemies/slime/volcano/idle_down.png"),
-                "left": arcade.load_texture("assets/enemies/orc/volcano/idle_left.png"),
-                "right": arcade.load_texture("assets/enemies/orc/volcano/idle_right.png"),
+                "up": arcade.load_texture("assets/enemies/slime/cave/idle_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/cave/idle_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/cave/idle_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/cave/idle_right.png"),
             },
             "walk": {
                 "up": [
-                    arcade.load_texture("assets/enemies/orc/volcano/walk_up_1.png"),
-                    arcade.load_texture("assets/enemies/orc/volcano/walk_up_2.png"),
+                    arcade.load_texture("assets/enemies/slime/cave/walk_up_1.png"),
+                    arcade.load_texture("assets/enemies/slime/cave/walk_up_2.png"),
                 ],
                 "down": [
-                    arcade.load_texture("assets/enemies/orc/volcano/walk_down_1.png"),
-                    arcade.load_texture("assets/enemies/orc/volcano/walk_down_2.png"),
+                    arcade.load_texture("assets/enemies/slime/cave/walk_down_1.png"),
+                    arcade.load_texture("assets/enemies/slime/cave/walk_down_2.png"),
                 ],
                 "left": [
-                    arcade.load_texture("assets/enemies/orc/volcano/walk_left_1.png"),
-                    arcade.load_texture("assets/enemies/orc/volcano/walk_left_2.png"),
+                    arcade.load_texture("assets/enemies/slime/cave/walk_left_1.png"),
+                    arcade.load_texture("assets/enemies/slime/cave/walk_left_2.png"),
                 ],
                 "right": [
-                    arcade.load_texture("assets/enemies/orc/volcano/walk_right_1.png"),
-                    arcade.load_texture("assets/enemies/orc/volcano/walk_right_2.png"),
+                    arcade.load_texture("assets/enemies/slime/cave/walk_right_1.png"),
+                    arcade.load_texture("assets/enemies/slime/cave/walk_right_2.png"),
                 ],
             },
             "attack": {
-                "up": arcade.load_texture("assets/enemies/orc/volcano/attack_up.png"),
-                "down": arcade.load_texture("assets/enemies/orc/volcano/attack_down.png"),
-                "left": arcade.load_texture("assets/enemies/orc/volcano/attack_left.png"),
-                "right": arcade.load_texture("assets/enemies/orc/volcano/attack_right.png"),
+                "up": arcade.load_texture("assets/enemies/slime/cave/attack_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/cave/attack_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/cave/attack_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/cave/attack_right.png"),
+            }
+        },
+        "winter_slime": {
+            "idle": {
+                "up": arcade.load_texture("assets/enemies/slime/winter/idle_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/winter/idle_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/winter/idle_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/winter/idle_right.png"),
+            },
+            "walk": {
+                "up": [
+                    arcade.load_texture("assets/enemies/slime/winter/walk_up_1.png"),
+                    arcade.load_texture("assets/enemies/slime/winter/walk_up_2.png"),
+                ],
+                "down": [
+                    arcade.load_texture("assets/enemies/slime/winter/walk_down_1.png"),
+                    arcade.load_texture("assets/enemies/slime/winter/walk_down_2.png"),
+                ],
+                "left": [
+                    arcade.load_texture("assets/enemies/slime/winter/walk_left_1.png"),
+                    arcade.load_texture("assets/enemies/slime/winter/walk_left_2.png"),
+                ],
+                "right": [
+                    arcade.load_texture("assets/enemies/slime/winter/walk_right_1.png"),
+                    arcade.load_texture("assets/enemies/slime/winter/walk_right_2.png"),
+                ],
+            },
+            "attack": {
+                "up": arcade.load_texture("assets/enemies/slime/winter/attack_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/winter/attack_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/winter/attack_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/winter/attack_right.png"),
+            }
+        },
+        "volcano_slime": {
+            "idle": {
+                "up": arcade.load_texture("assets/enemies/slime/volcano/idle_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/volcano/idle_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/volcano/idle_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/volcano/idle_right.png"),
+            },
+            "walk": {
+                "up": [
+                    arcade.load_texture("assets/enemies/slime/volcano/walk_up_1.png"),
+                    arcade.load_texture("assets/enemies/slime/volcano/walk_up_2.png"),
+                ],
+                "down": [
+                    arcade.load_texture("assets/enemies/slime/volcano/walk_down_1.png"),
+                    arcade.load_texture("assets/enemies/slime/volcano/walk_down_2.png"),
+                ],
+                "left": [
+                    arcade.load_texture("assets/enemies/slime/volcano/walk_left_1.png"),
+                    arcade.load_texture("assets/enemies/slime/volcano/walk_left_2.png"),
+                ],
+                "right": [
+                    arcade.load_texture("assets/enemies/slime/volcano/walk_right_1.png"),
+                    arcade.load_texture("assets/enemies/slime/volcano/walk_right_2.png"),
+                ],
+            },
+            "attack": {
+                "up": arcade.load_texture("assets/enemies/slime/volcano/attack_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/volcano/attack_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/volcano/attack_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/volcano/attack_right.png"),
             }
         }
     }
@@ -281,11 +345,25 @@ class WeaponResources:
             "sprite": None,
             "hitbox_generator": SwordHitboxGenerator()
         },
-        "wand": {
+        "water_wand": {
+            "type": "ranged",
+            "damage": 5,
+            "sprite": None,
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/water_projectile.png"),
+            "projectile_speed": 175
+        },
+        "ice_wand": {
             "type": "ranged",
             "damage": 10,
             "sprite": None,
-            "projectile_texture": arcade.load_texture("assets/projectile.png"),
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/ice_projectile.png"),
+            "projectile_speed": 150
+        },
+        "fire_wand": {
+            "type": "ranged",
+            "damage": 20,
+            "sprite": None,
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/magma_projectile.png"),
             "projectile_speed": 128
         }
     }

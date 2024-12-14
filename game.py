@@ -80,7 +80,7 @@ class Game(arcade.Window):
 
         enemy = RangerEnemy(
             enemy_type="volcano_slime",
-            weapon_name="wand",
+            weapon_name="ice_wand",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
@@ -144,7 +144,6 @@ class Game(arcade.Window):
         self.scene["Ground Layer 2"].draw()
         self.scene["Ground Layer 3"].draw()
         self.scene["Collision Layer 2"].draw()
-        self.scene["Projectiles"].draw()
 
         draw_priority = arcade.SpriteList()
         draw_priority.extend(self.scene["Player"])
@@ -154,6 +153,7 @@ class Game(arcade.Window):
         for sprite in sprite_priority:
             sprite.draw()
 
+        self.scene["Projectiles"].draw()
         self.scene["Top Layer"].draw()
 
         # code to check the hitbox
