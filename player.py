@@ -2,6 +2,7 @@ import arcade
 import math
 from game_resources import PlayerResources, WeaponResources
 from health_bar import HealthBar
+from projectile import Projectile
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x, pos_y, scene):
@@ -204,7 +205,7 @@ class Player(arcade.Sprite):
 
             if self.weapons[self.weapon_name]["type"] == "melee":
                 if not self.hitbox:
-                    hitbox_generator = self.weapons["sword"]["hitbox_generator"]
+                    hitbox_generator = self.weapons[self.weapon_name]["hitbox_generator"]
                     self.hitbox = hitbox_generator.generate(self, self.current_facing_direction)
 
                 hit_list = arcade.check_for_collision_with_list(self.hitbox, self.scene["Enemies"])
@@ -214,8 +215,20 @@ class Player(arcade.Sprite):
                     pass
 
             elif self.weapons[self.weapon_name]["type"] == "range":
-                # TODO: Player range
-                pass
+                if not self.shot_projectile:
+                    projectile = Projectile(
+                        self.projectile_texture,
+                        self.center_x,
+                        self.center_y,
+                        self.shoot_dir_x,
+                        self.shoot_dir_y,
+                        self.projectile_speed,
+                        self.scene,
+                        "Enemies"
+                    )
+
+                    self.scene["Projectiles"].append(projectile)
+                    self.shot_projectile = True
 
         else:
             self.hitbox = None
