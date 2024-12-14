@@ -19,7 +19,7 @@ class MapResources:
             "down": ("assets/maps/lobby.tmx", "up")
         }
     }
-
+    
     enemies = {
         "volcano_island" : [
             (656, 848, "volcano_orc"),

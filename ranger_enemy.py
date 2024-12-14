@@ -36,8 +36,8 @@ class RangerEnemy(Enemy):
         self.set_hit_box(hitbox)
 
     def walk(self, delta_time):
-        diff_x = self.target.center_x - self.center_x
-        diff_y = self.target.center_y - self.center_y
+        diff_x = self.get_target().center_x - self.center_x
+        diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
         self.shoot_dir_x = diff_x / distance
