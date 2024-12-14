@@ -114,20 +114,20 @@ class EnemyResources:
                 },
                 "walk": {
                     "up": [
-                        arcade.load_texture("assets/enemies/orc/winter/walk_up_1.png"),
-                        arcade.load_texture("assets/enemies/orc/winter/walk_up_2.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_up_1.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_up_2.png"),
                     ],
                     "down": [
-                        arcade.load_texture("assets/enemies/orc/winter/walk_down_1.png"),
-                        arcade.load_texture("assets/enemies/orc/winter/walk_down_2.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_down_1.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_down_2.png"),
                     ],
                     "left": [
-                        arcade.load_texture("assets/enemies/orc/winter/walk_left_1.png"),
-                        arcade.load_texture("assets/enemies/orc/winter/walk_left_2.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_left_1.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_left_2.png"),
                     ],
                     "right": [
-                        arcade.load_texture("assets/enemies/orc/winter/walk_right_1.png"),
-                        arcade.load_texture("assets/enemies/orc/winter/walk_right_2.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_right_1.png"),
+                        arcade.load_texture("assets/enemies/orc/volcano/walk_right_2.png"),
                     ],
                 },
                 "attack": {
