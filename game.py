@@ -121,8 +121,6 @@ class Game(arcade.Window):
             if self.player.is_moving() and self.player.can_dodge and not self.player.is_attacking:
                 self.player.is_dodging = True
                 self.player.can_dodge = False
-        elif key == arcade.key.K and self.player.can_attack:
-            self.player.is_attacking = True
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W:
