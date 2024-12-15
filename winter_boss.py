@@ -21,7 +21,7 @@ class WinterBoss(arcade.Sprite):
 
         self.speed = 100
 
-        self.max_health = self._health = 150
+        self.max_health = self._health = 1
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
@@ -29,6 +29,7 @@ class WinterBoss(arcade.Sprite):
         self.is_shooting = False
         self.can_shoot = False
         self.is_invincible = False
+        self.is_dying = False
 
         self.invincible_time = 1
         self.invincible_timer = 0
@@ -84,7 +85,10 @@ class WinterBoss(arcade.Sprite):
         self._health = val
 
     def die(self):
-        self.scene["Boss"].remove(self)
+        self.change_x = 0
+        self.change_y = 0
+        self.is_dying = True
+        self.texture = self.boss_textures["death"][self.current_facing_direction]
 
     def get_facing_direction(self):
         if abs(self.dir_x) > abs(self.dir_y):
@@ -171,6 +175,14 @@ class WinterBoss(arcade.Sprite):
                 self.is_invincible = False
                 self.invincible_timer = 0
                 self.alpha = 255
+
+    def death_timer_update(self, delta_time):
+        if self.is_dying:
+            self.death_timer += delta_time
+            if self.death_timer >= self.death_time:
+                self.scene["Boss"].remove(self)
+                self.death_timer = 0
+                self.is_dying = False
 
     def on_update(self, delta_time):
         self.physics_engine.update()
