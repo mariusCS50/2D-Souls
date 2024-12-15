@@ -77,7 +77,7 @@ class RangerEnemy(Enemy):
                     self.projectile_speed,
                     self.damage,
                     self.scene,
-                    "Player"
+                    ["Player"]
                 )
 
                 self.scene["Projectiles"].append(projectile)

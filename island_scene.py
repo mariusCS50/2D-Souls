@@ -4,6 +4,7 @@ from game_resources import MapResources
 from game_resources import WeaponResources
 from melee_enemy import MeleeEnemy
 from ranger_enemy import RangerEnemy
+from winter_boss import WinterBoss
 
 class IslandScene(arcade.Scene):
     def __init__(self, island_name, is_lobby):
@@ -24,6 +25,7 @@ class IslandScene(arcade.Scene):
         self.add_sprite_list_after("Player", "Collision Layer 3")
         self.add_sprite_list_after("Projectiles", "Collision Layer 3")
         self.add_sprite_list_after("Enemies", "Collision Layer 3")
+        self.add_sprite_list_after("Boss", "Collision Layer 3")
         self.add_sprite_list_after("Drops", "Collision Layer 3")
 
         hidden_bow_info = MapResources.get_hidden_bows_info(island_name)
@@ -35,7 +37,7 @@ class IslandScene(arcade.Scene):
             self["Drops"].append(DropSprite(name, WeaponResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
 
         # TODO: Add enemies
-        self.enemies = arcade.SpriteList()
+        # self.enemies = arcade.SpriteList()
 
         # enemy = RangerEnemy(
         #     enemy_type="cave_slime",
@@ -71,6 +73,33 @@ class IslandScene(arcade.Scene):
         self.enemies.append(enemy)
 
         self["Enemies"].extend(self.enemies)
+
+        # enemies.append(enemy)
+
+        # self["Enemies"].extend(enemies)
+
+#         self["Boss"].append(WinterBoss(self.map_width / 2, 500, self))
+        
+#         enemy = MeleeEnemy(
+#             enemy_type="cave_orc",
+#             weapon_name="sword",
+#             pos_x=self.map_width / 2,
+#             pos_y=300,
+#             speed=100,
+#             health=20,
+#            	attack_time=0.2,
+#             attack_cooldown=1.5,
+#             vision_radius=300,
+#             drops = {
+#                 "sword": 0.5
+#             },
+#             scene=self,
+#             collision_layers=self.collision_layers
+#         )
+
+#         self.enemies.append(enemy)
+
+#         self["Enemies"].extend(self.enemies)
 
         self.is_lobby = is_lobby
         self.spawned_boss = False
@@ -122,6 +151,7 @@ class IslandScene(arcade.Scene):
         draw_priority.extend(self["Player"])
         draw_priority.extend(self["Projectiles"])
         draw_priority.extend(self["Enemies"])
+        draw_priority.extend(self["Boss"])
 
         sprite_priority = sorted(draw_priority, key=lambda sprite: sprite.center_y, reverse=True)
         for sprite in sprite_priority:

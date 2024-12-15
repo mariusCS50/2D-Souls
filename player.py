@@ -239,7 +239,7 @@ class Player(arcade.Sprite):
                         self.weapons[self.weapon_name]["projectile_speed"],
                         self.weapons[self.weapon_name]["damage"],
                         self.scene,
-                        "Enemies"
+                        ["Enemies", "Boss"]
                     )
 
                     self.scene["Projectiles"].append(projectile)
