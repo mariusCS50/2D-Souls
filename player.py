@@ -37,9 +37,9 @@ class Player(arcade.Sprite):
         self.can_dodge = True
         self.can_attack = True
 
-        self.attack_time = 0.35
+        self.attack_time = 0.3
         self.attack_timer = 0
-        self.attack_cooldown = 0.45
+        self.attack_cooldown = 0.5
         self.attack_cooldown_timer = 0
 
         self.dodge_speed = 400
