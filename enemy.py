@@ -2,7 +2,7 @@ import arcade
 import random
 from abc import ABC, abstractmethod
 from game_resources import EnemyResources, WeaponResources
-from named_sprite import NamedSprite
+from drop_sprite import DropSprite
 
 class Enemy(arcade.Sprite, ABC):
     def __init__(self, enemy_type, pos_x, pos_y, speed, health, vision_radius, drops, scene, collision_layers):
@@ -70,7 +70,7 @@ class Enemy(arcade.Sprite, ABC):
     def die(self):
         drop = random.choices(list(self.drops.keys()), weights=list(self.drops.values()))[0]
         if drop is not None:
-            self.scene["Drops"].append(NamedSprite(drop, self.weapons[drop]["texture"], self.center_x, self.center_y))
+            self.scene["Drops"].append(DropSprite(drop, self.weapons[drop]["texture"], self.center_x, self.center_y, self.scene))
 
         self.scene["Enemies"].remove(self)
 
