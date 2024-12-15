@@ -2,9 +2,10 @@ import arcade
 import random
 from abc import ABC, abstractmethod
 from game_resources import EnemyResources, WeaponResources
+from named_sprite import NamedSprite
 
 class Enemy(arcade.Sprite, ABC):
-    def __init__(self, enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers):
+    def __init__(self, enemy_type, pos_x, pos_y, speed, health, vision_radius, drops, scene, collision_layers):
         super().__init__(scale=0.5)
 
         self.scene = scene
@@ -47,6 +48,9 @@ class Enemy(arcade.Sprite, ABC):
         self.animation_walk_time = 0.2
         self.animation_walk_timer = 0
 
+        self.drops = drops
+        self.drops[None] = 1 - sum(p for p in self.drops.values())
+
         self.set_custom_hitbox()
 
     def get_target(self):
@@ -59,9 +63,16 @@ class Enemy(arcade.Sprite, ABC):
     @health.setter
     def health(self, val):
         if val <= 0:
-            self.scene["Enemies"].remove(self)
+            self.die()
 
         self._health = val
+
+    def die(self):
+        drop = random.choices(list(self.drops.keys()), weights=list(self.drops.values()))[0]
+        if drop is not None:
+            self.scene["Drops"].append(NamedSprite(drop, self.weapons[drop]["texture"], self.center_x, self.center_y))
+
+        self.scene["Enemies"].remove(self)
 
     @abstractmethod
     def set_custom_hitbox(self):
