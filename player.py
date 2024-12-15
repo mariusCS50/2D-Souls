@@ -61,7 +61,7 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon_name = "fire_wand"
+        self.weapon_name = "lobby_bow"
 
         self.melee_hitbox = None
         self.shot_projectile = False
@@ -196,9 +196,12 @@ class Player(arcade.Sprite):
             self.change_y = self.dir_y = 0
 
             if self.weapons[self.weapon_name]["type"] == "melee":
-                self.texture = self.action_textures["attack"][self.current_facing_direction]
-
                 if not self.melee_hitbox:
+                    if "sword" in self.weapon_name:
+                        self.texture = self.action_textures["attack"]["sword"][self.current_facing_direction]
+                    elif "spear" in self.weapon_name:
+                        self.texture = self.action_textures["attack"]["spear"][self.current_facing_direction]
+
                     hitbox_generator = self.weapons[self.weapon_name]["hitbox_generator"]
                     self.melee_hitbox = hitbox_generator.generate(self, self.current_facing_direction)
 
@@ -220,7 +223,11 @@ class Player(arcade.Sprite):
                     shoot_y_dir /= distance
 
                     shoot_facing_direction = self.get_facing_direction(shoot_x_dir, shoot_y_dir)
-                    self.texture = self.action_textures["attack"][shoot_facing_direction]
+
+                    if "bow" in self.weapon_name:
+                        self.texture = self.action_textures["attack"]["bow"][shoot_facing_direction]
+                    elif "wand" in self.weapon_name:
+                        self.texture = self.action_textures["attack"]["wand"][shoot_facing_direction]
 
                     projectile = Projectile(
                         self.weapons[self.weapon_name]["projectile_texture"],

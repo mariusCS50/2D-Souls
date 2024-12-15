@@ -110,10 +110,30 @@ class PlayerResources:
             ],
         },
         "attack" : {
-            "up": arcade.load_texture("assets/player/attack_up.png"),
-            "down": arcade.load_texture("assets/player/attack_down.png"),
-            "left": arcade.load_texture("assets/player/attack_left.png"),
-            "right": arcade.load_texture("assets/player/attack_right.png"),
+            "sword": {
+                "up": arcade.load_texture("assets/player/attack_sword_up.png"),
+                "down": arcade.load_texture("assets/player/attack_sword_down.png"),
+                "left": arcade.load_texture("assets/player/attack_sword_left.png"),
+                "right": arcade.load_texture("assets/player/attack_sword_right.png")
+            },
+            "spear": {
+                "up": arcade.load_texture("assets/player/attack_spear_up.png"),
+                "down": arcade.load_texture("assets/player/attack_spear_down.png"),
+                "left": arcade.load_texture("assets/player/attack_spear_left.png"),
+                "right": arcade.load_texture("assets/player/attack_spear_right.png")
+            },
+            "bow": {
+                "up": arcade.load_texture("assets/player/attack_bow_up.png"),
+                "down": arcade.load_texture("assets/player/attack_bow_down.png"),
+                "left": arcade.load_texture("assets/player/attack_bow_left.png"),
+                "right": arcade.load_texture("assets/player/attack_bow_right.png")
+            },
+            "wand": {
+                "up": arcade.load_texture("assets/player/attack_wand_up.png"),
+                "down": arcade.load_texture("assets/player/attack_wand_down.png"),
+                "left": arcade.load_texture("assets/player/attack_wand_left.png"),
+                "right": arcade.load_texture("assets/player/attack_wand_right.png")
+            }
         }
     }
 
@@ -369,31 +389,34 @@ class EnemyResources:
         return EnemyResources.textures[enemy_type]
 
 class WeaponResources:
+    sword_hitbox_generator = SwordHitboxGenerator()
+    # TODO: Spear hitbox generator
+
     weapons = {
-        "sword": {
+        "cave_sword1": {
             "type": "melee",
             "damage": 5,
             "texture": arcade.load_texture("assets/weapons/melee/cave_sword1.png"),
-            "hitbox_generator": SwordHitboxGenerator()
+            "hitbox_generator": sword_hitbox_generator
         },
         "water_wand": {
             "type": "ranged",
             "damage": 5,
-            "texture": None,
+            "texture": arcade.load_texture("assets/weapons/ranged/water_wand.png"),
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/water_projectile.png"),
             "projectile_speed": 175
         },
         "ice_wand": {
             "type": "ranged",
             "damage": 10,
-            "texture": None,
+            "texture": arcade.load_texture("assets/weapons/ranged/ice_wand.png"),
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/ice_projectile.png"),
             "projectile_speed": 150
         },
         "fire_wand": {
             "type": "ranged",
             "damage": 20,
-            "texture": None,
+            "texture": arcade.load_texture("assets/weapons/ranged/fire_wand.png"),
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/magma_projectile.png"),
             "projectile_speed": 128
         },
@@ -415,7 +438,7 @@ class WeaponResources:
             "type": "melee",
             "damage": 20,
             "texture": arcade.load_texture("assets/weapons/melee/volcano_sword1.png"),
-            "hitbox_generator": SwordHitboxGenerator()
+            "hitbox_generator": sword_hitbox_generator
         }
     }
 
