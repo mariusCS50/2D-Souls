@@ -25,9 +25,6 @@ class Enemy(arcade.Sprite, ABC):
         self.wandering_time = 2
         self.staying_idle_time = 2
 
-        self.can_attack = False
-
-        self.is_attacking = False
         self.is_idle = True
 
         self.is_invincible = False

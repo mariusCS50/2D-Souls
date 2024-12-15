@@ -8,6 +8,9 @@ class MeleeEnemy(Enemy):
         
         self.damage = self.weapons[weapon_name]["damage"]
 
+        self.is_attacking = False
+        self.can_attack = True
+
         self.attack_time = 0.4
         self.attack_timer = 0
         self.attack_cooldown = 0.6
