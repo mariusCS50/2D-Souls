@@ -19,7 +19,7 @@ class Inventory(arcade.gui.UIWidget):
             self.start_y - spacing,
             inventory_width,
             cell_size + 2 * spacing,
-            (50, 50, 50, 200)
+            (70, 130, 180, 255)
         )
         self.add(self.background)
 
@@ -31,7 +31,7 @@ class Inventory(arcade.gui.UIWidget):
         for i in range(max_slots):
             slot_x = self.start_x + i * (cell_size + spacing)
             slot_y = self.start_y
-            slot = arcade.gui.UISpace(slot_x, slot_y, cell_size, cell_size, (200, 200, 200, 100))
+            slot = arcade.gui.UISpace(slot_x, slot_y, cell_size, cell_size, (0, 0, 0, 0))
             self.slot_elements.append(slot)
             self.add(slot)
 
@@ -42,11 +42,26 @@ class Inventory(arcade.gui.UIWidget):
             if isinstance(child, arcade.gui.UISpriteWidget):
                 self.remove(child)
 
+        for child in list(self.children):
+            if isinstance(child, arcade.gui.UISpace) and child.color == (255, 0, 0, 255):
+                self.remove(child)
+
         for i, slot in enumerate(self.slot_elements):
             if i == self.index:
-                slot.color = (200, 200, 200, 255)
-            else:
-                slot.color = (200, 200, 200, 100)
+                border_x = slot.x - self.spacing
+                border_y = slot.y - self.spacing
+                border_width = self.cell_size + 2 * self.spacing
+                border_height = self.cell_size + 2 * self.spacing
+
+                red_border = arcade.gui.UISpace(
+                    x=border_x,
+                    y=border_y,
+                    width=border_width,
+                    height=border_height,
+                    color=(255, 0, 0, 255)
+                )
+                self.add(red_border)
+                self.add(slot)
 
         for i, item_name in enumerate(self.items):
             if item_name:
