@@ -19,11 +19,12 @@ class IslandScene(arcade.Scene):
         self.collision_layers = arcade.SpriteList(use_spatial_hash=True)
         self.collision_layers.extend(self["Collision Layer"])
         self.collision_layers.extend(self["Collision Layer 2"])
+        self.collision_layers.extend(self["Collision Layer 3"])
 
-        self.add_sprite_list_after("Player", "Collision Layer 2")
-        self.add_sprite_list_after("Projectiles", "Collision Layer 2")
-        self.add_sprite_list_after("Enemies", "Collision Layer 2")
-        self.add_sprite_list_after("Drops", "Collision Layer 2")
+        self.add_sprite_list_after("Player", "Collision Layer 3")
+        self.add_sprite_list_after("Projectiles", "Collision Layer 3")
+        self.add_sprite_list_after("Enemies", "Collision Layer 3")
+        self.add_sprite_list_after("Drops", "Collision Layer 3")
 
         hidden_bow_info = MapResources.get_hidden_bows_info(island_name)
         if hidden_bow_info:
@@ -32,19 +33,33 @@ class IslandScene(arcade.Scene):
             name = hidden_bow_info[2]
 
             self["Drops"].append(DropSprite(name, WeaponResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
-
+   
         # TODO: Add enemies
-        enemies = arcade.SpriteList()
+        self.enemies = arcade.SpriteList()
 
-        enemy = RangerEnemy(
-            enemy_type="volcano_slime",
-            weapon_name="fire_wand",
+        # enemy = RangerEnemy(
+        #     enemy_type="cave_slime",
+        #     weapon_name="fire_wand",
+        #     pos_x=self.map_width / 2,
+        #     pos_y=300,
+        #     speed=100,
+        #     health=20,
+        #     shoot_time=0.2,
+        #     shoot_cooldown=1.5,
+        #     vision_radius=300,
+        #     scene=self,
+        #     collision_layers=self.collision_layers
+        # )
+
+        enemy = MeleeEnemy(
+            enemy_type="cave_orc",
+            weapon_name="sword",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
-            health=5,
-            shoot_time=0.2,
-            shoot_cooldown=1.5,
+            health=20,
+           	attack_time=0.2,
+            attack_cooldown=1.5,
             vision_radius=300,
             drops = {
                 "sword": 0.5
@@ -53,9 +68,9 @@ class IslandScene(arcade.Scene):
             collision_layers=self.collision_layers
         )
 
-        enemies.append(enemy)
+        self.enemies.append(enemy)
 
-        self["Enemies"].extend(enemies)
+        self["Enemies"].extend(self.enemies)
 
         self.is_lobby = is_lobby
         self.spawned_boss = False
@@ -96,10 +111,11 @@ class IslandScene(arcade.Scene):
 
     def on_draw(self):
         self["Collision Layer"].draw()
+        self["Collision Layer 2"].draw()
         self["Ground Layer"].draw()
         self["Ground Layer 2"].draw()
         self["Ground Layer 3"].draw()
-        self["Collision Layer 2"].draw()
+        self["Collision Layer 3"].draw()
         self["Drops"].draw()
 
         draw_priority = arcade.SpriteList()

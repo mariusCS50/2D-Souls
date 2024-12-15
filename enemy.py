@@ -48,6 +48,10 @@ class Enemy(arcade.Sprite, ABC):
         self.animation_walk_time = 0.2
         self.animation_walk_timer = 0
 
+        self.is_dying = False
+        self.death_time = 0.4
+        self.death_timer = 0
+        
         self.drops = drops
         self.drops[None] = 1 - sum(p for p in self.drops.values())
 
@@ -68,6 +72,11 @@ class Enemy(arcade.Sprite, ABC):
         self._health = val
 
     def die(self):
+        self.change_x = 0
+        self.change_y = 0
+        self.is_dying = True
+        self.texture = self.enemy_textures["death"][self.current_facing_direction]
+        
         drop = random.choices(list(self.drops.keys()), weights=list(self.drops.values()))[0]
         if drop is not None:
             self.scene["Drops"].append(DropSprite(drop, self.weapons[drop]["texture"], self.center_x, self.center_y, self.scene))
@@ -122,12 +131,12 @@ class Enemy(arcade.Sprite, ABC):
                 self.is_idle = True
 
     def take_damage(self, damage):
-        if not self.is_invincible:
+        if not self.is_invincible and not self.is_dying:
             self.health -= damage
             self.is_invincible = True
 
     def invincible_timer_update(self, delta_time):
-        if self.is_invincible:
+        if self.is_invincible and not self.is_dying:
             self.alpha = (255 + 128) - self.alpha
             self.invincible_timer += delta_time
 
@@ -135,6 +144,15 @@ class Enemy(arcade.Sprite, ABC):
                 self.is_invincible = False
                 self.invincible_timer = 0
                 self.alpha = 255
+
+    def death_timer_update(self, delta_time):
+        if self.is_dying:
+            self.death_timer += delta_time
+            if self.death_timer >= self.death_time:
+                self.scene["Enemies"].remove(self)
+                self.death_timer = 0
+                self.is_dying = False
+
 
     def has_line_of_sight(self):
         return arcade.has_line_of_sight(
