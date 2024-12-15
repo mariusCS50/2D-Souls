@@ -342,27 +342,27 @@ class WeaponResources:
         "sword": {
             "type": "melee",
             "damage": 5,
-            "sprite": None,
+            "texture": arcade.load_texture("assets/weapons/melee/cave_sword1.png"),
             "hitbox_generator": SwordHitboxGenerator()
         },
         "water_wand": {
             "type": "ranged",
             "damage": 5,
-            "sprite": None,
+            "texture": None,
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/water_projectile.png"),
             "projectile_speed": 175
         },
         "ice_wand": {
             "type": "ranged",
             "damage": 10,
-            "sprite": None,
+            "texture": None,
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/ice_projectile.png"),
             "projectile_speed": 150
         },
         "fire_wand": {
             "type": "ranged",
             "damage": 20,
-            "sprite": None,
+            "texture": None,
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/magma_projectile.png"),
             "projectile_speed": 128
         }

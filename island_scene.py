@@ -21,6 +21,7 @@ class IslandScene(arcade.Scene):
         self.add_sprite_list_after("Player", "Collision Layer 2")
         self.add_sprite_list_after("Projectiles", "Collision Layer 2")
         self.add_sprite_list_after("Enemies", "Collision Layer 2")
+        self.add_sprite_list_after("Drops", "Collision Layer 2")
 
         # TODO: Add enemies
         enemies = arcade.SpriteList()
@@ -31,10 +32,13 @@ class IslandScene(arcade.Scene):
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
-            health=20,
+            health=5,
             shoot_time=0.2,
             shoot_cooldown=1.5,
             vision_radius=300,
+            drops = {
+                "sword": 0.5
+            },
             scene=self,
             collision_layers=self.collision_layers
         )
@@ -86,6 +90,7 @@ class IslandScene(arcade.Scene):
         self["Ground Layer 2"].draw()
         self["Ground Layer 3"].draw()
         self["Collision Layer 2"].draw()
+        self["Drops"].draw()
 
         draw_priority = arcade.SpriteList()
         draw_priority.extend(self["Player"])
