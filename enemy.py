@@ -117,11 +117,13 @@ class Enemy(arcade.Sprite, ABC):
 
     def invincible_timer_update(self, delta_time):
         if self.is_invincible:
+            self.alpha = (255 + 128) - self.alpha
             self.invincible_timer += delta_time
 
             if self.invincible_timer > self.invincible_time:
                 self.is_invincible = False
                 self.invincible_timer = 0
+                self.alpha = 255
 
     def has_line_of_sight(self):
         return arcade.has_line_of_sight(
