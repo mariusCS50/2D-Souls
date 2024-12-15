@@ -1,9 +1,9 @@
 import arcade
 
-from sword_hitbox_generator import SwordHitboxGenerator
+from melee_hitbox_generator import SwordHitboxGenerator, SpearHitboxGenerator
 
 
-class MapResources:    
+class MapResources:
     enemies_info = {
         "volcano_island" : [
             (656, 816, "volcano_orc"),
@@ -77,7 +77,7 @@ class MapResources:
     @staticmethod
     def get_enemies_info(island_name):
         return MapResources.enemies_info[island_name]
-    
+
     @staticmethod
     def get_hidden_bows_info(island_name):
         return MapResources.hidden_bows_info[island_name]
@@ -390,9 +390,15 @@ class EnemyResources:
 
 class WeaponResources:
     sword_hitbox_generator = SwordHitboxGenerator()
-    # TODO: Spear hitbox generator
+    spear_hitbox_generator = SpearHitboxGenerator()
 
     weapons = {
+        "cave_spear": {
+            "type": "melee",
+            "damage": 5,
+            "texture": arcade.load_texture("assets/weapons/melee/cave_spear.png"),
+            "hitbox_generator": spear_hitbox_generator
+        },
         "cave_sword1": {
             "type": "melee",
             "damage": 5,

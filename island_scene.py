@@ -36,8 +36,20 @@ class IslandScene(arcade.Scene):
 
             self["Drops"].append(DropSprite(name, WeaponResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
 
+        if is_lobby:
+            weapon_texture = WeaponResources.get_weapons()["cave_sword1"]["texture"]
+            drop = DropSprite(
+                name="cave_sword1",
+                texture=weapon_texture,
+                pos_x=self.map_width // 2 - 60,
+                pos_y=570,
+                scene=self,
+                is_permanent=False
+            )
+            self["Drops"].append(drop)
+
         # TODO: Add enemies
-        # self.enemies = arcade.SpriteList()
+        self.enemies = arcade.SpriteList()
 
         # enemy = RangerEnemy(
         #     enemy_type="cave_slime",
@@ -55,16 +67,16 @@ class IslandScene(arcade.Scene):
 
         enemy = MeleeEnemy(
             enemy_type="cave_orc",
-            weapon_name="sword",
+            weapon_name="cave_sword1",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
             health=20,
-           	attack_time=0.2,
+               attack_time=0.2,
             attack_cooldown=1.5,
             vision_radius=300,
             drops = {
-                "sword": 1
+                "cave_sword1": 1
             },
             scene=self,
             collision_layers=self.collision_layers
@@ -79,7 +91,7 @@ class IslandScene(arcade.Scene):
         # self["Enemies"].extend(enemies)
 
 #         self["Boss"].append(WinterBoss(self.map_width / 2, 500, self))
-        
+
 #         enemy = MeleeEnemy(
 #             enemy_type="cave_orc",
 #             weapon_name="sword",
@@ -132,7 +144,6 @@ class IslandScene(arcade.Scene):
         super().on_update(delta_time)
 
         if not self.is_lobby and not self.spawned_boss and len(self["Enemies"]) == 0:
-            # TODO: Spawn boss
             self.spawned_boss = True
 
     def get_collision_layers(self):
