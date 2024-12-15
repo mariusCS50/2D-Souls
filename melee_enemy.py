@@ -26,7 +26,7 @@ class MeleeEnemy(Enemy):
         self.set_hit_box(hitbox)
 
     def attack(self, delta_time):
-        if self.attack_timer == 0 and not self.is_dodging:
+        if self.attack_timer == 0 and not self.get_target().is_dodging:
             self.get_target().take_damage(self.damage)
 
         self.attack_timer += delta_time

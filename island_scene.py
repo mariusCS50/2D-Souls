@@ -21,11 +21,11 @@ class IslandScene(arcade.Scene):
         self.collision_layers.extend(self["Collision Layer 2"])
         self.collision_layers.extend(self["Collision Layer 3"])
 
-        self.add_sprite_list_after("Player", "Collision Layer 3")
-        self.add_sprite_list_after("Projectiles", "Collision Layer 3")
-        self.add_sprite_list_after("Enemies", "Collision Layer 3")
-        self.add_sprite_list_after("Boss", "Collision Layer 3")
         self.add_sprite_list_after("Drops", "Collision Layer 3")
+        self.add_sprite_list_after("Enemies", "Drops")
+        self.add_sprite_list_after("Boss", "Enemies")
+        self.add_sprite_list_after("Player", "Boss")
+        self.add_sprite_list_after("Projectiles", "Player")
 
         hidden_bow_info = MapResources.get_hidden_bows_info(island_name)
         if hidden_bow_info:
@@ -128,24 +128,4 @@ class IslandScene(arcade.Scene):
         return self.collision_layers
 
     def on_draw(self):
-        # self["Collision Layer"].draw()
-        # self["Collision Layer 2"].draw()
-        # self["Ground Layer"].draw()
-        # self["Ground Layer 2"].draw()
-        # self["Ground Layer 3"].draw()
-        # self["Collision Layer 3"].draw()
-        # self["Drops"].draw()
-
-        # draw_priority = arcade.SpriteList()
-        # draw_priority.extend(self["Player"])
-        # draw_priority.extend(self["Projectiles"])
-        # draw_priority.extend(self["Enemies"])
-        # draw_priority.extend(self["Boss"])
-
-        # sprite_priority = sorted(draw_priority, key=lambda sprite: sprite.center_y, reverse=True)
-        # for sprite in sprite_priority:
-        #     sprite.draw()
-
-        # self["Top Layer"].draw()
-
         self.draw()
