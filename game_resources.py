@@ -197,6 +197,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/orc/winter/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/orc/winter/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/orc/winter/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/orc/winter/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/orc/winter/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/orc/winter/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/orc/winter/death_right.png"),
             }
         },
         "volcano_orc": {
@@ -233,8 +239,8 @@ class EnemyResources:
             "death": {
                 "up": arcade.load_texture("assets/enemies/orc/volcano/death_up.png"),
                 "down": arcade.load_texture("assets/enemies/orc/volcano/death_down.png"),
-                "left": arcade.load_texture("assets/enemies/orc/volcano/attack_left.png"),
-                "right": arcade.load_texture("assets/enemies/orc/volcano/attack_right.png"),
+                "left": arcade.load_texture("assets/enemies/orc/volcano/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/orc/volcano/death_right.png"),
             }
         },
         "cave_slime": {

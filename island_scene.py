@@ -25,15 +25,15 @@ class IslandScene(arcade.Scene):
         # TODO: Add enemies
         self.enemies = arcade.SpriteList()
 
-        enemy = RangerEnemy(
-            enemy_type="volcano_orc",
-            weapon_name="fire_wand",
+        enemy = MeleeEnemy(
+            enemy_type="winter_orc",
+            weapon_name="sword",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
             health=20,
-            shoot_time=0.2,
-            shoot_cooldown=1.5,
+            attack_time=0.4,
+            attack_cooldown=1.5,
             vision_radius=300,
             scene=self,
             collision_layers=self.collision_layers

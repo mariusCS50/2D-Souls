@@ -3,7 +3,7 @@ import math
 from enemy import Enemy
 
 class MeleeEnemy(Enemy):
-    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, attack_speed, attack_cooldown, vision_radius, scene, collision_layers):
+    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, attack_time, attack_cooldown, vision_radius, scene, collision_layers):
         super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers)
 
         self.damage = self.weapons[weapon_name]["damage"]
@@ -11,7 +11,7 @@ class MeleeEnemy(Enemy):
         self.is_attacking = False
         self.can_attack = True
 
-        self.attack_time = attack_speed
+        self.attack_time = attack_time
         self.attack_timer = 0
         self.attack_cooldown = attack_cooldown
         self.attack_cooldown_timer = 0
@@ -84,9 +84,7 @@ class MeleeEnemy(Enemy):
     def on_update(self, delta_time):
         self.physics_engine.update()
 
-        print(self.is_dying)
         if self.is_dying:
-            print("Enemy is dying.")
             self.death_timer_update(delta_time)
             return
 

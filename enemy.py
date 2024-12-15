@@ -48,7 +48,7 @@ class Enemy(arcade.Sprite, ABC):
         self.animation_walk_timer = 0
 
         self.is_dying = False
-        self.death_time = 0.3
+        self.death_time = 0.4
         self.death_timer = 0
 
         self.set_custom_hitbox()
@@ -63,9 +63,7 @@ class Enemy(arcade.Sprite, ABC):
     @health.setter
     def health(self, val):
         if val <= 0 and not self.is_dying:
-            print("Enemy is dying.")
             self.is_dying = True
-            print(self.is_dying)
             self.texture = self.enemy_textures["death"][self.current_facing_direction]
             self.change_x = 0
             self.change_y = 0
