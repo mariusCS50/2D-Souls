@@ -289,7 +289,6 @@ class Player(arcade.Sprite):
             self.shot_projectile = False
 
             self.is_attacking = False
-            self.can_attack = False
             self.attack_timer = 0.0
             self.texture = self.action_textures["idle"][self.current_facing_direction]
 

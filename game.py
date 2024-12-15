@@ -140,6 +140,7 @@ class Game(arcade.Window):
             self.player.mouse_y = y + self.camera.position[1]
 
             self.player.is_attacking = True
+            self.player.can_attack = False
 
 if __name__ == "__main__":
     game = Game()
