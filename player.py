@@ -65,7 +65,7 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon_name = "fire_wand"
+        self.weapon_name = None
 
         self.melee_hitbox = None
         self.shot_projectile = False
@@ -195,6 +195,10 @@ class Player(arcade.Sprite):
                 self.dodge_cooldown_timer = 0
 
     def attack(self, delta_time):
+        if not self.weapon_name:
+            self.is_attacking = False
+            return
+
         if self.attack_timer <= self.attack_time:
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
@@ -273,6 +277,13 @@ class Player(arcade.Sprite):
                 self.invincible_timer = 0
                 self.alpha = 255
 
+    def update_item(self):
+        item_name = self.inventory.items[self.inventory.index]
+        if item_name:
+            self.weapon_name = item_name
+        else:
+            self.weapon_name = None
+
     def pick_up_item(self):
         drops = arcade.check_for_collision_with_list(self, self.scene["Drops"])
         for drop in drops:
@@ -297,6 +308,8 @@ class Player(arcade.Sprite):
         self.scene["Drops"].append(drop)
 
     def on_update(self, delta_time):
+        self.update_item()
+
         if self.is_dodging:
             self.dodge(delta_time)
         elif self.is_attacking:
