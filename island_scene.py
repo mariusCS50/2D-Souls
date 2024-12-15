@@ -17,23 +17,38 @@ class IslandScene(arcade.Scene):
         self.collision_layers = arcade.SpriteList(use_spatial_hash=True)
         self.collision_layers.extend(self["Collision Layer"])
         self.collision_layers.extend(self["Collision Layer 2"])
+        self.collision_layers.extend(self["Collision Layer 3"])
 
-        self.add_sprite_list_after("Player", "Collision Layer 2")
-        self.add_sprite_list_after("Projectiles", "Collision Layer 2")
-        self.add_sprite_list_after("Enemies", "Collision Layer 2")
+        self.add_sprite_list_after("Player", "Collision Layer 3")
+        self.add_sprite_list_after("Projectiles", "Collision Layer 3")
+        self.add_sprite_list_after("Enemies", "Collision Layer 3")
 
         # TODO: Add enemies
         self.enemies = arcade.SpriteList()
 
-        enemy = RangerEnemy(
-            enemy_type="cave_slime",
-            weapon_name="fire_wand",
+        # enemy = RangerEnemy(
+        #     enemy_type="cave_slime",
+        #     weapon_name="fire_wand",
+        #     pos_x=self.map_width / 2,
+        #     pos_y=300,
+        #     speed=100,
+        #     health=20,
+        #     shoot_time=0.2,
+        #     shoot_cooldown=1.5,
+        #     vision_radius=300,
+        #     scene=self,
+        #     collision_layers=self.collision_layers
+        # )
+
+        enemy = MeleeEnemy(
+            enemy_type="cave_orc",
+            weapon_name="sword",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
             health=20,
-            shoot_time=0.2,
-            shoot_cooldown=1.5,
+           	attack_time=0.2,
+            attack_cooldown=1.5,
             vision_radius=300,
             scene=self,
             collision_layers=self.collision_layers
@@ -82,10 +97,11 @@ class IslandScene(arcade.Scene):
 
     def on_draw(self):
         self["Collision Layer"].draw()
+        self["Collision Layer 2"].draw()
         self["Ground Layer"].draw()
         self["Ground Layer 2"].draw()
         self["Ground Layer 3"].draw()
-        self["Collision Layer 2"].draw()
+        self["Collision Layer 3"].draw()
 
         draw_priority = arcade.SpriteList()
         draw_priority.extend(self["Player"])

@@ -33,7 +33,7 @@ class Projectile(arcade.Sprite):
             self.ignore_collision_layer = False
 
         if not self.ignore_collision_layer:
-            if arcade.check_for_collision_with_list(self, self.scene["Collision Layer 2"]):
+            if arcade.check_for_collision_with_list(self, self.scene["Collision Layer 3"]):
                 self.scene["Projectiles"].remove(self)
                 return
 
