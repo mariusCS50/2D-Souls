@@ -1,4 +1,5 @@
 import arcade
+import math
 
 class Projectile(arcade.Sprite):
     def __init__(self, texture, pos_x, pos_y, dir_x, dir_y, speed, damage, scene, hit_layer_names):
@@ -21,6 +22,9 @@ class Projectile(arcade.Sprite):
         self.timer = 15
 
         self.set_custom_hitbox()
+
+        angle = math.degrees(math.atan2(self.dir_y, self.dir_x))
+        self.angle = angle - 45
 
     def set_custom_hitbox(self):
         hitbox = [
