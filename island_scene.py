@@ -1,6 +1,7 @@
 import arcade
 
 from melee_enemy import MeleeEnemy
+from ranger_enemy import RangerEnemy
 
 class IslandScene(arcade.Scene):
     def __init__(self, island_name, is_lobby):
@@ -24,13 +25,15 @@ class IslandScene(arcade.Scene):
         # TODO: Add enemies
         enemies = arcade.SpriteList()
 
-        enemy = MeleeEnemy(
-            enemy_type="volcano_orc",
-            weapon_name="sword",
+        enemy = RangerEnemy(
+            enemy_type="volcano_slime",
+            weapon_name="fire_wand",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
             health=20,
+            shoot_time=0.2,
+            shoot_cooldown=1.5,
             vision_radius=300,
             scene=self,
             collision_layers=self.collision_layers

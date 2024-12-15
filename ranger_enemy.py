@@ -4,23 +4,23 @@ from enemy import Enemy
 from projectile import Projectile
 
 class RangerEnemy(Enemy):
-    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers):
+    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, shoot_time, shoot_cooldown, vision_radius, scene, collision_layers):
         super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers)
 
         self.damage = self.weapons[weapon_name]["damage"]
         self.projectile_texture = self.weapons[weapon_name]["projectile_texture"]
         self.projectile_speed = self.weapons[weapon_name]["projectile_speed"]
 
-        self.avoidance_distance = 150
+        self.avoidance_distance = self.vision_radius / 2
 
         self.is_shooting = False
         self.can_shoot = True
         self.shot_projectile = False
 
-        self.shoot_time = 0.35
+        self.shoot_time = shoot_time
         self.shoot_timer = 0
 
-        self.shoot_cooldown = 1.5
+        self.shoot_cooldown = shoot_cooldown
         self.shoot_cooldown_timer = 0
 
         self.shoot_dir_x = 0

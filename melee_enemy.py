@@ -3,7 +3,7 @@ import math
 from enemy import Enemy
 
 class MeleeEnemy(Enemy):
-    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers):
+    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, attack_speed, attack_cooldown, vision_radius, scene, collision_layers):
         super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers)
         
         self.damage = self.weapons[weapon_name]["damage"]
@@ -11,9 +11,9 @@ class MeleeEnemy(Enemy):
         self.is_attacking = False
         self.can_attack = True
 
-        self.attack_time = 0.4
+        self.attack_time = attack_speed
         self.attack_timer = 0
-        self.attack_cooldown = 0.6
+        self.attack_cooldown = attack_cooldown
         self.attack_cooldown_timer = 0
 
     def set_custom_hitbox(self):
