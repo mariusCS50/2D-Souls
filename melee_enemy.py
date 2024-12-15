@@ -22,7 +22,7 @@ class MeleeEnemy(Enemy):
             self.get_target().take_damage(self.damage)
 
         self.attack_timer += delta_time
-        if self.attack_timer <= self.attack_speed:
+        if self.attack_timer <= self.attack_time:
             self.texture = self.enemy_textures["attack"][self.current_facing_direction]
             self.change_x = 0
             self.change_y = 0

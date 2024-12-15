@@ -37,7 +37,7 @@ class Player(arcade.Sprite):
         self.can_dodge = True
         self.can_attack = True
 
-        self.attack_speed = 0.35
+        self.attack_time = 0.35
         self.attack_timer = 0
         self.attack_cooldown = 0.45
         self.attack_cooldown_timer = 0
@@ -55,7 +55,7 @@ class Player(arcade.Sprite):
         self.last_facing_direction = ""
 
         self.walk_texture_index = 0
-        self.animation_walk_speed = 0.2
+        self.animation_walk_time = 0.2
         self.animation_walk_timer = 0
 
         self.invincible_time = 1
@@ -144,7 +144,7 @@ class Player(arcade.Sprite):
 
     def animate_walk(self, delta_time):
         if self.is_moving():
-            if self.animation_walk_timer > self.animation_walk_speed:
+            if self.animation_walk_timer > self.animation_walk_time:
                 self.walk_texture_index = (self.walk_texture_index + 1) % 2
                 self.texture = self.action_textures["walk"][self.current_facing_direction][self.walk_texture_index]
                 self.animation_walk_timer = 0
@@ -238,7 +238,7 @@ class Player(arcade.Sprite):
                 self.dodge_cooldown_timer = 0
 
     def attack(self, delta_time):
-        if self.attack_timer <= self.attack_speed:
+        if self.attack_timer <= self.attack_time:
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 

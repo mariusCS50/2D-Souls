@@ -46,13 +46,13 @@ class Enemy(arcade.Sprite, ABC):
         self.current_facing_direction = "down"
         self.texture = self.enemy_textures["idle"][self.current_facing_direction]
 
-        self.attack_speed = 0.4
+        self.attack_time = 0.4
         self.attack_timer = 0
         self.attack_cooldown = 0.6
         self.attack_cooldown_timer = 0
 
         self.walk_texture_index = 0
-        self.animation_walk_speed = 0.2
+        self.animation_walk_time = 0.2
         self.animation_walk_timer = 0
 
         self.set_custom_hitbox()
@@ -89,7 +89,7 @@ class Enemy(arcade.Sprite, ABC):
 
     def animate_walk(self, delta_time):
         self.animation_walk_timer += delta_time
-        if self.animation_walk_timer > self.animation_walk_speed:
+        if self.animation_walk_timer > self.animation_walk_time:
             self.walk_texture_index = (self.walk_texture_index + 1) % 2
             self.texture = self.enemy_textures["walk"][self.current_facing_direction][self.walk_texture_index]
             self.animation_walk_timer = 0
