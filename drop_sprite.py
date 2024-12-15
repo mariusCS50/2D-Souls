@@ -2,7 +2,7 @@ import arcade
 
 class DropSprite(arcade.Sprite):
     def __init__(self, name, texture, pos_x, pos_y, scene, is_permanent=False):
-        super().__init__(texture=texture)
+        super().__init__(texture=texture, scale=1.2)
 
         self.center_x = pos_x
         self.center_y = pos_y

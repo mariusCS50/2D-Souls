@@ -2,25 +2,8 @@ import arcade
 
 from sword_hitbox_generator import SwordHitboxGenerator
 
-class MapResources:
-    transitions = {
-        "assets/maps/lobby.tmx": {
-            "right": ("assets/maps/volcano_island.tmx", "left"),
-            "left": ("assets/maps/snowy_plains.tmx", "right"),
-            "up": ("assets/maps/crystal_cave.tmx", "down"),
-        },
-        "assets/maps/volcano_island.tmx": {
-            "left": ("assets/maps/lobby.tmx", "right")
-        },
-        "assets/maps/snowy_plains.tmx": {
-            "right": ("assets/maps/lobby.tmx", "left")
-        },
-        "assets/maps/crystal_cave.tmx": {
-            "down": ("assets/maps/lobby.tmx", "up")
-        }
-    }
-    
-    enemies = {
+class MapResources:    
+    enemies_info = {
         "volcano_island" : [
             (656, 848, "volcano_orc"),
             (560, 464, "volcano_orc"),
@@ -83,9 +66,20 @@ class MapResources:
         ]
     }
 
+    hidden_bows_info = {
+        "lobby": (816, 848, "lobby_bow"),
+        "volcano_island": (2320, 208, "volcano_bow"),
+        "snowy_plains": None,
+        "crystal_cave": None
+    }
+
     @staticmethod
-    def get_transitions():
-        return MapResources.transitions
+    def get_enemies_info(island_name):
+        return MapResources.enemies_info[island_name]
+    
+    @staticmethod
+    def get_hidden_bows_info(island_name):
+        return MapResources.hidden_bows_info[island_name]
 
 
 class PlayerResources:
@@ -365,6 +359,20 @@ class WeaponResources:
             "texture": None,
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/magma_projectile.png"),
             "projectile_speed": 128
+        },
+        "lobby_bow": {
+            "type": "ranged",
+            "damage": 5,
+            "texture": arcade.load_texture("assets/weapons/ranged/lobby_bow.png"),
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
+            "projectile_speed": 150
+        },
+        "volcano_bow": {
+            "type": "ranged",
+            "damage": 40,
+            "texture": arcade.load_texture("assets/weapons/ranged/volcano_bow.png"),
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
+            "projectile_speed": 300
         }
     }
 

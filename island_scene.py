@@ -1,5 +1,7 @@
 import arcade
-
+from drop_sprite import DropSprite
+from game_resources import MapResources
+from game_resources import WeaponResources
 from melee_enemy import MeleeEnemy
 from ranger_enemy import RangerEnemy
 
@@ -22,6 +24,14 @@ class IslandScene(arcade.Scene):
         self.add_sprite_list_after("Projectiles", "Collision Layer 2")
         self.add_sprite_list_after("Enemies", "Collision Layer 2")
         self.add_sprite_list_after("Drops", "Collision Layer 2")
+
+        hidden_bow_info = MapResources.get_hidden_bows_info(island_name)
+        if hidden_bow_info:
+            pos_x = hidden_bow_info[0]
+            pos_y = hidden_bow_info[1]
+            name = hidden_bow_info[2]
+
+            self["Drops"].append(DropSprite(name, WeaponResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
 
         # TODO: Add enemies
         enemies = arcade.SpriteList()
