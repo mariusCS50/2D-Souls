@@ -41,6 +41,9 @@ class WinterBoss(arcade.Sprite):
         self.shoot_cooldown = 5
         self.shoot_cooldown_timer = 0
 
+        self.death_time = 0.4
+        self.death_timer = 0
+
         self.current_facing_direction = "down"
         self.texture = self.boss_textures["idle"][self.current_facing_direction]
 
@@ -187,7 +190,9 @@ class WinterBoss(arcade.Sprite):
     def on_update(self, delta_time):
         self.physics_engine.update()
 
-        if self.is_shooting:
+        if self.is_dying:
+            self.death_timer_update(delta_time)
+        elif self.is_shooting:
             self.can_shoot = False
             self.shoot(delta_time)
         else:
