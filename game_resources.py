@@ -422,7 +422,7 @@ class EnemyResources:
     @staticmethod
     def get_textures(enemy_type):
         return EnemyResources.textures[enemy_type]
-    
+
     def get_enemy_stats(enemy_type):
         return EnemyResources.enemies_stats[enemy_type]
 
@@ -466,7 +466,6 @@ class ItemResources:
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/water_projectile.png"),
             "projectile_speed": 192
         },
-
         "winter_sword1": {
             "type": "melee",
             "damage": 8,
@@ -517,7 +516,6 @@ class ItemResources:
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/magma_projectile.png"),
             "projectile_speed": 224
         },
-
         "lobby_bow": {
             "type": "ranged",
             "damage": 3,
