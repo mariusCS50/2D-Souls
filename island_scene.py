@@ -65,18 +65,19 @@ class IslandScene(arcade.Scene):
         #     collision_layers=self.collision_layers
         # )
 
-        enemy = MeleeEnemy(
-            enemy_type="cave_orc",
-            weapon_name="cave_sword1",
+        enemy = RangerEnemy(
+            enemy_type="cave_slime",
+            weapon_name="fire_wand",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
             health=20,
-               attack_time=0.2,
-            attack_cooldown=1.5,
+            shoot_time=0.2,
+            shoot_cooldown=1.5,
             vision_radius=300,
             drops = {
-                "cave_sword1": 1
+                "fire_wand": 0.5,
+                "health_potion": 0.5
             },
             scene=self,
             collision_layers=self.collision_layers

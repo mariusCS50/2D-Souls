@@ -270,7 +270,7 @@ class Player(arcade.Sprite):
                 self.attack_cooldown_timer = 0
 
     def take_damage(self, damage):
-        if not self.is_invincible and not self.is_dodging:
+        if not self.is_invincible:
             self.health -= damage
             self.is_invincible = True
 
