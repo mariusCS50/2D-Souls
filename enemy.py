@@ -2,9 +2,10 @@ import arcade
 import random
 from abc import ABC, abstractmethod
 from game_resources import EnemyResources, WeaponResources
+from drop_sprite import DropSprite
 
 class Enemy(arcade.Sprite, ABC):
-    def __init__(self, enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers):
+    def __init__(self, enemy_type, pos_x, pos_y, speed, health, vision_radius, drops, scene, collision_layers):
         super().__init__(scale=0.5)
 
         self.scene = scene
@@ -50,6 +51,9 @@ class Enemy(arcade.Sprite, ABC):
         self.is_dying = False
         self.death_time = 0.4
         self.death_timer = 0
+        
+        self.drops = drops
+        self.drops[None] = 1 - sum(p for p in self.drops.values())
 
         self.set_custom_hitbox()
 
@@ -62,13 +66,22 @@ class Enemy(arcade.Sprite, ABC):
 
     @health.setter
     def health(self, val):
-        if val <= 0 and not self.is_dying:
-            self.is_dying = True
-            self.texture = self.enemy_textures["death"][self.current_facing_direction]
-            self.change_x = 0
-            self.change_y = 0
+        if val <= 0:
+            self.die()
 
         self._health = val
+
+    def die(self):
+        self.change_x = 0
+        self.change_y = 0
+        self.is_dying = True
+        self.texture = self.enemy_textures["death"][self.current_facing_direction]
+        
+        drop = random.choices(list(self.drops.keys()), weights=list(self.drops.values()))[0]
+        if drop is not None:
+            self.scene["Drops"].append(DropSprite(drop, self.weapons[drop]["texture"], self.center_x, self.center_y, self.scene))
+
+        self.scene["Enemies"].remove(self)
 
     @abstractmethod
     def set_custom_hitbox(self):
