@@ -343,6 +343,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/slime/volcano/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/slime/volcano/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/slime/volcano/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/slime/volcano/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/volcano/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/volcano/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/volcano/death_right.png"),
             }
         }
     }

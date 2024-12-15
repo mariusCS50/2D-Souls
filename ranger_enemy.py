@@ -100,6 +100,10 @@ class RangerEnemy(Enemy):
     def on_update(self, delta_time):
         self.physics_engine.update()
 
+        if self.is_dying:
+            self.death_timer_update(delta_time)
+            return
+
         if self.is_shooting:
             self.shoot(delta_time)
 
