@@ -35,7 +35,7 @@ class IslandScene(arcade.Scene):
             name = hidden_bow_info[2]
 
             self["Drops"].append(DropSprite(name, WeaponResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
-   
+
         # TODO: Add enemies
         # self.enemies = arcade.SpriteList()
 
@@ -52,6 +52,27 @@ class IslandScene(arcade.Scene):
         #     scene=self,
         #     collision_layers=self.collision_layers
         # )
+
+        enemy = MeleeEnemy(
+            enemy_type="cave_orc",
+            weapon_name="sword",
+            pos_x=self.map_width / 2,
+            pos_y=300,
+            speed=100,
+            health=20,
+           	attack_time=0.2,
+            attack_cooldown=1.5,
+            vision_radius=300,
+            drops = {
+                "sword": 1
+            },
+            scene=self,
+            collision_layers=self.collision_layers
+        )
+
+        self.enemies.append(enemy)
+
+        self["Enemies"].extend(self.enemies)
 
         # enemies.append(enemy)
 
