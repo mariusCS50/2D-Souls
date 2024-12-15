@@ -3,15 +3,15 @@ import math
 from enemy import Enemy
 
 class MeleeEnemy(Enemy):
-    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, attack_speed, attack_cooldown, vision_radius, drops, scene, collision_layers):
+    def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, attack_time, attack_cooldown, vision_radius, drops, scene, collision_layers):
         super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, drops, scene, collision_layers)
-        
+
         self.damage = self.weapons[weapon_name]["damage"]
 
         self.is_attacking = False
         self.can_attack = True
 
-        self.attack_time = attack_speed
+        self.attack_time = attack_time
         self.attack_timer = 0
         self.attack_cooldown = attack_cooldown
         self.attack_cooldown_timer = 0
@@ -55,26 +55,8 @@ class MeleeEnemy(Enemy):
             self.dir_x = diff_x / distance
             self.dir_y = diff_y / distance
 
-            new_x = self.center_x + self.dir_x * self.speed * delta_time
-            new_y = self.center_y + self.dir_y * self.speed * delta_time
-
-            self.center_x = new_x
-            collides_x = arcade.check_for_collision(self, self.get_target())
-            self.center_x = self.center_x - self.dir_x * self.speed * delta_time
-
-            self.center_y = new_y
-            collides_y = arcade.check_for_collision(self, self.get_target())
-            self.center_y = self.center_y - self.dir_y * self.speed * delta_time
-
-            if not collides_x:
-                self.change_x = self.dir_x * self.speed * delta_time
-            else:
-                self.change_x = 0
-
-            if not collides_y:
-                self.change_y = self.dir_y * self.speed * delta_time
-            else:
-                self.change_y = 0
+            self.change_x = self.dir_x * self.speed * delta_time
+            self.change_y = self.dir_y * self.speed * delta_time
 
             self.current_facing_direction = self.get_facing_direction()
             self.animate_walk(delta_time)
@@ -83,6 +65,10 @@ class MeleeEnemy(Enemy):
 
     def on_update(self, delta_time):
         self.physics_engine.update()
+
+        if self.is_dying:
+            self.death_timer_update(delta_time)
+            return
 
         if self.is_attacking:
             self.attack(delta_time)

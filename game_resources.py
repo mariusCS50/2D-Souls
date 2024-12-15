@@ -2,6 +2,7 @@ import arcade
 
 from sword_hitbox_generator import SwordHitboxGenerator
 
+
 class MapResources:    
     enemies_info = {
         "volcano_island" : [
@@ -159,6 +160,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/orc/cave/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/orc/cave/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/orc/cave/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/orc/cave/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/orc/cave/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/orc/cave/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/orc/cave/death_right.png"),
             }
         },
         "winter_orc": {
@@ -191,6 +198,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/orc/winter/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/orc/winter/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/orc/winter/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/orc/winter/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/orc/winter/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/orc/winter/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/orc/winter/death_right.png"),
             }
         },
         "volcano_orc": {
@@ -223,6 +236,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/orc/volcano/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/orc/volcano/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/orc/volcano/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/orc/volcano/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/orc/volcano/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/orc/volcano/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/orc/volcano/death_right.png"),
             }
         },
         "cave_slime": {
@@ -255,6 +274,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/slime/cave/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/slime/cave/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/slime/cave/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/slime/cave/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/cave/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/cave/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/cave/death_right.png"),
             }
         },
         "winter_slime": {
@@ -287,6 +312,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/slime/winter/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/slime/winter/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/slime/winter/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/slime/winter/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/winter/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/winter/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/winter/death_right.png"),
             }
         },
         "volcano_slime": {
@@ -319,6 +350,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/slime/volcano/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/slime/volcano/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/slime/volcano/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/slime/volcano/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/volcano/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/volcano/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/volcano/death_right.png"),
             }
         }
     }

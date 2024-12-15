@@ -61,7 +61,7 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon_name = "water_wand"
+        self.weapon_name = "fire_wand"
 
         self.melee_hitbox = None
         self.shot_projectile = False
@@ -163,51 +163,8 @@ class Player(arcade.Sprite):
         self.update_dir()
         self.animate_walk(delta_time)
 
-        new_x = self.center_x + self.dir_x * self.speed * delta_time
-        new_y = self.center_y + self.dir_y * self.speed * delta_time
-
-        enemies_layer = self.scene["Enemies"]
-        if enemies_layer:
-            self.center_x = new_x
-            collides_x = len(arcade.check_for_collision_with_list(self, enemies_layer)) > 0
-            self.center_x = self.center_x - self.dir_x * self.speed * delta_time
-
-            self.center_y = new_y
-            collides_y = len(arcade.check_for_collision_with_list(self, enemies_layer)) > 0
-            self.center_y = self.center_y - self.dir_y * self.speed * delta_time
-
-            if not collides_x:
-                self.change_x = self.dir_x * self.speed * delta_time
-            else:
-                self.change_x = 0
-
-            if not collides_y:
-                self.change_y = self.dir_y * self.speed * delta_time
-            else:
-                self.change_y = 0
-        else:
-            self.change_x = self.dir_x * self.speed * delta_time
-            self.change_y = self.dir_y * self.speed * delta_time
-
-    def solve_collision(self, enemies_layer):
-        collisions = arcade.check_for_collision_with_list(self, enemies_layer)
-        for enemy in collisions:
-            diff_x = self.center_x - enemy.center_x
-            diff_y = self.center_y - enemy.center_y
-            distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
-
-            if distance == 0:
-                diff_x, diff_y = 1, 1
-                distance = 1
-
-            push_distance_x = max(self.width, enemy.width) / 2 + 1
-            push_distance_y = max(self.height, enemy.height) / 2 + 1
-
-            push_x = (diff_x / abs(diff_x)) * push_distance_x if abs(diff_x) > abs(diff_y) else 0
-            push_y = (diff_y / abs(diff_y)) * push_distance_y if abs(diff_y) >= abs(diff_x) else 0
-
-            self.center_x += push_x
-            self.center_y += push_y
+        self.change_x = self.dir_x * self.speed * delta_time
+        self.change_y = self.dir_y * self.speed * delta_time
 
     def dodge(self, delta_time):
         if not self.direction_lock:
@@ -223,10 +180,6 @@ class Player(arcade.Sprite):
             self.is_dodging = False
             self.dodge_timer = 0
             self.direction_lock = False
-
-            enemies_layer = self.scene["Enemies"]
-            if enemies_layer:
-                self.solve_collision(enemies_layer)
 
             return
 
