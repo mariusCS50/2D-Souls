@@ -1,7 +1,6 @@
 import arcade
 from drop_sprite import DropSprite
-from game_resources import MapResources
-from game_resources import WeaponResources
+from game_resources import MapResources, WeaponResources, EnemyResources
 from melee_enemy import MeleeEnemy
 from ranger_enemy import RangerEnemy
 from winter_boss import WinterBoss
@@ -36,73 +35,64 @@ class IslandScene(arcade.Scene):
 
             self["Drops"].append(DropSprite(name, WeaponResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
 
-        # TODO: Add enemies
-        # self.enemies = arcade.SpriteList()
-
-        # enemy = RangerEnemy(
-        #     enemy_type="cave_slime",
-        #     weapon_name="fire_wand",
-        #     pos_x=self.map_width / 2,
-        #     pos_y=300,
-        #     speed=100,
-        #     health=20,
-        #     shoot_time=0.2,
-        #     shoot_cooldown=1.5,
-        #     vision_radius=300,
-        #     scene=self,
-        #     collision_layers=self.collision_layers
-        # )
-
-        enemy = MeleeEnemy(
-            enemy_type="cave_orc",
-            weapon_name="sword",
-            pos_x=self.map_width / 2,
-            pos_y=300,
-            speed=100,
-            health=20,
-           	attack_time=0.2,
-            attack_cooldown=1.5,
-            vision_radius=300,
-            drops = {
-                "sword": 1
-            },
-            scene=self,
-            collision_layers=self.collision_layers
-        )
-
-        self.enemies.append(enemy)
-
-        self["Enemies"].extend(self.enemies)
-
-        # enemies.append(enemy)
-
-        # self["Enemies"].extend(enemies)
-
-#         self["Boss"].append(WinterBoss(self.map_width / 2, 500, self))
-        
-#         enemy = MeleeEnemy(
-#             enemy_type="cave_orc",
-#             weapon_name="sword",
-#             pos_x=self.map_width / 2,
-#             pos_y=300,
-#             speed=100,
-#             health=20,
-#            	attack_time=0.2,
-#             attack_cooldown=1.5,
-#             vision_radius=300,
-#             drops = {
-#                 "sword": 0.5
-#             },
-#             scene=self,
-#             collision_layers=self.collision_layers
-#         )
-
-#         self.enemies.append(enemy)
-
-#         self["Enemies"].extend(self.enemies)
-
         self.is_lobby = is_lobby
         self.spawned_boss = False
+
+        if self.is_lobby:
+            self["Drops"].append(DropSprite("cave_sword1", WeaponResources.get_weapons()["cave_sword1"]["texture"], 500, 500, self, True))
+            return
+        
+        enemies_info = MapResources.get_enemies_info(island_name)
+        for enemy_info in enemies_info:
+            pos_x = enemy_info[0]
+            pos_y = enemy_info[1]
+            enemy_type = enemy_info[2]
+
+            enemy_stats = EnemyResources.get_enemy_stats(enemy_type)
+            attack_type = enemy_stats[0]
+            weapon_name = enemy_stats[1]
+            speed = enemy_stats[2]
+            health = enemy_stats[3]
+            attack_time = enemy_stats[4]
+            attack_cooldown = enemy_stats[5]
+            vision_radius = enemy_stats[6]
+            drops = enemy_stats[7]
+
+            if attack_type == "melee":
+                self["Enemies"].append(
+                    MeleeEnemy(
+                        enemy_type,
+                        weapon_name,
+                        pos_x,
+                        pos_y,
+                        speed,
+                        health,
+                        attack_time,
+                        attack_cooldown,
+                        vision_radius,
+                        drops,
+                        self,
+                        self.collision_layers
+                    )
+                )
+            elif attack_type == "ranger":
+                self["Enemies"].append(
+                    RangerEnemy(
+                        enemy_type,
+                        weapon_name,
+                        pos_x,
+                        pos_y,
+                        speed,
+                        health,
+                        attack_time,
+                        attack_cooldown,
+                        vision_radius,
+                        drops,
+                        self,
+                        self.collision_layers
+                    )
+                )
+            
 
     def set_up_scene(self, scene):
         self.up = scene

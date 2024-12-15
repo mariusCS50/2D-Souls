@@ -14,14 +14,14 @@ class WinterBoss(arcade.Sprite):
         self.projectile_texture = ice_wand["projectile_texture"]
         self.projectile_speed = ice_wand["projectile_speed"]
 
-        self.collision_damage = 10
+        self.collision_damage = self.projectile_damage / 2
 
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.speed = 100
+        self.speed = 96
 
-        self.max_health = self._health = 1
+        self.max_health = self._health = 100
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
@@ -36,7 +36,7 @@ class WinterBoss(arcade.Sprite):
 
         self.shot_projectiles = False
 
-        self.shoot_time = 0.5
+        self.shoot_time = 0.3
         self.shoot_timer = 0
         self.shoot_cooldown = 5
         self.shoot_cooldown_timer = 0

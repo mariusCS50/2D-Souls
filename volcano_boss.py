@@ -13,12 +13,12 @@ class VolcanoBoss(arcade.Sprite):
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.normal_speed = 100
-        self.raged_speed = 200
+        self.normal_speed = 128
+        self.raged_speed = 224
 
         self.speed = self.normal_speed
 
-        self.max_health = self._health = 50
+        self.max_health = self._health = 150
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
@@ -31,14 +31,14 @@ class VolcanoBoss(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.normal_attack_time = 0.5
+        self.normal_attack_time = 0.4
         self.raged_attack_time = 0.2
 
         self.attack_time = self.normal_attack_time
         self.attack_timer = 0
 
-        self.normal_attack_cooldown = 1
-        self.raged_attack_cooldown = 0.5
+        self.normal_attack_cooldown = 0.8
+        self.raged_attack_cooldown = 0.4
 
         self.attack_cooldown = self.normal_attack_cooldown
         self.attack_cooldown_timer = 0
@@ -54,7 +54,7 @@ class VolcanoBoss(arcade.Sprite):
         self.animation_walk_timer = 0
 
         self.normal_time = 10
-        self.rage_time = 3
+        self.rage_time = 2
 
         self.is_raged = False
         self.timer = 0
