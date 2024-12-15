@@ -15,11 +15,19 @@ class Projectile(arcade.Sprite):
         self.speed = speed
         self.damage = damage
 
-        self.ignore_collision_layer = True
-        self.ignore_collision_layer_time = speed / 16
-
         self.scene = scene
         self.hit_layer_name = hit_layer_name
+
+        self.set_custom_hitbox()
+
+    def set_custom_hitbox(self):
+        hitbox = [
+            (-self.width / 8, -self.height / 8),
+            (self.width / 8, -self.height / 8),
+            (self.width / 8, self.height / 8),
+            (-self.width / 8, self.height / 8)
+        ]
+        self.set_hit_box(hitbox)
 
     def on_update(self, delta_time):
         self.change_x = self.dir_x * self.speed * delta_time
@@ -28,14 +36,9 @@ class Projectile(arcade.Sprite):
         self.center_x += self.change_x
         self.center_y += self.change_y
 
-        if self.ignore_collision_layer_time <= 0:
-            self.ignore_collision_layer_time = 0
-            self.ignore_collision_layer = False
-
-        if not self.ignore_collision_layer:
-            if arcade.check_for_collision_with_list(self, self.scene["Collision Layer 3"]):
-                self.scene["Projectiles"].remove(self)
-                return
+        if arcade.check_for_collision_with_list(self, self.scene["Collision Layer 3"]):
+            self.scene["Projectiles"].remove(self)
+            return
 
         hit_list = arcade.check_for_collision_with_list(self, self.scene[self.hit_layer_name])
         for hit in hit_list:
