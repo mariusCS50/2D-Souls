@@ -272,6 +272,12 @@ class Player(arcade.Sprite):
                 self.invincible_timer = 0
                 self.alpha = 255
 
+    def pick_up_item(self):
+        drops = arcade.check_for_collision_with_list(self, self.scene["Drops"])
+        for drop in drops:
+            if self.inventory.add_item(drop.name):
+                self.scene["Drops"].remove(drop)
+
     def on_update(self, delta_time):
         if self.is_dodging:
             self.dodge(delta_time)

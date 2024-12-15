@@ -1,5 +1,5 @@
 import arcade.gui
-
+from game_resources import WeaponResources
 
 class Inventory(arcade.gui.UIWidget):
     def __init__(self, max_slots, cell_size, spacing, screen_width, screen_height):
@@ -25,8 +25,8 @@ class Inventory(arcade.gui.UIWidget):
 
         self.index = 0
 
-        self.slots = [None] * max_slots
         self.slot_elements = []
+        self.items = [None] * max_slots
 
         for i in range(max_slots):
             slot_x = self.start_x + i * (cell_size + spacing)
@@ -38,22 +38,46 @@ class Inventory(arcade.gui.UIWidget):
         self.update_inventory()
 
     def update_inventory(self):
+        for child in list(self.children):
+            if isinstance(child, arcade.gui.UISpriteWidget):
+                self.remove(child)
+
         for i, slot in enumerate(self.slot_elements):
             if i == self.index:
                 slot.color = (200, 200, 200, 255)
             else:
                 slot.color = (200, 200, 200, 100)
 
-    def add_item(self, weapon_name):
+        for i, item_name in enumerate(self.items):
+            if item_name:
+                weapon_texture = WeaponResources.get_weapons()[item_name]["texture"]
+                slot_x = self.start_x + i * (self.cell_size + self.spacing) + self.cell_size // 2
+                slot_y = self.start_y + self.cell_size // 2
+
+                sprite = arcade.Sprite(center_x=slot_x, center_y=slot_y, texture=weapon_texture)
+                sprite.scale = self.cell_size / weapon_texture.width
+
+                sprite_widget = arcade.gui.UISpriteWidget(
+                    x=slot_x - self.cell_size // 2,
+                    y=slot_y - self.cell_size // 2,
+                    width=self.cell_size,
+                    height=self.cell_size,
+                    sprite=sprite
+                )
+                self.add(sprite_widget)
+
+    def add_item(self, item_name):
         for i in range(self.max_slots):
-            if self.slots[i] is None:
-                self.slots[i] = weapon_name
+            if self.items[i] is None:
+                self.items[i] = item_name
+                self.update_inventory()
                 return True
         return False
 
-    def remove_item(self, index):
-        if self.slots[index] is not None:
-            self.slots[index] = None
+    def remove_item(self):
+        if self.items[self.index] is not None:
+            self.items[self.index] = None
+            self.update_inventory()
 
     def select_next(self):
         self.index = (self.index + 1) % self.max_slots
