@@ -2,7 +2,6 @@ import arcade
 
 from melee_hitbox_generator import SwordHitboxGenerator, SpearHitboxGenerator
 
-
 class MapResources:
     enemies_info = {
         "volcano_island" : [
@@ -74,6 +73,12 @@ class MapResources:
         "crystal_cave": None
     }
 
+    signs_info = {
+        "lobby_north": {"x": 400, "y": 900, "message": "North leads to the Crystal Cave."},
+        "lobby_south": {"x": 400, "y": 100, "message": "South is the entrance to the snowy plains."},
+        "lobby_west": {"x": 100, "y": 500, "message": "West lies the fiery Volcano Island."},
+    }
+
     @staticmethod
     def get_enemies_info(island_name):
         return MapResources.enemies_info[island_name]
@@ -81,6 +86,10 @@ class MapResources:
     @staticmethod
     def get_hidden_bows_info(island_name):
         return MapResources.hidden_bows_info[island_name]
+
+    @staticmethod
+    def get_signs_info():
+        return MapResources.signs_info
 
 
 class PlayerResources:
@@ -413,7 +422,7 @@ class EnemyResources:
         "volcano_slime": ("ranger", "magma_wand", 128, 35, 0.2, 0.8, 336,
                     {
                         "magma_wand": 0.1,
-                        "health_potion": 0.4
+                        "health_potion": 0.2
                     })
     }
 

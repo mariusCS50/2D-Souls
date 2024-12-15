@@ -6,7 +6,7 @@ class SwordHitboxGenerator():
 
     def generate(self, owner, facing_dir):
         sword_width = 25
-        sword_height = 45
+        sword_height = 50
 
         if facing_dir == "up":
             sword_hitbox = arcade.SpriteSolidColor(sword_width, sword_height, arcade.color.BLUE)
@@ -38,7 +38,7 @@ class SpearHitboxGenerator():
 
     def generate(self, owner, facing_dir):
         spear_width = 25
-        spear_height = 65
+        spear_height = 75
 
         if facing_dir == "up":
             spear_hitbox = arcade.SpriteSolidColor(spear_width, spear_height, arcade.color.BLUE)

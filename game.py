@@ -49,6 +49,8 @@ class Game(arcade.Window):
 
         volcano_island["Player"].append(self.player)
 
+        self.signs = MapResources.get_signs_info()
+
     def check_map_transition(self):
         new_scene = None
 
