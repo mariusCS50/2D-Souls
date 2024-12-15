@@ -5,7 +5,7 @@ from enemy import Enemy
 class MeleeEnemy(Enemy):
     def __init__(self, enemy_type, weapon_name, pos_x, pos_y, speed, health, attack_speed, attack_cooldown, vision_radius, scene, collision_layers):
         super().__init__(enemy_type, pos_x, pos_y, speed, health, vision_radius, scene, collision_layers)
-        
+
         self.damage = self.weapons[weapon_name]["damage"]
 
         self.is_attacking = False
@@ -83,6 +83,12 @@ class MeleeEnemy(Enemy):
 
     def on_update(self, delta_time):
         self.physics_engine.update()
+
+        print(self.is_dying)
+        if self.is_dying:
+            print("Enemy is dying.")
+            self.death_timer_update(delta_time)
+            return
 
         if self.is_attacking:
             self.attack(delta_time)

@@ -23,10 +23,10 @@ class IslandScene(arcade.Scene):
         self.add_sprite_list_after("Enemies", "Collision Layer 2")
 
         # TODO: Add enemies
-        enemies = arcade.SpriteList()
+        self.enemies = arcade.SpriteList()
 
         enemy = RangerEnemy(
-            enemy_type="volcano_slime",
+            enemy_type="volcano_orc",
             weapon_name="fire_wand",
             pos_x=self.map_width / 2,
             pos_y=300,
@@ -39,9 +39,9 @@ class IslandScene(arcade.Scene):
             collision_layers=self.collision_layers
         )
 
-        enemies.append(enemy)
+        self.enemies.append(enemy)
 
-        self["Enemies"].extend(enemies)
+        self["Enemies"].extend(self.enemies)
 
         self.is_lobby = is_lobby
         self.spawned_boss = False

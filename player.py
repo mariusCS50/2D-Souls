@@ -61,7 +61,7 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon_name = "water_wand"
+        self.weapon_name = "ice_wand"
 
         self.melee_hitbox = None
         self.shot_projectile = False

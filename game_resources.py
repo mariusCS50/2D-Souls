@@ -19,7 +19,7 @@ class MapResources:
             "down": ("assets/maps/lobby.tmx", "up")
         }
     }
-    
+
     enemies = {
         "volcano_island" : [
             (656, 848, "volcano_orc"),
@@ -227,6 +227,12 @@ class EnemyResources:
             "attack": {
                 "up": arcade.load_texture("assets/enemies/orc/volcano/attack_up.png"),
                 "down": arcade.load_texture("assets/enemies/orc/volcano/attack_down.png"),
+                "left": arcade.load_texture("assets/enemies/orc/volcano/attack_left.png"),
+                "right": arcade.load_texture("assets/enemies/orc/volcano/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/orc/volcano/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/orc/volcano/death_down.png"),
                 "left": arcade.load_texture("assets/enemies/orc/volcano/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/orc/volcano/attack_right.png"),
             }
