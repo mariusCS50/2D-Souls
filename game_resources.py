@@ -2,90 +2,84 @@ import arcade
 
 from sword_hitbox_generator import SwordHitboxGenerator
 
-class MapResources:
-    transitions = {
-        "assets/maps/lobby.tmx": {
-            "right": ("assets/maps/volcano_island.tmx", "left"),
-            "left": ("assets/maps/snowy_plains.tmx", "right"),
-            "up": ("assets/maps/crystal_cave.tmx", "down"),
-        },
-        "assets/maps/volcano_island.tmx": {
-            "left": ("assets/maps/lobby.tmx", "right")
-        },
-        "assets/maps/snowy_plains.tmx": {
-            "right": ("assets/maps/lobby.tmx", "left")
-        },
-        "assets/maps/crystal_cave.tmx": {
-            "down": ("assets/maps/lobby.tmx", "up")
-        }
-    }
-    
-    enemies = {
+class MapResources:    
+    enemies_info = {
         "volcano_island" : [
-            (656, 848, "volcano_orc"),
-            (560, 464, "volcano_orc"),
-            (592, 1040, "volcano_slime"),
-            (816, 1104, "volcano_slime"),
-            (816, 336, "volcano_slime"),
-            (720, 240, "volcano_orc"),
-            (1104, 1200, "volcano_orc"),
-            (1488, 1168, "volcano_slime"),
-            (1040, 176, "volcano_slime"),
-            (1392, 144, "volcano_orc"),
-            (1840, 1200, "volcano_orc"),
-            (2096, 1104, "volcano_slime"),
-            (1712, 208, "volcano_orc"),
-            (2160, 176, "volcano_orc"),
-            (2256, 464, "volcano_slime"),
-            (2128, 688, "volcano_orc"),
-            (2352, 880, "volcano_slime"),
-            (1552, 464, "volcano_slime"),
-            (1712, 944, "volcano_slime"),
-            (1008, 688, "volcano_org"),
-            (2416, 272, "volcano_orc"),
-            (1232, 880, "volcano_orc"),
-            (1040, 496, "volcano_slime"),
-            (1392, 688, "volcano_orc")
+            (656, 816, "volcano_orc"),
+            (560, 432, "volcano_orc"),
+            (592, 1008, "volcano_slime"),
+            (816, 1072, "volcano_slime"),
+            (816, 304, "volcano_slime"),
+            (720, 208, "volcano_orc"),
+            (1104, 1168, "volcano_orc"),
+            (1488, 1136, "volcano_slime"),
+            (1040, 144, "volcano_slime"),
+            (1392, 112, "volcano_orc"),
+            (1840, 1168, "volcano_orc"),
+            (2096, 1072, "volcano_slime"),
+            (1712, 176, "volcano_orc"),
+            (2160, 144, "volcano_orc"),
+            (2256, 432, "volcano_slime"),
+            (2128, 656, "volcano_orc"),
+            (2352, 848, "volcano_slime"),
+            (1552, 432, "volcano_slime"),
+            (1712, 912, "volcano_slime"),
+            (1008, 656, "volcano_org"),
+            (2416, 240, "volcano_orc"),
+            (1232, 848, "volcano_orc"),
+            (1040, 464, "volcano_slime"),
+            (1392, 656, "volcano_orc")
         ],
         "snowy_plains" : [
-            (240, 976, "winter_slime"),
-            (208, 368, "winter_orc"),
-            (624, 1104, "winter_orc"),
-            (592, 272, "winter_slime"),
-            (976, 1072, "winter_slime"),
-            (944, 368, "winter_orc"),
-            (496, 592, "winter_orc"),
-            (784, 784, "winter_orc"),
-            (1232, 816, "winter_slime"),
-            (1584, 496, "winter_orc"),
-            (1584, 880, "winter_orc"),
-            (1584, 1168, "winter_orc"),
-            (1840, 720, "winter_slime"),
-            (2032, 1040, "winter_orc"),
-            (1936, 304, "winter_slime"),
-            (2192, 368, "winter_orc"),
-            (2224, 752, "winter_slime"),
-            (1264, 528, "winter_slime")
+            (240, 944, "winter_slime"),
+            (208, 336, "winter_orc"),
+            (624, 1072, "winter_orc"),
+            (592, 240, "winter_slime"),
+            (976, 1040, "winter_slime"),
+            (944, 336, "winter_orc"),
+            (496, 560, "winter_orc"),
+            (784, 752, "winter_orc"),
+            (1232, 784, "winter_slime"),
+            (1584, 464, "winter_orc"),
+            (1584, 848, "winter_orc"),
+            (1584, 1136, "winter_orc"),
+            (1840, 688, "winter_slime"),
+            (2032, 1008, "winter_orc"),
+            (1936, 272, "winter_slime"),
+            (2192, 336, "winter_orc"),
+            (2224, 720, "winter_slime"),
+            (1264, 496, "winter_slime")
         ],
         "crystal_cave": [
-            (400, 720, "cave_org"),
-            (880, 725, "cave_org"),
-            (304, 1328, "cave_slime"),
-            (944, 1296, "cave_org"),
-            (656, 1456, "cave_org"),
-            (336, 1968, "cave_slime"),
-            (880, 2064, "cave_slime"),
-            (592, 1904, "cave_org"),
-            (656, 2256, "cave_org"),
-            (336, 2480, "cave_org"),
-            (624, 2448, "cave_slime"),
-            (912, 2512, "cave_org")
+            (400, 688, "cave_org"),
+            (880, 688, "cave_org"),
+            (304, 1296, "cave_slime"),
+            (944, 1264, "cave_org"),
+            (656, 1424, "cave_org"),
+            (336, 1936, "cave_slime"),
+            (880, 2032, "cave_slime"),
+            (592, 1872, "cave_org"),
+            (656, 2224, "cave_org"),
+            (336, 2448, "cave_org"),
+            (624, 2416, "cave_slime"),
+            (912, 2480, "cave_org")
         ]
     }
 
+    hidden_bows_info = {
+        "lobby": (816, 848, "lobby_bow"),
+        "volcano_island": (2320, 208, "volcano_bow"),
+        "snowy_plains": None,
+        "crystal_cave": None
+    }
+
     @staticmethod
-    def get_transitions():
-        return MapResources.transitions
+    def get_enemies_info(island_name):
+        return MapResources.enemies_info[island_name]
+    
+    @staticmethod
+    def get_hidden_bows_info(island_name):
+        return MapResources.hidden_bows_info[island_name]
 
 
 class PlayerResources:
@@ -365,6 +359,20 @@ class WeaponResources:
             "texture": None,
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/magma_projectile.png"),
             "projectile_speed": 128
+        },
+        "lobby_bow": {
+            "type": "ranged",
+            "damage": 5,
+            "texture": arcade.load_texture("assets/weapons/ranged/lobby_bow.png"),
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
+            "projectile_speed": 150
+        },
+        "volcano_bow": {
+            "type": "ranged",
+            "damage": 40,
+            "texture": arcade.load_texture("assets/weapons/ranged/volcano_bow.png"),
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
+            "projectile_speed": 300
         }
     }
 
