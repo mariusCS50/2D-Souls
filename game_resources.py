@@ -388,11 +388,15 @@ class EnemyResources:
     def get_textures(enemy_type):
         return EnemyResources.textures[enemy_type]
 
-class WeaponResources:
+class ItemResources:
     sword_hitbox_generator = SwordHitboxGenerator()
     spear_hitbox_generator = SpearHitboxGenerator()
 
-    weapons = {
+    items = {
+        "health_potion": {
+            "type": "potion",
+            "texture": arcade.load_texture("assets/potions/health_potion.png"),
+        },
         "cave_spear": {
             "type": "melee",
             "damage": 5,
@@ -419,10 +423,10 @@ class WeaponResources:
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/ice_projectile.png"),
             "projectile_speed": 150
         },
-        "fire_wand": {
+        "magma_wand": {
             "type": "ranged",
             "damage": 20,
-            "texture": arcade.load_texture("assets/weapons/ranged/fire_wand.png"),
+            "texture": arcade.load_texture("assets/weapons/ranged/magma_wand.png"),
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/magma_projectile.png"),
             "projectile_speed": 128
         },
@@ -450,4 +454,4 @@ class WeaponResources:
 
     @staticmethod
     def get_weapons():
-        return WeaponResources.weapons
+        return ItemResources.items

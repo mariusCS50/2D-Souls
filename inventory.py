@@ -1,5 +1,5 @@
 import arcade.gui
-from game_resources import WeaponResources
+from game_resources import ItemResources
 
 class Inventory(arcade.gui.UIWidget):
     def __init__(self, max_slots, cell_size, spacing, screen_width, screen_height):
@@ -65,7 +65,7 @@ class Inventory(arcade.gui.UIWidget):
 
         for i, item_name in enumerate(self.items):
             if item_name:
-                weapon_texture = WeaponResources.get_weapons()[item_name]["texture"]
+                weapon_texture = ItemResources.get_weapons()[item_name]["texture"]
                 slot_x = self.start_x + i * (self.cell_size + self.spacing) + self.cell_size // 2
                 slot_y = self.start_y + self.cell_size // 2
 

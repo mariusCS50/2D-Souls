@@ -1,7 +1,7 @@
 import arcade
 from drop_sprite import DropSprite
 from game_resources import MapResources
-from game_resources import WeaponResources
+from game_resources import ItemResources
 from melee_enemy import MeleeEnemy
 from ranger_enemy import RangerEnemy
 from winter_boss import WinterBoss
@@ -34,10 +34,10 @@ class IslandScene(arcade.Scene):
             pos_y = hidden_bow_info[1]
             name = hidden_bow_info[2]
 
-            self["Drops"].append(DropSprite(name, WeaponResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
+            self["Drops"].append(DropSprite(name, ItemResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
 
         if is_lobby:
-            weapon_texture = WeaponResources.get_weapons()["cave_sword1"]["texture"]
+            weapon_texture = ItemResources.get_weapons()["cave_sword1"]["texture"]
             drop = DropSprite(
                 name="cave_sword1",
                 texture=weapon_texture,
@@ -67,7 +67,7 @@ class IslandScene(arcade.Scene):
 
         enemy = RangerEnemy(
             enemy_type="cave_slime",
-            weapon_name="fire_wand",
+            weapon_name="water_wand",
             pos_x=self.map_width / 2,
             pos_y=300,
             speed=100,
@@ -76,8 +76,7 @@ class IslandScene(arcade.Scene):
             shoot_cooldown=1.5,
             vision_radius=300,
             drops = {
-                "fire_wand": 0.5,
-                "health_potion": 0.5
+                "health_potion": 1
             },
             scene=self,
             collision_layers=self.collision_layers

@@ -1,6 +1,6 @@
 import arcade
 import math
-from game_resources import PlayerResources, WeaponResources
+from game_resources import PlayerResources, ItemResources
 from health_bar import HealthBar
 from inventory import Inventory
 from projectile import Projectile
@@ -53,7 +53,7 @@ class Player(arcade.Sprite):
         self.dodge_cooldown_timer = 0
 
         self.action_textures = PlayerResources.get_textures()
-        self.weapons = WeaponResources.get_weapons()
+        self.weapons = ItemResources.get_weapons()
 
         self.current_facing_direction = "up"
         self.last_facing_direction = ""
@@ -295,7 +295,8 @@ class Player(arcade.Sprite):
         drops = arcade.check_for_collision_with_list(self, self.scene["Drops"])
         for drop in drops:
             if drop.name == "health_potion":
-                self.health += 10
+                self.health = 100 if self.health >= 90 else self.health + 10
+                self.scene["Drops"].remove(drop)
                 return
 
             if self.inventory.add_item(drop.name):
@@ -306,7 +307,7 @@ class Player(arcade.Sprite):
         if item_name:
             self.inventory.remove_item()
 
-        weapon_texture = WeaponResources.get_weapons()[item_name]["texture"]
+        weapon_texture = ItemResources.get_weapons()[item_name]["texture"]
         drop = DropSprite(
             name=item_name,
             texture=weapon_texture,
