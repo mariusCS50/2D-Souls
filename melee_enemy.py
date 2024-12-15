@@ -8,6 +8,11 @@ class MeleeEnemy(Enemy):
         
         self.damage = self.weapons[weapon_name]["damage"]
 
+        self.attack_time = 0.4
+        self.attack_timer = 0
+        self.attack_cooldown = 0.6
+        self.attack_cooldown_timer = 0
+
     def set_custom_hitbox(self):
         hitbox = [
             (-self.width / 2, -self.height),

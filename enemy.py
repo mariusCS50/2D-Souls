@@ -46,11 +46,6 @@ class Enemy(arcade.Sprite, ABC):
         self.current_facing_direction = "down"
         self.texture = self.enemy_textures["idle"][self.current_facing_direction]
 
-        self.attack_time = 0.4
-        self.attack_timer = 0
-        self.attack_cooldown = 0.6
-        self.attack_cooldown_timer = 0
-
         self.walk_texture_index = 0
         self.animation_walk_time = 0.2
         self.animation_walk_timer = 0
