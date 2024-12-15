@@ -2,7 +2,9 @@ import arcade
 import math
 from game_resources import PlayerResources, WeaponResources
 from health_bar import HealthBar
+from inventory import Inventory
 from projectile import Projectile
+from drop_sprite import DropSprite
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x, pos_y, scene):
@@ -27,6 +29,8 @@ class Player(arcade.Sprite):
 
         self._health = 100
         self.health_bar = HealthBar(16, 16, 200, 16, 2, self._health, self.max_health)
+
+        self.inventory = Inventory(8, 32, 6, 800, 600)
 
         self.direction_lock = False
 
@@ -61,7 +65,7 @@ class Player(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.weapon_name = "lobby_bow"
+        self.weapon_name = None
 
         self.melee_hitbox = None
         self.shot_projectile = False
@@ -191,6 +195,10 @@ class Player(arcade.Sprite):
                 self.dodge_cooldown_timer = 0
 
     def attack(self, delta_time):
+        if not self.weapon_name:
+            self.is_attacking = False
+            return
+
         if self.attack_timer <= self.attack_time:
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
@@ -276,7 +284,39 @@ class Player(arcade.Sprite):
                 self.invincible_timer = 0
                 self.alpha = 255
 
+    def update_item(self):
+        item_name = self.inventory.items[self.inventory.index]
+        if item_name:
+            self.weapon_name = item_name
+        else:
+            self.weapon_name = None
+
+    def pick_up_item(self):
+        drops = arcade.check_for_collision_with_list(self, self.scene["Drops"])
+        for drop in drops:
+            if self.inventory.add_item(drop.name):
+                self.scene["Drops"].remove(drop)
+
+    def drop_item(self):
+        item_name = self.inventory.items[self.inventory.index]
+        if item_name:
+            self.inventory.remove_item()
+
+        weapon_texture = WeaponResources.get_weapons()[item_name]["texture"]
+        drop = DropSprite(
+            name=item_name,
+            texture=weapon_texture,
+            pos_x=self.center_x,
+            pos_y=self.center_y,
+            scene=self.scene,
+            is_permanent=False
+        )
+
+        self.scene["Drops"].append(drop)
+
     def on_update(self, delta_time):
+        self.update_item()
+
         if self.is_dodging:
             self.dodge(delta_time)
         elif self.is_attacking:
