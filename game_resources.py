@@ -165,6 +165,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/orc/cave/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/orc/cave/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/orc/cave/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/orc/cave/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/orc/cave/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/orc/cave/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/orc/cave/death_right.png"),
             }
         },
         "winter_orc": {

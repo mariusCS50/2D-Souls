@@ -26,7 +26,7 @@ class IslandScene(arcade.Scene):
         self.enemies = arcade.SpriteList()
 
         enemy = MeleeEnemy(
-            enemy_type="winter_orc",
+            enemy_type="cave_orc",
             weapon_name="sword",
             pos_x=self.map_width / 2,
             pos_y=300,
