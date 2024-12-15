@@ -24,11 +24,11 @@ class Game(arcade.Window):
 
         self.player = Player(640, 32, self.current_scene)
         self.current_scene["Player"].append(self.player)
-        
+
         self.ui_manager.add(self.player.health_bar)
 
         collision_layers = self.current_scene.get_collision_layers()
-        self.player_physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers) 
+        self.player_physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
 
         snowy_plains = IslandScene("snowy_plains", is_lobby=False)
         snowy_plains.set_right_scene(self.current_scene)
@@ -47,10 +47,7 @@ class Game(arcade.Window):
         self.current_scene.set_right_scene(volcano_island)
 
         volcano_island["Player"].append(self.player)
-        
-        self.camera = arcade.Camera(self.width, self.height)
-        self.physics_engine = arcade.PhysicsEngineSimple(self.player, self.collision_layers)
-    
+
     def check_map_transition(self):
         new_scene = None
 
