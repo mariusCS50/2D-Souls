@@ -26,7 +26,7 @@ class IslandScene(arcade.Scene):
         self.enemies = arcade.SpriteList()
 
         enemy = RangerEnemy(
-            enemy_type="winter_slime",
+            enemy_type="cave_slime",
             weapon_name="fire_wand",
             pos_x=self.map_width / 2,
             pos_y=300,

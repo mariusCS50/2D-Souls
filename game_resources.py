@@ -279,6 +279,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/slime/cave/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/slime/cave/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/slime/cave/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/slime/cave/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/cave/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/cave/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/cave/death_right.png"),
             }
         },
         "winter_slime": {
