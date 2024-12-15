@@ -311,6 +311,12 @@ class EnemyResources:
                 "down": arcade.load_texture("assets/enemies/slime/winter/attack_down.png"),
                 "left": arcade.load_texture("assets/enemies/slime/winter/attack_left.png"),
                 "right": arcade.load_texture("assets/enemies/slime/winter/attack_right.png"),
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/slime/winter/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/slime/winter/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/slime/winter/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/slime/winter/death_right.png"),
             }
         },
         "volcano_slime": {
