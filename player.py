@@ -294,6 +294,10 @@ class Player(arcade.Sprite):
     def pick_up_item(self):
         drops = arcade.check_for_collision_with_list(self, self.scene["Drops"])
         for drop in drops:
+            if drop.name == "health_potion":
+                self.health += 10
+                return
+
             if self.inventory.add_item(drop.name):
                 self.scene["Drops"].remove(drop)
 

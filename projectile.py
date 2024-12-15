@@ -48,7 +48,7 @@ class Projectile(arcade.Sprite):
                 hit.take_damage(self.damage)
                 self.scene["Projectiles"].remove(self)
                 return
-            
+
         self.timer -= delta_time
         if self.timer <= 0:
             self.scene["Projectiles"].remove(self)
