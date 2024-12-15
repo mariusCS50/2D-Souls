@@ -25,7 +25,7 @@ class MapResources:
             (2352, 848, "volcano_slime"),
             (1552, 432, "volcano_slime"),
             (1712, 912, "volcano_slime"),
-            (1008, 656, "volcano_org"),
+            (1008, 656, "volcano_orc"),
             (2416, 240, "volcano_orc"),
             (1232, 848, "volcano_orc"),
             (1040, 464, "volcano_slime"),
@@ -52,18 +52,18 @@ class MapResources:
             (1264, 496, "winter_slime")
         ],
         "crystal_cave": [
-            (400, 688, "cave_org"),
-            (880, 688, "cave_org"),
+            (400, 688, "cave_orc"),
+            (880, 688, "cave_orc"),
             (304, 1296, "cave_slime"),
-            (944, 1264, "cave_org"),
-            (656, 1424, "cave_org"),
+            (944, 1264, "cave_orc"),
+            (656, 1424, "cave_orc"),
             (336, 1936, "cave_slime"),
             (880, 2032, "cave_slime"),
-            (592, 1872, "cave_org"),
-            (656, 2224, "cave_org"),
-            (336, 2448, "cave_org"),
+            (592, 1872, "cave_orc"),
+            (656, 2224, "cave_orc"),
+            (336, 2448, "cave_orc"),
             (624, 2416, "cave_slime"),
-            (912, 2480, "cave_org")
+            (912, 2480, "cave_orc")
         ]
     }
 
@@ -380,6 +380,41 @@ class EnemyResources:
         }
     }
 
+    enemies_stats = {
+        "cave_orc": ("melee", "cave_sword1", 96, 10, 0.5, 2, 288,
+                    {
+                        "cave_sword1": 0.4,
+                        "cave_sword2": 0.2,
+                        "cave_spear": 0.1
+                    }),
+        "cave_slime": ("ranger", "water_wand", 64, 10, 0.5, 2, 288,
+                    {
+                        "water_wand": 0.35
+                    }),
+
+        "winter_orc": ("melee", "winter_sword1", 128, 20, 0.4, 1.2, 320,
+                    {
+                        "winter_sword1": 0.3,
+                        "winter_sword2": 0.15,
+                        "winter_spear": 0.05
+                    }),
+        "winter_slime": ("ranger", "ice_wand", 96, 20, 0.4, 1.2, 320,
+                    {
+                        "ice_wand": 0.2
+                    }),
+
+        "volcano_orc": ("melee", "volcano_sword1", 160, 35, 0.2, 0.8, 336,
+                    {
+                        "volcano_sword1": 0.1,
+                        "volcano_sword2": 0.05,
+                        "volcano_spear": 0.05
+                    }),
+        "volcano_slime": ("ranger", "magma_wand", 128, 35, 0.2, 0.8, 336,
+                    {
+                        "magma_wand": 0.1
+                    })
+    }
+
     @staticmethod
     def get_walking_directions():
         return EnemyResources.walking_directions
@@ -387,6 +422,9 @@ class EnemyResources:
     @staticmethod
     def get_textures(enemy_type):
         return EnemyResources.textures[enemy_type]
+    
+    def get_enemy_stats(enemy_type):
+        return EnemyResources.enemies_stats[enemy_type]
 
 class ItemResources:
     sword_hitbox_generator = SwordHitboxGenerator()
@@ -405,51 +443,95 @@ class ItemResources:
         },
         "cave_sword1": {
             "type": "melee",
-            "damage": 5,
+            "damage": 4,
             "texture": arcade.load_texture("assets/weapons/melee/cave_sword1.png"),
+            "hitbox_generator": sword_hitbox_generator
+        },
+        "cave_sword2": {
+            "type": "melee",
+            "damage": 8,
+            "texture": arcade.load_texture("assets/weapons/melee/cave_sword2.png"),
+            "hitbox_generator": sword_hitbox_generator
+        },
+        "cave_spear": {
+            "type": "melee",
+            "damage": 6,
+            "texture": arcade.load_texture("assets/weapons/melee/cave_spear.png"),
             "hitbox_generator": sword_hitbox_generator
         },
         "water_wand": {
             "type": "ranged",
-            "damage": 5,
+            "damage": 3,
             "texture": arcade.load_texture("assets/weapons/ranged/water_wand.png"),
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/water_projectile.png"),
-            "projectile_speed": 175
+            "projectile_speed": 192
+        },
+
+        "winter_sword1": {
+            "type": "melee",
+            "damage": 8,
+            "texture": arcade.load_texture("assets/weapons/melee/winter_sword1.png"),
+            "hitbox_generator": sword_hitbox_generator
+        },
+        "winter_sword2": {
+            "type": "melee",
+            "damage": 12,
+            "texture": arcade.load_texture("assets/weapons/melee/winter_sword2.png"),
+            "hitbox_generator": sword_hitbox_generator
+        },
+        "winter_spear": {
+            "type": "melee",
+            "damage": 10,
+            "texture": arcade.load_texture("assets/weapons/melee/winter_spear.png"),
+            "hitbox_generator": sword_hitbox_generator
         },
         "ice_wand": {
             "type": "ranged",
-            "damage": 10,
+            "damage": 6,
             "texture": arcade.load_texture("assets/weapons/ranged/ice_wand.png"),
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/ice_projectile.png"),
-            "projectile_speed": 150
-        },
-        "magma_wand": {
-            "type": "ranged",
-            "damage": 20,
-            "texture": arcade.load_texture("assets/weapons/ranged/magma_wand.png"),
-            "projectile_texture": arcade.load_texture("assets/weapons/ranged/magma_projectile.png"),
-            "projectile_speed": 128
-        },
-        "lobby_bow": {
-            "type": "ranged",
-            "damage": 5,
-            "texture": arcade.load_texture("assets/weapons/ranged/lobby_bow.png"),
-            "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
-            "projectile_speed": 150
-        },
-        "volcano_bow": {
-            "type": "ranged",
-            "damage": 40,
-            "texture": arcade.load_texture("assets/weapons/ranged/volcano_bow.png"),
-            "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
-            "projectile_speed": 300
+            "projectile_speed": 224
         },
         "volcano_sword1": {
             "type": "melee",
-            "damage": 20,
+            "damage": 12,
             "texture": arcade.load_texture("assets/weapons/melee/volcano_sword1.png"),
             "hitbox_generator": sword_hitbox_generator
-        }
+        },
+        "volcano_sword2": {
+            "type": "melee",
+            "damage": 16,
+            "texture": arcade.load_texture("assets/weapons/melee/volcano_sword2.png"),
+            "hitbox_generator": sword_hitbox_generator
+        },
+        "volcano_spear": {
+            "type": "melee",
+            "damage": 14,
+            "texture": arcade.load_texture("assets/weapons/melee/volcano_spear.png"),
+            "hitbox_generator": sword_hitbox_generator
+        },
+        "magma_wand": {
+            "type": "ranged",
+            "damage": 10,
+            "texture": arcade.load_texture("assets/weapons/ranged/magma_wand.png"),
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/magma_projectile.png"),
+            "projectile_speed": 224
+        },
+
+        "lobby_bow": {
+            "type": "ranged",
+            "damage": 3,
+            "texture": arcade.load_texture("assets/weapons/ranged/lobby_bow.png"),
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
+            "projectile_speed": 224
+        },
+        "volcano_bow": {
+            "type": "ranged",
+            "damage": 10,
+            "texture": arcade.load_texture("assets/weapons/ranged/volcano_bow.png"),
+            "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
+            "projectile_speed": 256
+        },
     }
 
     @staticmethod
