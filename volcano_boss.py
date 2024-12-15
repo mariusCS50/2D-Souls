@@ -1,6 +1,6 @@
 import arcade
 import math
-from game_resources import EnemyResources, WeaponResources
+from game_resources import EnemyResources, ItemResources
 
 class VolcanoBoss(arcade.Sprite):
     def __init__(self, pos_x, pos_y, scene):
@@ -8,7 +8,7 @@ class VolcanoBoss(arcade.Sprite):
 
         self.boss_textures = EnemyResources.get_textures("volcano_orc")
 
-        self.damage = WeaponResources.get_weapons()["volcano_sword1"]["damage"]
+        self.damage = ItemResources.get_weapons()["volcano_sword1"]["damage"]
 
         self.center_x = pos_x
         self.center_y = pos_y
@@ -72,7 +72,7 @@ class VolcanoBoss(arcade.Sprite):
 
     def get_target(self):
         return self.scene["Player"][0]
-    
+
     @property
     def health(self):
         return self._health

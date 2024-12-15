@@ -1,9 +1,9 @@
 import arcade
 
-from sword_hitbox_generator import SwordHitboxGenerator
+from melee_hitbox_generator import SwordHitboxGenerator, SpearHitboxGenerator
 
 
-class MapResources:    
+class MapResources:
     enemies_info = {
         "volcano_island" : [
             (656, 816, "volcano_orc"),
@@ -77,7 +77,7 @@ class MapResources:
     @staticmethod
     def get_enemies_info(island_name):
         return MapResources.enemies_info[island_name]
-    
+
     @staticmethod
     def get_hidden_bows_info(island_name):
         return MapResources.hidden_bows_info[island_name]
@@ -426,11 +426,21 @@ class EnemyResources:
     def get_enemy_stats(enemy_type):
         return EnemyResources.enemies_stats[enemy_type]
 
-class WeaponResources:
+class ItemResources:
     sword_hitbox_generator = SwordHitboxGenerator()
-    # TODO: Spear hitbox generator
+    spear_hitbox_generator = SpearHitboxGenerator()
 
-    weapons = {
+    items = {
+        "health_potion": {
+            "type": "potion",
+            "texture": arcade.load_texture("assets/potions/health_potion.png"),
+        },
+        "cave_spear": {
+            "type": "melee",
+            "damage": 5,
+            "texture": arcade.load_texture("assets/weapons/melee/cave_spear.png"),
+            "hitbox_generator": spear_hitbox_generator
+        },
         "cave_sword1": {
             "type": "melee",
             "damage": 4,
@@ -482,7 +492,6 @@ class WeaponResources:
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/ice_projectile.png"),
             "projectile_speed": 224
         },
-
         "volcano_sword1": {
             "type": "melee",
             "damage": 12,
@@ -527,4 +536,4 @@ class WeaponResources:
 
     @staticmethod
     def get_weapons():
-        return WeaponResources.weapons
+        return ItemResources.items

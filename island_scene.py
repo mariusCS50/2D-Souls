@@ -33,7 +33,19 @@ class IslandScene(arcade.Scene):
             pos_y = hidden_bow_info[1]
             name = hidden_bow_info[2]
 
-            self["Drops"].append(DropSprite(name, WeaponResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
+            self["Drops"].append(DropSprite(name, ItemResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
+
+        if is_lobby:
+            weapon_texture = ItemResources.get_weapons()["cave_sword1"]["texture"]
+            drop = DropSprite(
+                name="cave_sword1",
+                texture=weapon_texture,
+                pos_x=self.map_width // 2 - 60,
+                pos_y=570,
+                scene=self,
+                is_permanent=False
+            )
+            self["Drops"].append(drop)
 
         self.is_lobby = is_lobby
         self.spawned_boss = False
@@ -122,7 +134,6 @@ class IslandScene(arcade.Scene):
         super().on_update(delta_time)
 
         if not self.is_lobby and not self.spawned_boss and len(self["Enemies"]) == 0:
-            # TODO: Spawn boss
             self.spawned_boss = True
 
     def get_collision_layers(self):

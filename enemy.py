@@ -1,7 +1,7 @@
 import arcade
 import random
 from abc import ABC, abstractmethod
-from game_resources import EnemyResources, WeaponResources
+from game_resources import EnemyResources, ItemResources
 from drop_sprite import DropSprite
 
 class Enemy(arcade.Sprite, ABC):
@@ -30,7 +30,7 @@ class Enemy(arcade.Sprite, ABC):
 
         self.is_invincible = False
 
-        self.invincible_time = 1
+        self.invincible_time = 0.6
         self.invincible_timer = 0
 
         self.directions = EnemyResources.get_walking_directions()
@@ -39,7 +39,7 @@ class Enemy(arcade.Sprite, ABC):
         self.physics_engine = arcade.PhysicsEngineSimple(self, self.collision_layers)
 
         self.enemy_textures = EnemyResources.get_textures(enemy_type)
-        self.weapons = WeaponResources.get_weapons()
+        self.weapons = ItemResources.get_weapons()
 
         self.current_facing_direction = "down"
         self.texture = self.enemy_textures["idle"][self.current_facing_direction]

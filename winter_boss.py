@@ -1,6 +1,6 @@
 import math
 import arcade
-from game_resources import EnemyResources, WeaponResources
+from game_resources import EnemyResources, ItemResources
 from projectile import Projectile
 
 class WinterBoss(arcade.Sprite):
@@ -9,7 +9,7 @@ class WinterBoss(arcade.Sprite):
 
         self.boss_textures = EnemyResources.get_textures("winter_slime")
 
-        ice_wand = WeaponResources.get_weapons()["ice_wand"]
+        ice_wand = ItemResources.get_weapons()["ice_wand"]
         self.projectile_damage = ice_wand["damage"]
         self.projectile_texture = ice_wand["projectile_texture"]
         self.projectile_speed = ice_wand["projectile_speed"]
@@ -75,7 +75,7 @@ class WinterBoss(arcade.Sprite):
 
     def get_target(self):
         return self.scene["Player"][0]
-    
+
     @property
     def health(self):
         return self._health
@@ -125,7 +125,7 @@ class WinterBoss(arcade.Sprite):
 
         self.current_facing_direction = self.get_facing_direction()
         self.animate_walk(delta_time)
-    
+
     def shoot(self, delta_time):
         if self.shoot_timer <= self.shoot_time:
             self.texture = self.boss_textures["attack"][self.current_facing_direction]
@@ -205,4 +205,3 @@ class WinterBoss(arcade.Sprite):
         self.invincible_timer_update(delta_time)
 
 
-        
