@@ -51,7 +51,7 @@ class Enemy(arcade.Sprite, ABC):
         self.is_dying = False
         self.death_time = 0.4
         self.death_timer = 0
-        
+
         self.drops = drops
         self.drops[None] = 1 - sum(p for p in self.drops.values())
 
@@ -76,12 +76,10 @@ class Enemy(arcade.Sprite, ABC):
         self.change_y = 0
         self.is_dying = True
         self.texture = self.enemy_textures["death"][self.current_facing_direction]
-        
+
         drop = random.choices(list(self.drops.keys()), weights=list(self.drops.values()))[0]
         if drop is not None:
             self.scene["Drops"].append(DropSprite(drop, self.weapons[drop]["texture"], self.center_x, self.center_y, self.scene))
-
-        self.scene["Enemies"].remove(self)
 
     @abstractmethod
     def set_custom_hitbox(self):
