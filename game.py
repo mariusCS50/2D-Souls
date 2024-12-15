@@ -124,6 +124,8 @@ class Game(arcade.Window):
                 self.player.can_dodge = False
         elif key == arcade.key.E:
             self.player.pick_up_item()
+        elif key == arcade.key.R:
+            self.player.drop_item()
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W:

@@ -4,6 +4,7 @@ from game_resources import PlayerResources, WeaponResources
 from health_bar import HealthBar
 from inventory import Inventory
 from projectile import Projectile
+from drop_sprite import DropSprite
 
 class Player(arcade.Sprite):
     def __init__(self, pos_x, pos_y, scene):
@@ -277,6 +278,23 @@ class Player(arcade.Sprite):
         for drop in drops:
             if self.inventory.add_item(drop.name):
                 self.scene["Drops"].remove(drop)
+
+    def drop_item(self):
+        item_name = self.inventory.items[self.inventory.index]
+        if item_name:
+            self.inventory.remove_item()
+
+        weapon_texture = WeaponResources.get_weapons()[item_name]["texture"]
+        drop = DropSprite(
+            name=item_name,
+            texture=weapon_texture,
+            pos_x=self.center_x,
+            pos_y=self.center_y,
+            scene=self.scene,
+            is_permanent=False
+        )
+
+        self.scene["Drops"].append(drop)
 
     def on_update(self, delta_time):
         if self.is_dodging:
