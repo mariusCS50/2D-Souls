@@ -26,6 +26,7 @@ class Game(arcade.Window):
         self.current_scene["Player"].append(self.player)
 
         self.ui_manager.add(self.player.health_bar)
+        self.ui_manager.add(self.player.inventory)
 
         collision_layers = self.current_scene.get_collision_layers()
         self.player_physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
@@ -139,6 +140,12 @@ class Game(arcade.Window):
 
             self.player.is_attacking = True
             self.player.can_attack = False
+
+    def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
+        if scroll_y < 0:
+            self.player.inventory.select_next()
+        elif scroll_y > 0:
+            self.player.inventory.select_previous()
 
 if __name__ == "__main__":
     game = Game()

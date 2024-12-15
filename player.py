@@ -2,6 +2,7 @@ import arcade
 import math
 from game_resources import PlayerResources, WeaponResources
 from health_bar import HealthBar
+from inventory import Inventory
 from projectile import Projectile
 
 class Player(arcade.Sprite):
@@ -27,6 +28,8 @@ class Player(arcade.Sprite):
 
         self._health = 100
         self.health_bar = HealthBar(16, 16, 200, 16, 2, self._health, self.max_health)
+
+        self.inventory = Inventory(8, 32, 6, 800, 600)
 
         self.direction_lock = False
 
