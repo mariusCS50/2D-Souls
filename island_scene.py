@@ -1,6 +1,6 @@
 import arcade
 from drop_sprite import DropSprite
-from game_resources import MapResources, WeaponResources, EnemyResources
+from game_resources import MapResources, ItemResources, EnemyResources
 from melee_enemy import MeleeEnemy
 from ranger_enemy import RangerEnemy
 from winter_boss import WinterBoss
@@ -35,25 +35,13 @@ class IslandScene(arcade.Scene):
 
             self["Drops"].append(DropSprite(name, ItemResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
 
-        if is_lobby:
-            weapon_texture = ItemResources.get_weapons()["cave_sword1"]["texture"]
-            drop = DropSprite(
-                name="cave_sword1",
-                texture=weapon_texture,
-                pos_x=self.map_width // 2 - 60,
-                pos_y=570,
-                scene=self,
-                is_permanent=False
-            )
-            self["Drops"].append(drop)
-
         self.is_lobby = is_lobby
         self.spawned_boss = False
 
         if self.is_lobby:
-            self["Drops"].append(DropSprite("cave_sword1", WeaponResources.get_weapons()["cave_sword1"]["texture"], 500, 500, self, True))
+            self["Drops"].append(DropSprite("cave_sword1", ItemResources.get_weapons()["cave_sword1"]["texture"], 500, 500, self, True))
             return
-        
+
         enemies_info = MapResources.get_enemies_info(island_name)
         for enemy_info in enemies_info:
             pos_x = enemy_info[0]
@@ -104,7 +92,7 @@ class IslandScene(arcade.Scene):
                         self.collision_layers
                     )
                 )
-            
+
 
     def set_up_scene(self, scene):
         self.up = scene
@@ -140,22 +128,24 @@ class IslandScene(arcade.Scene):
         return self.collision_layers
 
     def on_draw(self):
-        self["Collision Layer"].draw()
-        self["Collision Layer 2"].draw()
-        self["Ground Layer"].draw()
-        self["Ground Layer 2"].draw()
-        self["Ground Layer 3"].draw()
-        self["Collision Layer 3"].draw()
-        self["Drops"].draw()
+        # self["Collision Layer"].draw()
+        # self["Collision Layer 2"].draw()
+        # self["Ground Layer"].draw()
+        # self["Ground Layer 2"].draw()
+        # self["Ground Layer 3"].draw()
+        # self["Collision Layer 3"].draw()
+        # self["Drops"].draw()
 
-        draw_priority = arcade.SpriteList()
-        draw_priority.extend(self["Player"])
-        draw_priority.extend(self["Projectiles"])
-        draw_priority.extend(self["Enemies"])
-        draw_priority.extend(self["Boss"])
+        # draw_priority = arcade.SpriteList()
+        # draw_priority.extend(self["Player"])
+        # draw_priority.extend(self["Projectiles"])
+        # draw_priority.extend(self["Enemies"])
+        # draw_priority.extend(self["Boss"])
 
-        sprite_priority = sorted(draw_priority, key=lambda sprite: sprite.center_y, reverse=True)
-        for sprite in sprite_priority:
-            sprite.draw()
+        # sprite_priority = sorted(draw_priority, key=lambda sprite: sprite.center_y, reverse=True)
+        # for sprite in sprite_priority:
+        #     sprite.draw()
 
-        self["Top Layer"].draw()
+        # self["Top Layer"].draw()
+
+        self.draw()
