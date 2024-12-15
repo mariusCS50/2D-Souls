@@ -82,6 +82,11 @@ class Inventory(arcade.gui.UIWidget):
                 self.add(sprite_widget)
 
     def add_item(self, item_name):
+        if self.items[self.index] is None:
+            self.items[self.index] = item_name
+            self.update_inventory()
+            return True
+
         for i in range(self.max_slots):
             if self.items[i] is None:
                 self.items[i] = item_name
@@ -93,6 +98,8 @@ class Inventory(arcade.gui.UIWidget):
         if self.items[self.index] is not None:
             self.items[self.index] = None
             self.update_inventory()
+            return True
+        return False
 
     def select_next(self):
         self.index = (self.index + 1) % self.max_slots

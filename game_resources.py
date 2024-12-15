@@ -400,7 +400,8 @@ class EnemyResources:
                     }),
         "winter_slime": ("ranger", "ice_wand", 96, 20, 0.4, 1.2, 320,
                     {
-                        "ice_wand": 0.2
+                        "ice_wand": 0.2,
+                        "health_potion": 0.4
                     }),
 
         "volcano_orc": ("melee", "volcano_sword1", 160, 35, 0.2, 0.8, 336,
@@ -411,7 +412,8 @@ class EnemyResources:
                     }),
         "volcano_slime": ("ranger", "magma_wand", 128, 35, 0.2, 0.8, 336,
                     {
-                        "magma_wand": 0.1
+                        "magma_wand": 0.1,
+                        "health_potion": 0.4
                     })
     }
 

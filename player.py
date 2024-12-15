@@ -305,19 +305,20 @@ class Player(arcade.Sprite):
     def drop_item(self):
         item_name = self.inventory.items[self.inventory.index]
         if item_name:
-            self.inventory.remove_item()
+            if self.inventory.remove_item():
+                weapon_texture = ItemResources.get_weapons()[item_name]["texture"]
+                drop = DropSprite(
+                    name=item_name,
+                    texture=weapon_texture,
+                    pos_x=self.center_x,
+                    pos_y=self.center_y,
+                    scene=self.scene,
+                    is_permanent=False
+                )
 
-        weapon_texture = ItemResources.get_weapons()[item_name]["texture"]
-        drop = DropSprite(
-            name=item_name,
-            texture=weapon_texture,
-            pos_x=self.center_x,
-            pos_y=self.center_y,
-            scene=self.scene,
-            is_permanent=False
-        )
+                self.scene["Drops"].append(drop)
 
-        self.scene["Drops"].append(drop)
+
 
     def on_update(self, delta_time):
         self.update_item()
