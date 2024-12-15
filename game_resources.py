@@ -410,6 +410,12 @@ class WeaponResources:
             "texture": arcade.load_texture("assets/weapons/ranged/volcano_bow.png"),
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
             "projectile_speed": 300
+        },
+        "volcano_sword1": {
+            "type": "melee",
+            "damage": 20,
+            "texture": arcade.load_texture("assets/weapons/melee/volcano_sword1.png"),
+            "hitbox_generator": SwordHitboxGenerator()
         }
     }
 
