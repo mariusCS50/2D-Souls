@@ -13,12 +13,11 @@ class VolcanoBoss(arcade.Sprite):
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.normal_speed = 128
-        self.raged_speed = 224
+        self.stats_multiplier = 1.0
 
-        self.speed = self.normal_speed
+        self.speed = 144
 
-        self.max_health = self._health = 1
+        self.max_health = self._health = 150
 
         self.ability_name = "volcano_boss"
 
@@ -33,16 +32,10 @@ class VolcanoBoss(arcade.Sprite):
         self.invincible_time = 1
         self.invincible_timer = 0
 
-        self.normal_attack_time = 0.4
-        self.raged_attack_time = 0.2
-
-        self.attack_time = self.normal_attack_time
+        self.attack_time = 0.2
         self.attack_timer = 0
 
-        self.normal_attack_cooldown = 0.8
-        self.raged_attack_cooldown = 0.4
-
-        self.attack_cooldown = self.normal_attack_cooldown
+        self.attack_cooldown = 0.8
         self.attack_cooldown_timer = 0
 
         self.death_time = 0.4
@@ -55,8 +48,8 @@ class VolcanoBoss(arcade.Sprite):
         self.animation_walk_time = 0.2
         self.animation_walk_timer = 0
 
-        self.normal_time = 12
-        self.rage_time = 4
+        self.normal_time = 8
+        self.rage_time = 2
 
         self.is_raged = False
         self.timer = 0
@@ -116,21 +109,24 @@ class VolcanoBoss(arcade.Sprite):
         diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
-        self.dir_x = diff_x / distance
-        self.dir_y = diff_y / distance
+        if distance > 40:
+            self.dir_x = diff_x / distance
+            self.dir_y = diff_y / distance
 
-        self.change_x = self.dir_x * self.speed * delta_time
-        self.change_y = self.dir_y * self.speed * delta_time
+            self.change_x = self.dir_x * (self.speed * self.stats_multiplier) * delta_time
+            self.change_y = self.dir_y * (self.speed * self.stats_multiplier) * delta_time
 
-        self.current_facing_direction = self.get_facing_direction()
-        self.animate_walk(delta_time)
+            self.current_facing_direction = self.get_facing_direction()
+            self.animate_walk(delta_time)
+
+        return distance
 
     def attack(self, delta_time):
         if self.attack_timer == 0 and not self.get_target().is_dodging:
-            self.get_target().take_damage(self.damage)
+            self.get_target().take_damage(self.damage * self.stats_multiplier)
 
         self.attack_timer += delta_time
-        if self.attack_timer <= self.attack_time:
+        if self.attack_timer <= self.attack_time / self.stats_multiplier:
             self.texture = self.boss_textures["attack"][self.current_facing_direction]
             self.change_x = 0
             self.change_y = 0
@@ -142,7 +138,7 @@ class VolcanoBoss(arcade.Sprite):
     def attack_cooldown_update(self, delta_time):
         if not self.can_attack:
             self.attack_cooldown_timer += delta_time
-            if self.attack_cooldown_timer >= self.attack_cooldown:
+            if self.attack_cooldown_timer >= self.attack_cooldown / self.stats_multiplier:
                 self.can_attack = True
                 self.attack_cooldown_timer = 0.0
 
@@ -178,17 +174,13 @@ class VolcanoBoss(arcade.Sprite):
             self.color = (255, 255, 255)
             if self.timer >= self.normal_time:
                 self.is_raged = True
-                self.speed = self.raged_speed
-                self.attack_time = self.raged_attack_time
-                self.attack_cooldown = self.raged_attack_cooldown
+                self.stats_multiplier = 2
                 self.timer = 0
         else:
             self.color = (255, 80, 80)
             if self.timer >= self.rage_time:
                 self.is_raged = False
-                self.speed = self.normal_speed
-                self.attack_time = self.normal_attack_time
-                self.attack_cooldown = self.normal_attack_cooldown
+                self.stats_multiplier = 1
                 self.timer = 0
 
     def on_update(self, delta_time):
@@ -199,15 +191,9 @@ class VolcanoBoss(arcade.Sprite):
         elif self.is_attacking:
             self.attack(delta_time)
         else:
-            self.walk(delta_time)
+            distance = self.walk(delta_time)
 
-            body_x = self.center_x
-            body_y = self.center_y - 40
-
-            target_x = self.get_target().center_x
-            target_y = self.get_target().center_y
-
-            if arcade.get_distance(body_x, body_y, target_x, target_y) <= 50 and self.can_attack:
+            if distance <= 60 and self.can_attack:
                 self.is_attacking = True
                 self.can_attack = False
 

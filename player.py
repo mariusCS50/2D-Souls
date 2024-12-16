@@ -16,7 +16,7 @@ class Player(arcade.Sprite):
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.speed = 500
+        self.speed = 200
 
         self.move_up = False
         self.move_down = False

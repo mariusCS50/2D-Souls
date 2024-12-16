@@ -13,9 +13,9 @@ class CaveBoss(arcade.Sprite):
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.speed = 120
+        self.speed = 144
 
-        self.max_health = self._health = 1
+        self.max_health = self._health = 50
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
@@ -40,8 +40,6 @@ class CaveBoss(arcade.Sprite):
         self.attack_timer = 0
 
         self.attack_cooldown = 0.8
-        self.raged_attack_cooldown = 0.4
-
         self.attack_cooldown_timer = 0
 
         self.death_time = 0.4
