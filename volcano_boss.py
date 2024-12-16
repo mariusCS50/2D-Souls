@@ -104,7 +104,7 @@ class VolcanoBoss(arcade.Sprite):
             self.texture = self.boss_textures["walk"][self.current_facing_direction][self.walk_texture_index]
             self.animation_walk_timer = 0
 
-    def walk(self, delta_time):
+    def follow_target(self, delta_time):
         diff_x = self.get_target().center_x - self.center_x
         diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
@@ -191,7 +191,7 @@ class VolcanoBoss(arcade.Sprite):
         elif self.is_attacking:
             self.attack(delta_time)
         else:
-            distance = self.walk(delta_time)
+            distance = self.follow_target(delta_time)
 
             if distance <= 60 and self.can_attack:
                 self.is_attacking = True

@@ -5,64 +5,64 @@ from melee_hitbox_generator import SwordHitboxGenerator, SpearHitboxGenerator
 class MapResources:
     enemies_info = {
         "volcano_island" : [
-            (656, 816, "volcano_orc"),
-            (560, 432, "volcano_orc"),
-            (592, 1008, "volcano_orc"),
-            (816, 1072, "volcano_slime"),
-            (816, 304, "volcano_slime"),
-            (1104, 1168, "volcano_orc"),
-            (1488, 1136, "volcano_slime"),
-            (1040, 144, "volcano_orc"),
-            (1392, 112, "volcano_orc"),
-            (1840, 1168, "volcano_orc"),
-            (2096, 1072, "volcano_slime"),
-            (1712, 176, "volcano_orc"),
-            (2256, 432, "volcano_slime"),
-            (2128, 656, "volcano_orc"),
-            (1552, 432, "volcano_slime"),
-            (1712, 912, "volcano_slime"),
-            (1008, 656, "volcano_orc"),
-            (2416, 240, "volcano_orc"),
-            (1232, 848, "volcano_orc"),
-            (1392, 656, "volcano_orc")
+            {"x": 656, "y": 816, "enemy_type": "volcano_orc"},
+            {"x": 560, "y": 432, "enemy_type": "volcano_orc"},
+            {"x": 592, "y": 1008, "enemy_type": "volcano_orc"},
+            {"x": 816, "y": 1072, "enemy_type": "volcano_slime"},
+            {"x": 816, "y": 304, "enemy_type": "volcano_slime"},
+            {"x": 1104, "y": 1168, "enemy_type": "volcano_orc"},
+            {"x": 1488, "y": 1136, "enemy_type": "volcano_slime"},
+            {"x": 1040, "y": 144, "enemy_type": "volcano_orc"},
+            {"x": 1392, "y": 112, "enemy_type": "volcano_orc"},
+            {"x": 1840, "y": 1168, "enemy_type": "volcano_orc"},
+            {"x": 2096, "y": 1072, "enemy_type": "volcano_slime"},
+            {"x": 1712, "y": 176, "enemy_type": "volcano_orc"},
+            {"x": 2256, "y": 432, "enemy_type": "volcano_slime"},
+            {"x": 2128, "y": 656, "enemy_type": "volcano_orc"},
+            {"x": 1552, "y": 432, "enemy_type": "volcano_slime"},
+            {"x": 1712, "y": 912, "enemy_type": "volcano_slime"},
+            {"x": 1008, "y": 656, "enemy_type": "volcano_orc"},
+            {"x": 2416, "y": 240, "enemy_type": "volcano_orc"},
+            {"x": 1232, "y": 848, "enemy_type": "volcano_orc"},
+            {"x": 1392, "y": 656, "enemy_type": "volcano_orc"}
         ],
         "snowy_plains" : [
-            (240, 944, "winter_slime"),
-            (208, 336, "winter_orc"),
-            (624, 1072, "winter_orc"),
-            (592, 240, "winter_slime"),
-            (976, 1040, "winter_slime"),
-            (944, 336, "winter_orc"),
-            (496, 560, "winter_orc"),
-            (784, 752, "winter_orc"),
-            (1232, 784, "winter_slime"),
-            (1584, 464, "winter_orc"),
-            (1584, 848, "winter_orc"),
-            (1584, 1136, "winter_orc"),
-            (2032, 1008, "winter_orc"),
-            (1936, 272, "winter_slime"),
-            (2224, 720, "winter_slime"),
-            (1264, 496, "winter_slime")
+            {"x": 240, "y": 944, "enemy_type": "winter_slime"},
+            {"x": 208, "y": 336, "enemy_type": "winter_orc"},
+            {"x": 624, "y": 1072, "enemy_type": "winter_orc"},
+            {"x": 592, "y": 240, "enemy_type": "winter_slime"},
+            {"x": 976, "y": 1040, "enemy_type": "winter_slime"},
+            {"x": 944, "y": 336, "enemy_type": "winter_orc"},
+            {"x": 496, "y": 560, "enemy_type": "winter_orc"},
+            {"x": 784, "y": 752, "enemy_type": "winter_orc"},
+            {"x": 1232, "y": 784, "enemy_type": "winter_slime"},
+            {"x": 1584, "y": 464, "enemy_type": "winter_orc"},
+            {"x": 1584, "y": 848, "enemy_type": "winter_orc"},
+            {"x": 1584, "y": 1136, "enemy_type": "winter_orc"},
+            {"x": 2032, "y": 1008, "enemy_type": "winter_orc"},
+            {"x": 1936, "y": 272, "enemy_type": "winter_slime"},
+            {"x": 2224, "y": 720, "enemy_type": "winter_slime"},
+            {"x": 1264, "y": 496, "enemy_type": "winter_slime"}
         ],
         "crystal_cave": [
-            (400, 688, "cave_orc"),
-            (880, 688, "cave_orc"),
-            (304, 1296, "cave_slime"),
-            (944, 1264, "cave_orc"),
-            (656, 1424, "cave_orc"),
-            (336, 1936, "cave_slime"),
-            (880, 2032, "cave_slime"),
-            (592, 1872, "cave_orc"),
-            (656, 2224, "cave_orc"),
-            (336, 2448, "cave_orc"),
-            (624, 2416, "cave_slime"),
-            (912, 2480, "cave_orc")
+            {"x": 400, "y": 688, "enemy_type": "cave_orc"},
+            {"x": 880, "y": 688, "enemy_type": "cave_orc"},
+            {"x": 304, "y": 1296, "enemy_type": "cave_slime"},
+            {"x": 944, "y": 1264, "enemy_type": "cave_orc"},
+            {"x": 656, "y": 1424, "enemy_type": "cave_orc"},
+            {"x": 336, "y": 1936, "enemy_type": "cave_slime"},
+            {"x": 880, "y": 2032, "enemy_type": "cave_slime"},
+            {"x": 592, "y": 1872, "enemy_type": "cave_orc"},
+            {"x": 656, "y": 2224, "enemy_type": "cave_orc"},
+            {"x": 336, "y": 2448, "enemy_type": "cave_orc"},
+            {"x": 624, "y": 2416, "enemy_type": "cave_slime"},
+            {"x": 912, "y": 2480, "enemy_type": "cave_orc"}
         ]
     }
 
     hidden_bows_info = {
-        "lobby": (816, 848, "lobby_bow"),
-        "volcano_island": (2320, 208, "volcano_bow"),
+        "lobby": {"x": 816, "y": 848, "weapon_name": "lobby_bow"},
+        "volcano_island": {"x": 2320, "y": 208, "weapon_name": "volcano_bow"},
         "snowy_plains": None,
         "crystal_cave": None
     }
@@ -400,47 +400,93 @@ class EnemyResources:
     }
 
     enemies_stats = {
-        "cave_orc": ("melee", "cave_sword1", 96, 10, 0.5, 2, 288,
-                    {
-                        "cave_sword1": 0.30,
-                        "cave_sword2": 0.25,
-                        "cave_spear": 0.15,
-                        None: 0.3
-                    }),
-        "cave_slime": ("ranger", "water_wand", 64, 10, 0.5, 2, 288,
-                    {
-                        "health_potion": 0.6,
-                        "water_wand": 0.3,
-                        None: 0.1
-                    }),
-
-        "winter_orc": ("melee", "winter_sword1", 128, 20, 0.4, 1.2, 320,
-                    {
-                        "winter_sword1": 0.25,
-                        "winter_sword2": 0.20,
-                        "winter_spear": 0.15,
-                        None: 0.4
-                    }),
-        "winter_slime": ("ranger", "ice_wand", 96, 20, 0.4, 1.5, 320,
-                    {
-                        "health_potion": 0.65,
-                        "ice_wand": 0.25,
-                        None: 0.1
-                    }),
-
-        "volcano_orc": ("melee", "volcano_sword1", 144, 35, 0.2, 1, 336,
-                    {
-                        "volcano_sword1": 0.23,
-                        "volcano_sword2": 0.15,
-                        "volcano_spear": 0.12,
-                        None: 0.5
-                    }),
-        "volcano_slime": ("ranger", "magma_wand", 112, 35, 0.2, 1, 336,
-                    {
-                        "health_potion": 0.75,
-                        "magma_wand": 0.15,
-                        None: 0.1
-                    })
+        "cave_orc": {
+            "attack_type": "melee",
+            "weapon_name": "cave_sword1",
+            "speed": 96,
+            "health": 10,
+            "attack_time": 0.5,
+            "attack_cooldown": 2,
+            "vision_radius": 288,
+            "drops": {
+                "cave_sword1": 0.30,
+                "cave_sword2": 0.25,
+                "cave_spear": 0.15,
+                None: 0.3
+            }
+        },
+        "cave_slime": {
+            "attack_type": "ranger",
+            "weapon_name": "water_wand",
+            "speed": 64,
+            "health": 10,
+            "attack_time": 0.5,
+            "attack_cooldown": 2,
+            "vision_radius": 288,
+            "drops": {
+                "health_potion": 0.6,
+                "water_wand": 0.3,
+                None: 0.1
+            }
+        },
+        "winter_orc": {
+            "attack_type": "melee",
+            "weapon_name": "winter_sword1",
+            "speed": 128,
+            "health": 20,
+            "attack_time": 0.4,
+            "attack_cooldown": 1.5,
+            "vision_radius": 320,
+            "drops": {
+                "winter_sword1": 0.25,
+                "winter_sword2": 0.20,
+                "winter_spear": 0.15,
+                None: 0.4
+            }
+        },
+        "winter_slime": {
+            "attack_type": "ranger",
+            "weapon_name": "ice_wand",
+            "speed": 96,
+            "health": 20,
+            "attack_time": 0.4,
+            "attack_cooldown": 1.5,
+            "vision_radius": 320,
+            "drops": {
+                "health_potion": 0.65,
+                "ice_wand": 0.25,
+                None: 0.1
+            }
+        },
+        "volcano_orc": {
+            "attack_type": "melee",
+            "weapon_name": "volcano_sword1",
+            "speed": 144,
+            "health": 30,
+            "attack_time": 0.2,
+            "attack_cooldown": 1,
+            "vision_radius": 336,
+            "drops": {
+                "volcano_sword1": 0.23,
+                "volcano_sword2": 0.15,
+                "volcano_spear": 0.12,
+                None: 0.5
+            }
+        },
+        "volcano_slime": {
+            "attack_type": "ranger",
+            "weapon_name": "magma_wand",
+            "speed": 112,
+            "health": 35,
+            "attack_time": 0.2,
+            "attack_cooldown": 1,
+            "vision_radius": 336,
+            "drops": {
+                "health_potion": 0.75,
+                "magma_wand": 0.15,
+                None: 0.1
+            }
+        },
     }
 
     @staticmethod
