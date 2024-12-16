@@ -54,7 +54,7 @@ class VolcanoBoss(arcade.Sprite):
         self.animation_walk_timer = 0
 
         self.normal_time = 10
-        self.rage_time = 2
+        self.rage_time = 3
 
         self.is_raged = False
         self.timer = 0
@@ -173,6 +173,7 @@ class VolcanoBoss(arcade.Sprite):
         self.timer += delta_time
 
         if not self.is_raged:
+            self.color = (255, 255, 255)
             if self.timer >= self.normal_time:
                 self.is_raged = True
                 self.speed = self.raged_speed
@@ -180,6 +181,7 @@ class VolcanoBoss(arcade.Sprite):
                 self.attack_cooldown = self.raged_attack_cooldown
                 self.timer = 0
         else:
+            self.color = (255, 80, 80)
             if self.timer >= self.rage_time:
                 self.is_raged = False
                 self.speed = self.normal_speed
