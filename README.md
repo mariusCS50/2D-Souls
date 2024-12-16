@@ -1,4 +1,4 @@
-# 2D-Souls## README
+# 2D-Souls README
 
 ### Game Description
 **2D Souls** is an engaging 2D RPG game developed using the Arcade library in Python. Players control a hero who navigates various levels, defeats hordes of monsters, and battles powerful bosses to achieve victory. The game combines strategic combat mechanics, exploration, and resource management to provide a challenging and rewarding experience.
@@ -42,14 +42,14 @@ The gameplay screen includes UI elements that display the player’s health, ite
 
 ### Contributions
 
-As a team, we worked collaboratively to create the finished game, combining individual efforts with shared tasks. While we handled specific responsibilities independently, we also worked together on several featuresh. Below are some of the contributions made by each team member:
+As a team, we worked collaboratively to create the finished game, combining individual efforts with shared tasks. While we handled specific responsibilities independently, we also worked together on several features. Below are some of the contributions made by each team member:
 
 #### Marius Gaibu
 - Created themed maps, using corresponding tilesets, textures and images
 - Introduced the player spawn and camera. Introduced melee attacking mechanic
 - Implemented the melee enemy logic, with the respective functionalities
 - Implemented and fixed bugs related to collision mechanics affecting performance and gameplay
-- Creaded the item inventory and ability slots mechanics and UI elements, with their respective functionalities
+- Created the item inventory and ability slots mechanics and UI elements, with their respective functionalities
 - Implemented a boss and created the boss unique abilities. Created the granting ability mechanic which allows the player to use the abilities of the defeated bosses.
 - Implemented the separate views from the game and the logic behind changing the views.
 
