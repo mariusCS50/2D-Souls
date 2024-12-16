@@ -51,6 +51,9 @@ class MeleeEnemy(Enemy):
         diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
+        self.change_x = 0
+        self.change_y = 0
+
         if distance > 40:
             self.dir_x = diff_x / distance
             self.dir_y = diff_y / distance
