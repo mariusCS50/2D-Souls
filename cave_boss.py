@@ -20,9 +20,10 @@ class CaveBoss(arcade.Sprite):
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
 
-        self.ability = AbilitiesResources.get_abilities()["shield_bubble"]
+        self.ability_name = "cave_boss"
 
-        self.ability_name = "shield_bubble"
+        self.ability = AbilitiesResources.get_abilities()[self.ability_name]
+
         self.ability_sprite = self.ability["sprite"]
         self.ability_sprite.alpha = 128
         self.scene["Ability"].append(self.ability_sprite)
@@ -32,7 +33,7 @@ class CaveBoss(arcade.Sprite):
         self.is_invincible = False
         self.is_dying = False
 
-        self.invincible_time = 3
+        self.invincible_time = 5
         self.invincible_timer = 0
 
         self.attack_time = 0.4

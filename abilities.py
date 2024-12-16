@@ -28,9 +28,10 @@ class Abilities(arcade.gui.UIWidget):
         self.slot_elements = []
         self.abilities = [None] * max_slots
 
+        # Adjust slot positions to start from the top
         for i in range(max_slots):
             slot_x = self.start_x
-            slot_y = self.start_y + i * (cell_size + spacing)
+            slot_y = self.start_y + (max_slots - 1 - i) * (cell_size + spacing)  # Reverse the vertical order
             slot = arcade.gui.UISpace(slot_x, slot_y, cell_size, cell_size, (0, 0, 0, 0))
             self.slot_elements.append(slot)
             self.add(slot)
@@ -67,7 +68,7 @@ class Abilities(arcade.gui.UIWidget):
             if ability_name:
                 ability_texture = AbilitiesResources.get_abilities()[ability_name]["texture"]
                 slot_x = self.start_x + self.cell_size // 2
-                slot_y = self.start_y + i * (self.cell_size + self.spacing) + self.cell_size // 2
+                slot_y = self.start_y + (self.max_slots - 1 - i) * (self.cell_size + self.spacing) + self.cell_size // 2
 
                 sprite = arcade.Sprite(center_x=slot_x, center_y=slot_y, texture=ability_texture, scale=0.5)
                 sprite.scale = self.cell_size / ability_texture.width

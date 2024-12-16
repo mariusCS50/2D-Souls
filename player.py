@@ -1,6 +1,6 @@
 import arcade
 import math
-from game_resources import PlayerResources, ItemResources
+from game_resources import PlayerResources, ItemResources, AbilitiesResources
 from health_bar import HealthBar
 from inventory import Inventory
 from abilities import Abilities
@@ -34,14 +34,19 @@ class Player(arcade.Sprite):
         self.inventory = Inventory(8, 32, 6, 800, 600)
         self.ability_inventory = Abilities(3, 32, 6, 800, 600)
 
+        self.current_ability = None
+        self.stats_multiplier = 1.0
+
         self.direction_lock = False
 
         self.is_dodging = False
         self.is_attacking = False
         self.is_invincible = False
+        self.is_using_ability = False
 
         self.can_dodge = True
         self.can_attack = True
+        self.can_use_ability = True
 
         self.attack_time = 0.2
         self.attack_timer = 0
@@ -53,6 +58,11 @@ class Player(arcade.Sprite):
         self.dodge_timer = 0
         self.dodge_cooldown = 1.5
         self.dodge_cooldown_timer = 0
+
+        self.ability_time = 0
+        self.ability_timer = 0
+        self.ability_cooldown_time = 0
+        self.ability_cooldown_timer = 0
 
         self.action_textures = PlayerResources.get_textures()
         self.weapons = ItemResources.get_weapons()
@@ -169,8 +179,8 @@ class Player(arcade.Sprite):
         self.update_dir()
         self.animate_walk(delta_time)
 
-        self.change_x = self.dir_x * self.speed * delta_time
-        self.change_y = self.dir_y * self.speed * delta_time
+        self.change_x = self.dir_x * (self.speed * self.stats_multiplier) * delta_time
+        self.change_y = self.dir_y * (self.speed * self.stats_multiplier) * delta_time
 
     def dodge(self, delta_time):
         if not self.direction_lock:
@@ -186,7 +196,6 @@ class Player(arcade.Sprite):
             self.is_dodging = False
             self.dodge_timer = 0
             self.direction_lock = False
-
             return
 
     def dodge_cooldown_update(self, delta_time):
@@ -201,7 +210,7 @@ class Player(arcade.Sprite):
             self.is_attacking = False
             return
 
-        if self.attack_timer <= self.attack_time:
+        if self.attack_timer <= self.attack_time / self.stats_multiplier:
             self.change_x = self.dir_x = 0
             self.change_y = self.dir_y = 0
 
@@ -230,11 +239,11 @@ class Player(arcade.Sprite):
 
                 hit_list = arcade.check_for_collision_with_list(self.melee_hitbox, self.scene["Enemies"])
                 for hit in hit_list:
-                    hit.take_damage(self.weapons[self.weapon_name]["damage"])
+                    hit.take_damage(self.weapons[self.weapon_name]["damage"] * self.stats_multiplier)
 
                 hit_list = arcade.check_for_collision_with_list(self.melee_hitbox, self.scene["Boss"])
                 for hit in hit_list:
-                    hit.take_damage(self.weapons[self.weapon_name]["damage"])
+                    hit.take_damage(self.weapons[self.weapon_name]["damage"] * self.stats_multiplier)
 
             elif self.weapons[self.weapon_name]["type"] == "ranged":
                 if not self.shot_projectile:
@@ -243,19 +252,55 @@ class Player(arcade.Sprite):
                     elif "wand" in self.weapon_name:
                         self.texture = self.action_textures["attack"]["wand"][attack_facing_direction]
 
-                    projectile = Projectile(
+                    center_projectile = Projectile(
                         self.weapons[self.weapon_name]["projectile_texture"],
                         self.center_x,
                         self.center_y,
                         attack_x_dir,
                         attack_y_dir,
                         self.weapons[self.weapon_name]["projectile_speed"],
-                        self.weapons[self.weapon_name]["damage"],
+                        self.weapons[self.weapon_name]["damage"] * self.stats_multiplier,
                         self.scene,
                         ["Enemies", "Boss"]
                     )
 
-                    self.scene["Projectiles"].append(projectile)
+                    self.scene["Projectiles"].append(center_projectile)
+
+                    if self.ability_timer > 0 and "wand" in self.weapon_name and self.current_ability["name"] == "multi_projectiles":
+                        angle_offset = math.radians(15)
+                        cos_angle = math.cos(angle_offset)
+                        sin_angle = math.sin(angle_offset)
+
+                        left_x_dir = attack_x_dir * cos_angle - attack_y_dir * sin_angle
+                        left_y_dir = attack_x_dir * sin_angle + attack_y_dir * cos_angle
+                        left_projectile = Projectile(
+                            self.weapons[self.weapon_name]["projectile_texture"],
+                            self.center_x,
+                            self.center_y,
+                            left_x_dir,
+                            left_y_dir,
+                            self.weapons[self.weapon_name]["projectile_speed"],
+                            self.weapons[self.weapon_name]["damage"] * self.stats_multiplier,
+                            self.scene,
+                            ["Enemies", "Boss"]
+                        )
+                        self.scene["Projectiles"].append(left_projectile)
+
+                        right_x_dir = attack_x_dir * cos_angle + attack_y_dir * sin_angle
+                        right_y_dir = -attack_x_dir * sin_angle + attack_y_dir * cos_angle
+                        right_projectile = Projectile(
+                            self.weapons[self.weapon_name]["projectile_texture"],
+                            self.center_x,
+                            self.center_y,
+                            right_x_dir,
+                            right_y_dir,
+                            self.weapons[self.weapon_name]["projectile_speed"],
+                            self.weapons[self.weapon_name]["damage"] * self.stats_multiplier,
+                            self.scene,
+                            ["Enemies", "Boss"]
+                        )
+                        self.scene["Projectiles"].append(right_projectile)
+
                     self.shot_projectile = True
 
         else:
@@ -271,7 +316,7 @@ class Player(arcade.Sprite):
     def attack_cooldown_update(self, delta_time):
         if not self.can_attack:
             self.attack_cooldown_timer += delta_time
-            if self.attack_cooldown_timer > self.attack_cooldown:
+            if self.attack_cooldown_timer > self.attack_cooldown / self.stats_multiplier:
                 self.can_attack = True
                 self.attack_cooldown_timer = 0
 
@@ -282,7 +327,9 @@ class Player(arcade.Sprite):
 
     def invincible_timer_update(self, delta_time):
         if self.is_invincible:
-            self.alpha = (255 + 128) - self.alpha
+            if self.current_ability:
+                if self.current_ability["name"] != "shield_bubble":
+                    self.alpha = (255 + 128) - self.alpha
             self.invincible_timer += delta_time
 
             if self.invincible_timer > self.invincible_time:
@@ -328,8 +375,54 @@ class Player(arcade.Sprite):
     def grant_ability(self, ability_name):
         self.ability_inventory.learn_ability(ability_name)
 
+    def use_ability(self, delta_time):
+        if self.ability_timer == 0:
+            ability_name = self.ability_inventory.abilities[self.ability_inventory.index]
+            if ability_name:
+                self.current_ability = AbilitiesResources.get_abilities()[ability_name]
+                self.can_use_ability = False
+
+            if not self.current_ability:
+                self.is_using_ability = False
+                return
+
+        if self.current_ability["name"] == "shield_bubble":
+            self.is_invincible = True
+            self.ability_sprite = self.current_ability["sprite"]
+            self.ability_sprite.alpha = 128
+            self.ability_sprite.center_x = self.center_x
+            self.ability_sprite.center_y = self.center_y
+            if not self.ability_sprite in self.scene["Ability"]:
+                self.scene["Ability"].append(self.ability_sprite)
+
+        if self.current_ability["name"] == "berserk":
+            self.stats_multiplier = 1.5
+            self.color = (255, 80, 80)
+
+        self.ability_timer += delta_time
+        if self.ability_timer > self.current_ability["ability_time"]:
+            self.is_using_ability = False
+            self.ability_timer = 0
+            if self.current_ability["name"] == "shield_bubble":
+                self.is_invincible = False
+                self.scene["Ability"].remove(self.ability_sprite)
+
+            if self.current_ability["name"] == "berserk":
+                self.stats_multiplier = 1.0
+                self.color = (255, 255, 255)
+
+    def ability_cooldown_update(self, delta_time):
+        if not self.can_use_ability:
+            self.ability_cooldown_timer += delta_time
+            if self.ability_cooldown_timer > self.current_ability["cooldown"]:
+                self.current_ability = None
+                self.can_use_ability  = True
+                self.ability_cooldown_timer = 0
+
     def on_update(self, delta_time):
         self.update_item()
+        if self.is_using_ability:
+            self.use_ability(delta_time)
 
         if self.is_dodging:
             self.dodge(delta_time)
@@ -338,6 +431,7 @@ class Player(arcade.Sprite):
         else:
             self.walk(delta_time)
 
+        self.ability_cooldown_update(delta_time)
         self.dodge_cooldown_update(delta_time)
         self.attack_cooldown_update(delta_time)
         self.invincible_timer_update(delta_time)
