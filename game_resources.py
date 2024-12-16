@@ -567,20 +567,20 @@ class AbilitiesResources:
     abilities = {
         "cave_boss": {
             "name" : "shield_bubble",
-            "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
+            "texture" : arcade.load_texture("assets/abilities/cave_boss.png"),
             "sprite" : arcade.Sprite("assets/abilities/shield_bubble.png", scale=1.0),
             "ability_time" : 5,
             "cooldown" : 15
         },
         "winter_boss": {
             "name" : "multi_projectiles",
-            "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
+            "texture" : arcade.load_texture("assets/abilities/winter_boss.png"),
             "ability_time" : 4,
             "cooldown" : 15
         },
         "volcano_boss": {
             "name" : "berserk",
-            "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
+            "texture" : arcade.load_texture("assets/abilities/volcano_boss.png"),
             "ability_time" : 3,
             "cooldown" : 15
         },
