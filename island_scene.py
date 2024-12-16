@@ -1,6 +1,7 @@
 import arcade
 from drop_sprite import DropSprite
 from game_resources import MapResources, ItemResources, EnemyResources
+from island_status_ui import IslandStatusUI
 from melee_enemy import MeleeEnemy
 from ranger_enemy import RangerEnemy
 from winter_boss import WinterBoss
@@ -40,6 +41,7 @@ class IslandScene(arcade.Scene):
         self.spawned_boss = False
 
         if self.is_lobby:
+            self.island_status = None
             self["Drops"].append(DropSprite("cave_sword1", ItemResources.get_weapons()["cave_sword1"]["texture"], 500, 500, self, True))
             return
 
@@ -97,6 +99,7 @@ class IslandScene(arcade.Scene):
         #             )
         #         )
 
+        self.island_status = IslandStatusUI(len(self["Enemies"]))
 
     def set_up_scene(self, scene):
         self.up = scene
@@ -124,6 +127,9 @@ class IslandScene(arcade.Scene):
 
     def on_update(self, delta_time):
         super().on_update(delta_time)
+
+        if not self.is_lobby:
+            self.island_status.update(len(self["Enemies"]), delta_time)
 
         if not self.is_lobby and not self.spawned_boss and len(self["Enemies"]) == 0:
             self.spawned_boss = True

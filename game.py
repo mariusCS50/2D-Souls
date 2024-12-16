@@ -13,6 +13,7 @@ class Game(arcade.Window):
 
         self.ui_manager = None
         self.player = None
+        self.current_island_status = None
 
     def setup(self):
         self.ui_manager = arcade.gui.UIManager()
@@ -77,6 +78,14 @@ class Game(arcade.Window):
             self.player_physics_engine = arcade.PhysicsEngineSimple(self.player, new_collision_layers)
 
             self.current_scene = new_scene
+
+            if self.current_island_status:
+                self.ui_manager.remove(self.current_island_status)
+
+            self.current_island_status = new_scene.island_status
+
+            if self.current_island_status:
+                self.ui_manager.add(self.current_island_status)
 
     def center_camera_to_player(self):
         target_x = self.player.center_x - self.width // 2
