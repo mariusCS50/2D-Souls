@@ -8,9 +8,9 @@ class CaveBoss(arcade.Sprite):
 
         self.boss_textures = EnemyResources.get_textures("cave_bat")
 
-        self.shield_texture = arcade.load_texture("assets/abilities/shield_bubble.png")
+        self.shield_sprite = arcade.Sprite("assets/abilities/shield_bubble.png", scale=1.5)
 
-        self.damage = 10
+        self.damage = 5
 
         self.center_x = pos_x
         self.center_y = pos_y
@@ -52,10 +52,10 @@ class CaveBoss(arcade.Sprite):
 
     def set_custom_hitbox(self):
         hitbox = [
-            (-self.width / 5, -self.height / 5),
-            (self.width / 5, -self.height / 5),
-            (self.width / 5, self.height / 5),
-            (-self.width / 5, self.height / 5)
+            (-self.width / 6, -self.height / 6),
+            (self.width / 6, -self.height / 6),
+            (self.width / 6, self.height / 6),
+            (-self.width / 6, self.height / 6)
         ]
         self.set_hit_box(hitbox)
 
@@ -112,8 +112,6 @@ class CaveBoss(arcade.Sprite):
         self.current_facing_direction = self.get_facing_direction()
         self.animate_fly(delta_time)
 
-        return distance
-
     def attack(self, delta_time):
         if self.attack_timer == 0:
             self.get_target().take_damage(self.damage)
@@ -164,9 +162,9 @@ class CaveBoss(arcade.Sprite):
         elif self.is_attacking:
             self.attack(delta_time)
         else:
-            distance = self.fly(delta_time)
+            self.fly(delta_time)
 
-            if self.can_attack and distance <= 100:
+            if self.can_attack and arcade.check_for_collision(self, self.get_target()):
                 self.is_attacking = True
                 self.can_attack = False
 
