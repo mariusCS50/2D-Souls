@@ -59,9 +59,7 @@ class Player(arcade.Sprite):
         self.dodge_cooldown = 1.5
         self.dodge_cooldown_timer = 0
 
-        self.ability_time = 0
         self.ability_timer = 0
-        self.ability_cooldown_time = 0
         self.ability_cooldown_timer = 0
 
         self.action_textures = PlayerResources.get_textures()
@@ -327,9 +325,7 @@ class Player(arcade.Sprite):
 
     def invincible_timer_update(self, delta_time):
         if self.is_invincible:
-            if self.current_ability:
-                if self.current_ability["name"] != "shield_bubble":
-                    self.alpha = (255 + 128) - self.alpha
+            self.alpha = (255 + 128) - self.alpha
             self.invincible_timer += delta_time
 
             if self.invincible_timer > self.invincible_time:

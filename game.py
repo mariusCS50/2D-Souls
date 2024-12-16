@@ -1,15 +1,70 @@
 import arcade
 import arcade.key
 import arcade.gui
-from game_resources import MapResources
 from player import Player
-from melee_enemy import MeleeEnemy
-from ranger_enemy import RangerEnemy
 from island_scene import IslandScene
 
-class Game(arcade.Window):
-    def __init__(self, width=800, height=600, title="2D Souls"):
-        super().__init__(width, height, title)
+class StartScreenView(arcade.View):
+    def on_show_view(self):
+        self.game_view = GameView()
+        self.game_view.setup()
+
+        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+        self.background_texture = arcade.load_texture("assets/backgrounds/start_screen_background.png")
+
+    def on_play_button_click(self, event):
+        self.window.show_view(self.game_view)
+
+    def on_draw(self):
+        self.clear()
+
+        arcade.draw_texture_rectangle(
+            self.window.width // 2,
+            self.window.height // 2,
+            self.window.width,
+            self.window.height,
+            self.background_texture
+        )
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.ENTER:
+            self.window.show_view(self.game_view)
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        self.window.show_view(self.game_view)
+
+class EndScreenView(arcade.View):
+    def on_show_view(self):
+        self.game_view = GameView()
+        self.game_view.setup()
+
+        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+        self.background_texture = arcade.load_texture("assets/backgrounds/end_screen_background.png")
+
+    def on_draw(self):
+        self.clear()
+
+        arcade.draw_texture_rectangle(
+            self.window.width // 2,
+            self.window.height // 2,
+            self.window.width,
+            self.window.height,
+            self.background_texture
+        )
+
+        arcade.draw_text("Click or press Enter to respawn", self.window.width / 2, self.window.height / 2-150,
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.ENTER:
+            self.window.show_view(self.game_view)
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        self.window.show_view(self.game_view)
+
+class GameView(arcade.View):
+    def __init__(self):
+        super().__init__()
 
         self.ui_manager = None
         self.player = None
@@ -19,7 +74,7 @@ class Game(arcade.Window):
         self.ui_manager = arcade.gui.UIManager()
         self.ui_manager.enable()
 
-        self.camera = arcade.Camera(self.width, self.height)
+        self.camera = arcade.Camera(self.window.width, self.window.height)
 
         self.current_scene = IslandScene("lobby", is_lobby=True)
 
@@ -89,11 +144,11 @@ class Game(arcade.Window):
                 self.ui_manager.add(self.current_island_status)
 
     def center_camera_to_player(self):
-        target_x = self.player.center_x - self.width // 2
-        target_y = self.player.center_y - self.height // 2
+        target_x = self.player.center_x - self.window.width // 2
+        target_y = self.player.center_y - self.window.height // 2
 
-        target_x = max(0, min(target_x, self.current_scene.map_width - self.width))
-        target_y = max(0, min(target_y, self.current_scene.map_height - self.height))
+        target_x = max(0, min(target_x, self.current_scene.map_width - self.window.width))
+        target_y = max(0, min(target_y, self.current_scene.map_height - self.window.height))
 
         self.camera.move_to((target_x, target_y), speed=0.2)
 
@@ -107,7 +162,8 @@ class Game(arcade.Window):
 
     def check_player_dead(self):
         if self.player.health == 0:
-            self.reset()
+            end_view = EndScreenView()
+            self.window.show_view(end_view)
 
     def reset(self):
         self.player = None
@@ -176,7 +232,9 @@ class Game(arcade.Window):
         elif scroll_y > 0:
             self.player.inventory.select_previous()
 
+
 if __name__ == "__main__":
-    game = Game()
-    game.setup()
-    game.run()
+    window = arcade.Window(800, 600, "2D Souls")
+    start_view = StartScreenView()
+    window.show_view(start_view)
+    arcade.run()

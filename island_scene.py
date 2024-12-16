@@ -52,56 +52,56 @@ class IslandScene(arcade.Scene):
             self["Drops"].append(DropSprite("cave_sword1", ItemResources.get_weapons()["cave_sword1"]["texture"], 500, 500, self, True))
             return
 
-        # enemies_info = MapResources.get_enemies_info(island_name)
-        # for enemy_info in enemies_info:
-        #     pos_x = enemy_info[0]
-        #     pos_y = enemy_info[1]
-        #     enemy_type = enemy_info[2]
+        enemies_info = MapResources.get_enemies_info(island_name)
+        for enemy_info in enemies_info:
+            pos_x = enemy_info[0]
+            pos_y = enemy_info[1]
+            enemy_type = enemy_info[2]
 
-        #     enemy_stats = EnemyResources.get_enemy_stats(enemy_type)
-        #     attack_type = enemy_stats[0]
-        #     weapon_name = enemy_stats[1]
-        #     speed = enemy_stats[2]
-        #     health = enemy_stats[3]
-        #     attack_time = enemy_stats[4]
-        #     attack_cooldown = enemy_stats[5]
-        #     vision_radius = enemy_stats[6]
-        #     drops = enemy_stats[7]
+            enemy_stats = EnemyResources.get_enemy_stats(enemy_type)
+            attack_type = enemy_stats[0]
+            weapon_name = enemy_stats[1]
+            speed = enemy_stats[2]
+            health = enemy_stats[3]
+            attack_time = enemy_stats[4]
+            attack_cooldown = enemy_stats[5]
+            vision_radius = enemy_stats[6]
+            drops = enemy_stats[7]
 
-        #     if attack_type == "melee":
-        #         self["Enemies"].append(
-        #             MeleeEnemy(
-        #                 enemy_type,
-        #                 weapon_name,
-        #                 pos_x,
-        #                 pos_y,
-        #                 speed,
-        #                 health,
-        #                 attack_time,
-        #                 attack_cooldown,
-        #                 vision_radius,
-        #                 drops,
-        #                 self,
-        #                 self.collision_layers
-        #             )
-        #         )
-        #     elif attack_type == "ranger":
-        #         self["Enemies"].append(
-        #             RangerEnemy(
-        #                 enemy_type,
-        #                 weapon_name,
-        #                 pos_x,
-        #                 pos_y,
-        #                 speed,
-        #                 health,
-        #                 attack_time,
-        #                 attack_cooldown,
-        #                 vision_radius,
-        #                 drops,
-        #                 self,
-        #                 self.collision_layers
-        #             )
-        #         )
+            if attack_type == "melee":
+                self["Enemies"].append(
+                    MeleeEnemy(
+                        enemy_type,
+                        weapon_name,
+                        pos_x,
+                        pos_y,
+                        speed,
+                        health,
+                        attack_time,
+                        attack_cooldown,
+                        vision_radius,
+                        drops,
+                        self,
+                        self.collision_layers
+                    )
+                )
+            elif attack_type == "ranger":
+                self["Enemies"].append(
+                    RangerEnemy(
+                        enemy_type,
+                        weapon_name,
+                        pos_x,
+                        pos_y,
+                        speed,
+                        health,
+                        attack_time,
+                        attack_cooldown,
+                        vision_radius,
+                        drops,
+                        self,
+                        self.collision_layers
+                    )
+                )
 
         self.island_status = IslandStatusUI(len(self["Enemies"]))
 
