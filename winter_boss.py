@@ -38,7 +38,7 @@ class WinterBoss(arcade.Sprite):
 
         self.shoot_time = 0.3
         self.shoot_timer = 0
-        self.shoot_cooldown = 5
+        self.shoot_cooldown = 2.5
         self.shoot_cooldown_timer = 0
 
         self.death_time = 0.4

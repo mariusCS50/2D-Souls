@@ -32,6 +32,7 @@ class IslandScene(arcade.Scene):
         self.add_sprite_list_after("Player", "Enemies")
         self.add_sprite_list_after("Projectiles", "Player")
         self.add_sprite_list_after("Boss", "Top Layer")
+        self.add_sprite_list_after("Ability", "Boss")
 
         hidden_bow_info = MapResources.get_hidden_bows_info(island_name)
         if hidden_bow_info:

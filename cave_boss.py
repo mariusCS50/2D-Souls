@@ -8,19 +8,21 @@ class CaveBoss(arcade.Sprite):
 
         self.boss_textures = EnemyResources.get_textures("cave_bat")
 
-        self.shield_sprite = arcade.Sprite("assets/abilities/shield_bubble.png", scale=1.5)
-
         self.damage = 5
 
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.speed = 100
+        self.speed = 120
 
         self.max_health = self._health = 50
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
+
+        self.shield_sprite = arcade.Sprite("assets/abilities/shield_bubble.png", scale=1.0)
+        self.shield_sprite.alpha = 128
+        self.scene["Ability"].append(self.shield_sprite)
 
         self.is_attacking = False
         self.can_attack = True
@@ -138,13 +140,21 @@ class CaveBoss(arcade.Sprite):
 
     def invincible_timer_update(self, delta_time):
         if self.is_invincible:
-            self.alpha = (255 + 128) - self.alpha
-            self.invincible_timer += delta_time
+            self.shield_sprite.visible = True
+            self.shield_sprite.center_x = self.center_x
+            self.shield_sprite.center_y = self.center_y + 10
+            self.shield_sprite.alpha = 128
+
+            if self.invincible_timer <= 1.0:
+                self.alpha = (255 + 128) - self.alpha
 
             if self.invincible_timer > self.invincible_time:
+                self.shield_sprite.visible = False
                 self.is_invincible = False
                 self.invincible_timer = 0
                 self.alpha = 255
+
+        self.invincible_timer += delta_time
 
     def death_timer_update(self, delta_time):
         if self.is_dying:
