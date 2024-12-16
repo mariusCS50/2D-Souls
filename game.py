@@ -138,14 +138,16 @@ class Game(arcade.Window):
             self.player.move_down = True
         elif key == arcade.key.D:
             self.player.move_right = True
-        elif key == arcade.key.SPACE:
-            if self.player.is_moving() and self.player.can_dodge and not self.player.is_attacking:
-                self.player.is_dodging = True
-                self.player.can_dodge = False
         elif key == arcade.key.E:
             self.player.pick_up_item()
         elif key == arcade.key.R:
             self.player.drop_item()
+        elif key == arcade.key.Q and self.player.can_use_ability:
+            self.player.is_using_ability = True
+        elif key == arcade.key.SPACE:
+            if self.player.is_moving() and self.player.can_dodge and not self.player.is_attacking:
+                self.player.is_dodging = True
+                self.player.can_dodge = False
         elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3:
             ability_index = key - arcade.key.KEY_1
             self.player.ability_inventory.select_ability(ability_index)

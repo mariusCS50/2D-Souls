@@ -548,14 +548,14 @@ class ItemResources:
             "damage": 3,
             "texture": arcade.load_texture("assets/weapons/ranged/lobby_bow.png"),
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
-            "projectile_speed": 224
+            "projectile_speed": 350
         },
         "volcano_bow": {
             "type": "ranged",
             "damage": 10,
             "texture": arcade.load_texture("assets/weapons/ranged/volcano_bow.png"),
             "projectile_texture": arcade.load_texture("assets/weapons/ranged/arrow.png"),
-            "projectile_speed": 256
+            "projectile_speed": 400
         },
     }
 
@@ -565,15 +565,23 @@ class ItemResources:
 
 class AbilitiesResources:
     abilities = {
-        "shield_bubble": {
+        "cave_boss": {
             "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
-            "sprite" : arcade.Sprite("assets/abilities/shield_bubble.png", scale=1.0)
+            "sprite" : arcade.Sprite("assets/abilities/shield_bubble.png", scale=1.0),
+            "ability_time" : 5,
+            "cooldown" : 10
         },
-        "multi_projectiles": {
+        "winter_boss": {
+            "name" : "multi_projectiles",
             "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
+            "ability_time" : 5,
+            "cooldown" : 15
         },
-        "berserk": {
+        "volcano_boss": {
+            "name" : "berserk",
             "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
+            "ability_time" : 3,
+            "cooldown" : 10
         },
     }
 

@@ -18,9 +18,9 @@ class VolcanoBoss(arcade.Sprite):
 
         self.speed = self.normal_speed
 
-        self.max_health = self._health = 150
+        self.max_health = self._health = 1
 
-        self.ability_name = "berserk"
+        self.ability_name = "volcano_boss"
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
