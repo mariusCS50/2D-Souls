@@ -562,3 +562,21 @@ class ItemResources:
     @staticmethod
     def get_weapons():
         return ItemResources.items
+
+class AbilitiesResources:
+    abilities = {
+        "shield_bubble": {
+            "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
+            "sprite" : arcade.Sprite("assets/abilities/shield_bubble.png", scale=1.0)
+        },
+        "multi_projectiles": {
+            "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
+        },
+        "berserk": {
+            "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
+        },
+    }
+
+    @staticmethod
+    def get_abilities():
+        return AbilitiesResources.abilities

@@ -32,7 +32,7 @@ class Player(arcade.Sprite):
         self.health_bar = HealthBar(16, 16, 200, 16, 2, self._health, self.max_health)
 
         self.inventory = Inventory(8, 32, 6, 800, 600)
-        self.abilities = Abilities(3, 32, 6, 800, 600)
+        self.ability_inventory = Abilities(3, 32, 6, 800, 600)
 
         self.direction_lock = False
 
@@ -325,6 +325,8 @@ class Player(arcade.Sprite):
                 self.scene["Drops"].append(drop)
 
 
+    def grant_ability(self, ability_name):
+        self.ability_inventory.learn_ability(ability_name)
 
     def on_update(self, delta_time):
         self.update_item()

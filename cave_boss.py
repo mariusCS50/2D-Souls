@@ -1,6 +1,6 @@
 import arcade
 import math
-from game_resources import EnemyResources, ItemResources
+from game_resources import EnemyResources, AbilitiesResources
 
 class CaveBoss(arcade.Sprite):
     def __init__(self, pos_x, pos_y, scene):
@@ -15,14 +15,17 @@ class CaveBoss(arcade.Sprite):
 
         self.speed = 120
 
-        self.max_health = self._health = 50
+        self.max_health = self._health = 1
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
 
-        self.shield_sprite = arcade.Sprite("assets/abilities/shield_bubble.png", scale=1.0)
-        self.shield_sprite.alpha = 128
-        self.scene["Ability"].append(self.shield_sprite)
+        self.ability = AbilitiesResources.get_abilities()["shield_bubble"]
+
+        self.ability_name = "shield_bubble"
+        self.ability_sprite = self.ability["sprite"]
+        self.ability_sprite.alpha = 128
+        self.scene["Ability"].append(self.ability_sprite)
 
         self.is_attacking = False
         self.can_attack = True
@@ -76,6 +79,7 @@ class CaveBoss(arcade.Sprite):
         self._health = val
 
     def die(self):
+        self.scene["Ability"].remove(self.ability_sprite)
         self.change_x = 0
         self.change_y = 0
         self.is_dying = True
@@ -140,16 +144,16 @@ class CaveBoss(arcade.Sprite):
 
     def invincible_timer_update(self, delta_time):
         if self.is_invincible:
-            self.shield_sprite.visible = True
-            self.shield_sprite.center_x = self.center_x
-            self.shield_sprite.center_y = self.center_y + 10
-            self.shield_sprite.alpha = 128
+            self.ability_sprite.visible = True
+            self.ability_sprite.center_x = self.center_x
+            self.ability_sprite.center_y = self.center_y + 10
+            self.ability_sprite.alpha = 128
 
             if self.invincible_timer <= 1.0:
                 self.alpha = (255 + 128) - self.alpha
 
             if self.invincible_timer > self.invincible_time:
-                self.shield_sprite.visible = False
+                self.ability_sprite.visible = False
                 self.is_invincible = False
                 self.invincible_timer = 0
                 self.alpha = 255
@@ -161,6 +165,7 @@ class CaveBoss(arcade.Sprite):
             self.death_timer += delta_time
             if self.death_timer >= self.death_time:
                 self.scene["Boss"].remove(self)
+                self.get_target().grant_ability(self.ability_name)
                 self.death_timer = 0
                 self.is_dying = False
 

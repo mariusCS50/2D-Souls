@@ -1,5 +1,5 @@
 import arcade.gui
-from game_resources import ItemResources
+from game_resources import AbilitiesResources
 
 class Abilities(arcade.gui.UIWidget):
     def __init__(self, max_slots, cell_size, spacing, screen_width, screen_height):
@@ -63,23 +63,30 @@ class Abilities(arcade.gui.UIWidget):
                 self.add(red_border)
                 self.add(slot)
 
-        # for i, item_name in enumerate(self.abilities):
-        #     if item_name:
-        #         weapon_texture = ItemResources.get_weapons()[item_name]["texture"]
-        #         slot_x = self.start_x + self.cell_size // 2
-        #         slot_y = self.start_y + i * (self.cell_size + self.spacing) + self.cell_size // 2
+        for i, ability_name in enumerate(self.abilities):
+            if ability_name:
+                ability_texture = AbilitiesResources.get_abilities()[ability_name]["texture"]
+                slot_x = self.start_x + self.cell_size // 2
+                slot_y = self.start_y + i * (self.cell_size + self.spacing) + self.cell_size // 2
 
-        #         sprite = arcade.Sprite(center_x=slot_x, center_y=slot_y, texture=weapon_texture)
-        #         sprite.scale = self.cell_size / weapon_texture.width
+                sprite = arcade.Sprite(center_x=slot_x, center_y=slot_y, texture=ability_texture, scale=0.5)
+                sprite.scale = self.cell_size / ability_texture.width
 
-        #         sprite_widget = arcade.gui.UISpriteWidget(
-        #             x=slot_x - self.cell_size // 2,
-        #             y=slot_y - self.cell_size // 2,
-        #             width=self.cell_size,
-        #             height=self.cell_size,
-        #             sprite=sprite
-        #         )
-        #         self.add(sprite_widget)
+                sprite_widget = arcade.gui.UISpriteWidget(
+                    x=slot_x - self.cell_size // 2,
+                    y=slot_y - self.cell_size // 2,
+                    width=self.cell_size,
+                    height=self.cell_size,
+                    sprite=sprite
+                )
+                self.add(sprite_widget)
+
+    def learn_ability(self, ability_name):
+        for i in range(self.max_slots):
+            if self.abilities[i] is None:
+                self.abilities[i] = ability_name
+                self.update_abilities()
+                return
 
     def select_ability(self, index):
         self.index = index

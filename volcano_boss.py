@@ -20,6 +20,8 @@ class VolcanoBoss(arcade.Sprite):
 
         self.max_health = self._health = 150
 
+        self.ability_name = "berserk"
+
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
 
@@ -166,6 +168,7 @@ class VolcanoBoss(arcade.Sprite):
             self.death_timer += delta_time
             if self.death_timer >= self.death_time:
                 self.scene["Boss"].remove(self)
+                self.get_target().grant_ability(self.ability_name)
                 self.death_timer = 0
                 self.is_dying = False
 

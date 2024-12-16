@@ -28,7 +28,7 @@ class Game(arcade.Window):
 
         self.ui_manager.add(self.player.health_bar)
         self.ui_manager.add(self.player.inventory)
-        self.ui_manager.add(self.player.abilities)
+        self.ui_manager.add(self.player.ability_inventory)
 
         collision_layers = self.current_scene.get_collision_layers()
         self.player_physics_engine = arcade.PhysicsEngineSimple(self.player, collision_layers)
@@ -148,7 +148,7 @@ class Game(arcade.Window):
             self.player.drop_item()
         elif key == arcade.key.KEY_1 or key == arcade.key.KEY_2 or key == arcade.key.KEY_3:
             ability_index = key - arcade.key.KEY_1
-            self.player.abilities.select_ability(ability_index)
+            self.player.ability_inventory.select_ability(ability_index)
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W:

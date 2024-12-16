@@ -21,7 +21,9 @@ class WinterBoss(arcade.Sprite):
 
         self.speed = 96
 
-        self.max_health = self._health = 100
+        self.max_health = self._health = 1
+
+        self.ability_name = "multi_projectiles"
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
@@ -38,7 +40,7 @@ class WinterBoss(arcade.Sprite):
 
         self.shoot_time = 0.3
         self.shoot_timer = 0
-        self.shoot_cooldown = 2.5
+        self.shoot_cooldown = 2
         self.shoot_cooldown_timer = 0
 
         self.death_time = 0.4
@@ -184,6 +186,7 @@ class WinterBoss(arcade.Sprite):
             self.death_timer += delta_time
             if self.death_timer >= self.death_time:
                 self.scene["Boss"].remove(self)
+                self.get_target().grant_ability(self.ability_name)
                 self.death_timer = 0
                 self.is_dying = False
 
