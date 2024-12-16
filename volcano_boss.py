@@ -65,10 +65,10 @@ class VolcanoBoss(arcade.Sprite):
 
     def set_custom_hitbox(self):
         hitbox = [
-            (-self.width / 8, -self.height / 8),
-            (self.width / 8, -self.height / 8),
-            (self.width / 8, self.height / 8),
-            (-self.width / 8, self.height / 8)
+            (-self.width / 6, -self.height / 6 - 40),
+            (self.width / 6, -self.height / 6 - 40),
+            (self.width / 6, self.height / 6 - 40),
+            (-self.width / 6, self.height / 6 - 40)
         ]
         self.set_hit_box(hitbox)
 
@@ -125,10 +125,8 @@ class VolcanoBoss(arcade.Sprite):
         self.current_facing_direction = self.get_facing_direction()
         self.animate_walk(delta_time)
 
-        return distance
-
     def attack(self, delta_time):
-        if self.attack_timer == 0:
+        if self.attack_timer == 0 and not self.get_target().is_dodging:
             self.get_target().take_damage(self.damage)
 
         self.attack_timer += delta_time
@@ -200,9 +198,15 @@ class VolcanoBoss(arcade.Sprite):
         elif self.is_attacking:
             self.attack(delta_time)
         else:
-            distance = self.walk(delta_time)
+            self.walk(delta_time)
 
-            if self.can_attack and distance <= 100:
+            body_x = self.center_x
+            body_y = self.center_y - 40
+
+            target_x = self.get_target().center_x
+            target_y = self.get_target().center_y
+
+            if arcade.get_distance(body_x, body_y, target_x, target_y) <= 50 and self.can_attack:
                 self.is_attacking = True
                 self.can_attack = False
 
