@@ -7,12 +7,12 @@ class MapResources:
         "volcano_island" : [
             (656, 816, "volcano_orc"),
             (560, 432, "volcano_orc"),
-            (592, 1008, "volcano_slime"),
+            (592, 1008, "volcano_orc"),
             (816, 1072, "volcano_slime"),
             (816, 304, "volcano_slime"),
             (1104, 1168, "volcano_orc"),
             (1488, 1136, "volcano_slime"),
-            (1040, 144, "volcano_slime"),
+            (1040, 144, "volcano_orc"),
             (1392, 112, "volcano_orc"),
             (1840, 1168, "volcano_orc"),
             (2096, 1072, "volcano_slime"),
@@ -402,37 +402,44 @@ class EnemyResources:
     enemies_stats = {
         "cave_orc": ("melee", "cave_sword1", 96, 10, 0.5, 2, 288,
                     {
-                        "cave_sword1": 0.4,
-                        "cave_sword2": 0.2,
-                        "cave_spear": 0.1
+                        "cave_sword1": 0.30,
+                        "cave_sword2": 0.25,
+                        "cave_spear": 0.15,
+                        None: 0.3
                     }),
         "cave_slime": ("ranger", "water_wand", 64, 10, 0.5, 2, 288,
                     {
-                        "water_wand": 0.35
+                        "health_potion": 0.6,
+                        "water_wand": 0.3,
+                        None: 0.1
                     }),
 
         "winter_orc": ("melee", "winter_sword1", 128, 20, 0.4, 1.2, 320,
                     {
-                        "winter_sword1": 0.3,
-                        "winter_sword2": 0.15,
-                        "winter_spear": 0.05
+                        "winter_sword1": 0.25,
+                        "winter_sword2": 0.20,
+                        "winter_spear": 0.15,
+                        None: 0.4
                     }),
-        "winter_slime": ("ranger", "ice_wand", 96, 20, 0.4, 1.2, 320,
+        "winter_slime": ("ranger", "ice_wand", 96, 20, 0.4, 1.5, 320,
                     {
-                        "ice_wand": 0.2,
-                        "health_potion": 0.4
+                        "health_potion": 0.65,
+                        "ice_wand": 0.25,
+                        None: 0.1
                     }),
 
-        "volcano_orc": ("melee", "volcano_sword1", 160, 35, 0.2, 0.8, 336,
+        "volcano_orc": ("melee", "volcano_sword1", 144, 35, 0.2, 1, 336,
                     {
-                        "volcano_sword1": 0.1,
-                        "volcano_sword2": 0.05,
-                        "volcano_spear": 0.05
+                        "volcano_sword1": 0.23,
+                        "volcano_sword2": 0.15,
+                        "volcano_spear": 0.12,
+                        None: 0.5
                     }),
-        "volcano_slime": ("ranger", "magma_wand", 128, 35, 0.2, 0.8, 336,
+        "volcano_slime": ("ranger", "magma_wand", 112, 35, 0.2, 1, 336,
                     {
-                        "magma_wand": 0.1,
-                        "health_potion": 0.2
+                        "health_potion": 0.75,
+                        "magma_wand": 0.15,
+                        None: 0.1
                     })
     }
 

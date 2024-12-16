@@ -21,7 +21,7 @@ class WinterBoss(arcade.Sprite):
 
         self.speed = 96
 
-        self.max_health = self._health = 1
+        self.max_health = self._health = 100
 
         self.ability_name = "winter_boss"
 

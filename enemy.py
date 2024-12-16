@@ -53,7 +53,6 @@ class Enemy(arcade.Sprite, ABC):
         self.death_timer = 0
 
         self.drops = drops
-        self.drops[None] = 1 - sum(p for p in self.drops.values())
 
         self.set_custom_hitbox()
 
