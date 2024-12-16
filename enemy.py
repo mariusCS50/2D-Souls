@@ -119,9 +119,23 @@ class Enemy(arcade.Sprite, ABC):
                 self.current_facing_direction = self.get_facing_direction()
 
         else:
-            self.change_x = self.dir_x * (self.speed / 2) * delta_time
-            self.change_y = self.dir_y * (self.speed / 2) * delta_time
-            self.animate_walk(delta_time)
+            next_x = self.center_x + self.dir_x * 10
+            next_y = self.center_y + self.dir_y * 10
+
+            original_x, original_y = self.center_x, self.center_y
+
+            self.center_x, self.center_y = next_x, next_y
+            collisions = arcade.check_for_collision_with_list(self, self.collision_layers)
+
+            self.center_x, self.center_y = original_x, original_y
+
+            if not collisions:
+                self.change_x = self.dir_x * (self.speed / 2) * delta_time
+                self.change_y = self.dir_y * (self.speed / 2) * delta_time
+                self.animate_walk(delta_time)
+            else:
+                self.dir_x, self.dir_y = self.directions[random.randint(0, 3)]
+                self.current_facing_direction = self.get_facing_direction()
 
             if self.timer > self.wandering_time:
                 self.timer = 0

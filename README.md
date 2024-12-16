@@ -1,4 +1,4 @@
-# 2D-Souls README
+# 2D-Souls
 
 ### Game Description
 **2D Souls** is an engaging 2D RPG game developed using the Arcade library in Python. Players control a hero who navigates various levels, defeats hordes of monsters, and battles powerful bosses to achieve victory. The game combines strategic combat mechanics, exploration, and resource management to provide a challenging and rewarding experience.
