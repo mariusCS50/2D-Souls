@@ -73,12 +73,6 @@ class MapResources:
         "crystal_cave": None
     }
 
-    signs_info = {
-        "lobby_north": {"x": 400, "y": 900, "message": "North leads to the Crystal Cave."},
-        "lobby_south": {"x": 400, "y": 100, "message": "South is the entrance to the snowy plains."},
-        "lobby_west": {"x": 100, "y": 500, "message": "West lies the fiery Volcano Island."},
-    }
-
     @staticmethod
     def get_enemies_info(island_name):
         return MapResources.enemies_info[island_name]
@@ -159,6 +153,32 @@ class EnemyResources:
     ]
 
     textures = {
+        "cave_bat": {
+            "fly": {
+                "up": [
+                    arcade.load_texture("assets/enemies/bat/fly_up_1.png"),
+                    arcade.load_texture("assets/enemies/bat/fly_up_2.png"),
+                ],
+                "down": [
+                    arcade.load_texture("assets/enemies/bat/fly_down_1.png"),
+                    arcade.load_texture("assets/enemies/bat/fly_down_2.png"),
+                ],
+                "left": [
+                    arcade.load_texture("assets/enemies/bat/fly_left_1.png"),
+                    arcade.load_texture("assets/enemies/bat/fly_left_2.png"),
+                ],
+                "right": [
+                    arcade.load_texture("assets/enemies/bat/fly_right_1.png"),
+                    arcade.load_texture("assets/enemies/bat/fly_right_2.png"),
+                ],
+            },
+            "death": {
+                "up": arcade.load_texture("assets/enemies/bat/death_up.png"),
+                "down": arcade.load_texture("assets/enemies/bat/death_down.png"),
+                "left": arcade.load_texture("assets/enemies/bat/death_left.png"),
+                "right": arcade.load_texture("assets/enemies/bat/death_right.png"),
+            }
+        },
         "cave_orc": {
             "idle": {
                 "up": arcade.load_texture("assets/enemies/orc/cave/idle_up.png"),
