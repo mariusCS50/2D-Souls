@@ -167,6 +167,7 @@ class VolcanoBoss(arcade.Sprite):
             if self.death_timer >= self.death_time:
                 self.scene["Boss"].remove(self)
                 self.get_target().grant_ability(self.ability_name)
+                self.get_target().bosses_defeated += 1
                 self.death_timer = 0
                 self.is_dying = False
 

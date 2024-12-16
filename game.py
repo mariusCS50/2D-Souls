@@ -33,13 +33,42 @@ class StartScreenView(arcade.View):
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         self.window.show_view(self.game_view)
 
-class EndScreenView(arcade.View):
+class DeathScreenView(arcade.View):
     def on_show_view(self):
         self.game_view = GameView()
         self.game_view.setup()
 
         arcade.set_viewport(0, self.window.width, 0, self.window.height)
         self.background_texture = arcade.load_texture("assets/backgrounds/end_screen_background.png")
+
+    def on_draw(self):
+        self.clear()
+
+        arcade.draw_texture_rectangle(
+            self.window.width // 2,
+            self.window.height // 2,
+            self.window.width,
+            self.window.height,
+            self.background_texture
+        )
+
+        arcade.draw_text("Click or press Enter to respawn", self.window.width / 2, self.window.height / 2-150,
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.ENTER:
+            self.window.show_view(self.game_view)
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        self.window.show_view(self.game_view)
+
+class WinScreenView(arcade.View):
+    def on_show_view(self):
+        self.game_view = GameView()
+        self.game_view.setup()
+
+        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+        self.background_texture = arcade.load_texture("assets/backgrounds/win_screen_background.png")
 
     def on_draw(self):
         self.clear()
@@ -69,6 +98,7 @@ class GameView(arcade.View):
         self.ui_manager = None
         self.player = None
         self.current_island_status = None
+        self.no_bosses = 3
 
     def setup(self):
         self.ui_manager = arcade.gui.UIManager()
@@ -157,13 +187,19 @@ class GameView(arcade.View):
         self.player_physics_engine.update()
         self.current_scene.on_update(delta_time)
         self.center_camera_to_player()
-
         self.check_player_dead()
+        self.check_player_won()
 
     def check_player_dead(self):
         if self.player.health == 0:
-            end_view = EndScreenView()
-            self.window.show_view(end_view)
+            death_view = DeathScreenView()
+            self.window.show_view(death_view)
+
+    def check_player_won(self):
+        if self.player.bosses_defeated == self.no_bosses:
+            win_view = WinScreenView()
+            self.window.show_view(win_view)
+
 
     def reset(self):
         self.player = None

@@ -16,7 +16,7 @@ class Player(arcade.Sprite):
         self.center_x = pos_x
         self.center_y = pos_y
 
-        self.speed = 200
+        self.speed = 500
 
         self.move_up = False
         self.move_down = False
@@ -61,6 +61,8 @@ class Player(arcade.Sprite):
 
         self.ability_timer = 0
         self.ability_cooldown_timer = 0
+
+        self.bosses_defeated = 0
 
         self.action_textures = PlayerResources.get_textures()
         self.weapons = ItemResources.get_weapons()
@@ -402,6 +404,7 @@ class Player(arcade.Sprite):
             if self.current_ability["name"] == "shield_bubble":
                 self.is_invincible = False
                 self.scene["Ability"].remove(self.ability_sprite)
+                self.alpha = 255
 
             if self.current_ability["name"] == "berserk":
                 self.stats_multiplier = 1.0
