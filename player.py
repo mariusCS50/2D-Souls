@@ -383,7 +383,7 @@ class Player(arcade.Sprite):
         if not self.current_ability:
             return
 
-        if  self.current_ability["name"] == "berserk":
+        if self.current_ability["name"] == "berserk":
             self.stats_multiplier = 1.5
             self.color = (255, 80, 80)
 
@@ -391,14 +391,14 @@ class Player(arcade.Sprite):
         if self.ability_timer > self.current_ability["ability_time"]:
             self.is_using_ability = False
             self.ability_timer = 0
+            if self.current_ability["name"] == "berserk":
+                self.stats_multiplier = 1.0
+                self.color = (255, 255, 255)
 
     def ability_cooldown_update(self, delta_time):
         if not self.can_use_ability:
             self.ability_cooldown_timer += delta_time
             if self.ability_cooldown_timer > self.current_ability["cooldown"]:
-                if self.current_ability["name"] == "berserk":
-                    self.stats_multiplier = 1.0
-                    self.color = (255, 255, 255)
                 self.current_ability = None
                 self.can_use_ability  = True
                 self.ability_cooldown_timer = 0

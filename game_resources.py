@@ -580,7 +580,7 @@ class AbilitiesResources:
         "volcano_boss": {
             "name" : "berserk",
             "texture" : arcade.load_texture("assets/abilities/shield_bubble.png"),
-            "ability_time" : 3,
+            "ability_time" : 2,
             "cooldown" : 10
         },
     }

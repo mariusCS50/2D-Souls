@@ -55,8 +55,8 @@ class VolcanoBoss(arcade.Sprite):
         self.animation_walk_time = 0.2
         self.animation_walk_timer = 0
 
-        self.normal_time = 10
-        self.rage_time = 3
+        self.normal_time = 12
+        self.rage_time = 4
 
         self.is_raged = False
         self.timer = 0
