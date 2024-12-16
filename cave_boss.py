@@ -20,7 +20,9 @@ class CaveBoss(arcade.Sprite):
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
 
-        self.ability = AbilitiesResources.get_abilities()["cave_boss"]
+        self.ability_name = "cave_boss"
+
+        self.ability = AbilitiesResources.get_abilities()[self.ability_name]
 
         self.ability_sprite = self.ability["sprite"]
         self.ability_sprite.alpha = 128

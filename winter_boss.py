@@ -23,7 +23,7 @@ class WinterBoss(arcade.Sprite):
 
         self.max_health = self._health = 1
 
-        self.ability_name = "multi_projectiles"
+        self.ability_name = "winter_boss"
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])

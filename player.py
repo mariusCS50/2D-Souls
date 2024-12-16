@@ -327,7 +327,9 @@ class Player(arcade.Sprite):
 
     def invincible_timer_update(self, delta_time):
         if self.is_invincible:
-            self.alpha = (255 + 128) - self.alpha
+            if self.current_ability:
+                if self.current_ability["name"] != "shield_bubble":
+                    self.alpha = (255 + 128) - self.alpha
             self.invincible_timer += delta_time
 
             if self.invincible_timer > self.invincible_time:
@@ -380,8 +382,18 @@ class Player(arcade.Sprite):
                 self.current_ability = AbilitiesResources.get_abilities()[ability_name]
                 self.can_use_ability = False
 
-        if not self.current_ability:
-            return
+            if not self.current_ability:
+                self.is_using_ability = False
+                return
+
+        if self.current_ability["name"] == "shield_bubble":
+            self.is_invincible = True
+            self.ability_sprite = self.current_ability["sprite"]
+            self.ability_sprite.alpha = 128
+            self.ability_sprite.center_x = self.center_x
+            self.ability_sprite.center_y = self.center_y
+            if not self.ability_sprite in self.scene["Ability"]:
+                self.scene["Ability"].append(self.ability_sprite)
 
         if self.current_ability["name"] == "berserk":
             self.stats_multiplier = 1.5
@@ -391,6 +403,10 @@ class Player(arcade.Sprite):
         if self.ability_timer > self.current_ability["ability_time"]:
             self.is_using_ability = False
             self.ability_timer = 0
+            if self.current_ability["name"] == "shield_bubble":
+                self.is_invincible = False
+                self.scene["Ability"].remove(self.ability_sprite)
+
             if self.current_ability["name"] == "berserk":
                 self.stats_multiplier = 1.0
                 self.color = (255, 255, 255)
