@@ -1,11 +1,15 @@
 import arcade
-from drop_sprite import DropSprite
 from game_resources import MapResources, ItemResources, EnemyResources
+
+from drop_sprite import DropSprite
 from island_status_ui import IslandStatusUI
+
 from melee_enemy import MeleeEnemy
 from ranger_enemy import RangerEnemy
-from winter_boss import WinterBoss
+
 from cave_boss import CaveBoss
+from winter_boss import WinterBoss
+from volcano_boss import VolcanoBoss
 
 class IslandScene(arcade.Scene):
     def __init__(self, island_name, is_lobby):
@@ -37,16 +41,15 @@ class IslandScene(arcade.Scene):
 
             self["Drops"].append(DropSprite(name, ItemResources.get_weapons()[name]["texture"], pos_x, pos_y, self, True))
 
+        self.island_name = island_name
         self.is_lobby = is_lobby
         self.spawned_boss = False
+        self.boss_incoming_countdown = 3
 
         if self.is_lobby:
             self.island_status = None
             self["Drops"].append(DropSprite("cave_sword1", ItemResources.get_weapons()["cave_sword1"]["texture"], 500, 500, self, True))
             return
-
-        boss = CaveBoss(self.map_width // 2, 500, self)
-        self["Boss"].append(boss)
 
         # enemies_info = MapResources.get_enemies_info(island_name)
         # for enemy_info in enemies_info:
@@ -132,7 +135,16 @@ class IslandScene(arcade.Scene):
             self.island_status.update(len(self["Enemies"]), delta_time)
 
         if not self.is_lobby and not self.spawned_boss and len(self["Enemies"]) == 0:
-            self.spawned_boss = True
+            self.boss_incoming_countdown -= delta_time
+            if self.boss_incoming_countdown <= 0:
+                if self.island_name == "crystal_cave":
+                    self["Boss"].append(CaveBoss(640, 500, self))
+                elif self.island_name == "snowy_plains":
+                    self["Boss"].append(WinterBoss(624, 656, self))
+                elif self.island_name == "volcano_island":
+                    self["Boss"].append(VolcanoBoss(1424, 656, self))
+
+                self.spawned_boss = True
 
     def get_collision_layers(self):
         return self.collision_layers

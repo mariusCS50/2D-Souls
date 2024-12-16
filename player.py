@@ -230,6 +230,10 @@ class Player(arcade.Sprite):
                 for hit in hit_list:
                     hit.take_damage(self.weapons[self.weapon_name]["damage"])
 
+                hit_list = arcade.check_for_collision_with_list(self.melee_hitbox, self.scene["Boss"])
+                for hit in hit_list:
+                    hit.take_damage(self.weapons[self.weapon_name]["damage"])
+
             elif self.weapons[self.weapon_name]["type"] == "ranged":
                 if not self.shot_projectile:
                     if "bow" in self.weapon_name:
