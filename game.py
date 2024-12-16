@@ -211,16 +211,6 @@ class GameView(arcade.View):
         self.current_scene.on_draw()
         self.ui_manager.draw()
 
-        camera_x, camera_y = self.camera.position
-
-        for boss in self.current_scene["Boss"]:
-            hitbox_vertices = boss.get_hit_box()
-            adjusted_vertices = [
-                (boss.center_x + point[0] - camera_x, boss.center_y + point[1] - camera_y)
-                for point in hitbox_vertices
-            ]
-            arcade.draw_polygon_outline(adjusted_vertices, arcade.color.BLUE, 2)
-
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
             self.player.move_up = True
