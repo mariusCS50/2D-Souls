@@ -462,12 +462,6 @@ class ItemResources:
             "type": "potion",
             "texture": arcade.load_texture("assets/potions/health_potion.png"),
         },
-        "cave_spear": {
-            "type": "melee",
-            "damage": 5,
-            "texture": arcade.load_texture("assets/weapons/melee/cave_spear.png"),
-            "hitbox_generator": spear_hitbox_generator
-        },
         "cave_sword1": {
             "type": "melee",
             "damage": 4,
@@ -484,7 +478,7 @@ class ItemResources:
             "type": "melee",
             "damage": 6,
             "texture": arcade.load_texture("assets/weapons/melee/cave_spear.png"),
-            "hitbox_generator": sword_hitbox_generator
+            "hitbox_generator": spear_hitbox_generator
         },
         "water_wand": {
             "type": "ranged",
@@ -509,7 +503,7 @@ class ItemResources:
             "type": "melee",
             "damage": 10,
             "texture": arcade.load_texture("assets/weapons/melee/winter_spear.png"),
-            "hitbox_generator": sword_hitbox_generator
+            "hitbox_generator": spear_hitbox_generator
         },
         "ice_wand": {
             "type": "ranged",
@@ -534,7 +528,7 @@ class ItemResources:
             "type": "melee",
             "damage": 14,
             "texture": arcade.load_texture("assets/weapons/melee/volcano_spear.png"),
-            "hitbox_generator": sword_hitbox_generator
+            "hitbox_generator": spear_hitbox_generator
         },
         "magma_wand": {
             "type": "ranged",
