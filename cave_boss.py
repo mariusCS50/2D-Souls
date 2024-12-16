@@ -8,7 +8,7 @@ class CaveBoss(arcade.Sprite):
 
         self.boss_textures = EnemyResources.get_textures("cave_bat")
 
-        self.shield_texture = arcade.load_texture("assets/abilities/shield_buble.png")
+        self.shield_texture = arcade.load_texture("assets/abilities/shield_bubble.png")
 
         self.damage = 10
 
@@ -17,7 +17,7 @@ class CaveBoss(arcade.Sprite):
 
         self.speed = 100
 
-        self.max_health = self._health = 150
+        self.max_health = self._health = 50
 
         self.scene = scene
         self.physics_engine = arcade.PhysicsEngineSimple(self, scene["Collision Layer"])
@@ -30,42 +30,32 @@ class CaveBoss(arcade.Sprite):
         self.invincible_time = 3
         self.invincible_timer = 0
 
-        self.normal_attack_time = 0.4
-        self.raged_attack_time = 0.2
-
-        self.attack_time = self.normal_attack_time
+        self.attack_time = 0.4
         self.attack_timer = 0
 
-        self.normal_attack_cooldown = 0.8
+        self.attack_cooldown = 0.8
         self.raged_attack_cooldown = 0.4
 
-        self.attack_cooldown = self.normal_attack_cooldown
         self.attack_cooldown_timer = 0
 
         self.death_time = 0.4
         self.death_timer = 0
 
         self.current_facing_direction = "down"
-        self.texture = self.boss_textures["walk"][self.current_facing_direction]
+        self.texture = self.boss_textures["fly"][self.current_facing_direction][0]
 
         self.fly_texture_index = 0
         self.animation_walk_time = 0.2
         self.animation_walk_timer = 0
 
-        self.normal_time = 10
-        self.rage_time = 2
-
-        self.is_raged = False
-        self.timer = 0
-
         self.set_custom_hitbox()
 
     def set_custom_hitbox(self):
         hitbox = [
-            (-self.width / 8, -self.height / 8),
-            (self.width / 8, -self.height / 8),
-            (self.width / 8, self.height / 8),
-            (-self.width / 8, self.height / 8)
+            (-self.width / 5, -self.height / 5),
+            (self.width / 5, -self.height / 5),
+            (self.width / 5, self.height / 5),
+            (-self.width / 5, self.height / 5)
         ]
         self.set_hit_box(hitbox)
 

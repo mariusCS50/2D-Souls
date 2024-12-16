@@ -49,8 +49,6 @@ class Game(arcade.Window):
 
         volcano_island["Player"].append(self.player)
 
-        self.signs = MapResources.get_signs_info()
-
     def check_map_transition(self):
         new_scene = None
 
@@ -110,6 +108,16 @@ class Game(arcade.Window):
         self.camera.use()
         self.current_scene.on_draw()
         self.ui_manager.draw()
+
+        camera_x, camera_y = self.camera.position
+
+        for boss in self.current_scene["Boss"]:
+            hitbox_vertices = boss.get_hit_box()
+            adjusted_vertices = [
+                (boss.center_x + point[0] - camera_x, boss.center_y + point[1] - camera_y)
+                for point in hitbox_vertices
+            ]
+            arcade.draw_polygon_outline(adjusted_vertices, arcade.color.BLUE, 2)
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:

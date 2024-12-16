@@ -4,6 +4,7 @@ from game_resources import MapResources, ItemResources, EnemyResources
 from melee_enemy import MeleeEnemy
 from ranger_enemy import RangerEnemy
 from winter_boss import WinterBoss
+from cave_boss import CaveBoss
 
 class IslandScene(arcade.Scene):
     def __init__(self, island_name, is_lobby):
@@ -23,9 +24,9 @@ class IslandScene(arcade.Scene):
 
         self.add_sprite_list_after("Drops", "Collision Layer 3")
         self.add_sprite_list_after("Enemies", "Drops")
-        self.add_sprite_list_after("Boss", "Enemies")
-        self.add_sprite_list_after("Player", "Boss")
+        self.add_sprite_list_after("Player", "Enemies")
         self.add_sprite_list_after("Projectiles", "Player")
+        self.add_sprite_list_after("Boss", "Top Layer")
 
         hidden_bow_info = MapResources.get_hidden_bows_info(island_name)
         if hidden_bow_info:
@@ -41,6 +42,9 @@ class IslandScene(arcade.Scene):
         if self.is_lobby:
             self["Drops"].append(DropSprite("cave_sword1", ItemResources.get_weapons()["cave_sword1"]["texture"], 500, 500, self, True))
             return
+
+        boss = CaveBoss(self.map_width // 2, 500, self)
+        self["Boss"].append(boss)
 
         # enemies_info = MapResources.get_enemies_info(island_name)
         # for enemy_info in enemies_info:

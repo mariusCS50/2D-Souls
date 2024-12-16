@@ -81,10 +81,6 @@ class MapResources:
     def get_hidden_bows_info(island_name):
         return MapResources.hidden_bows_info[island_name]
 
-    @staticmethod
-    def get_signs_info():
-        return MapResources.signs_info
-
 
 class PlayerResources:
     action_textures = {
