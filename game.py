@@ -39,7 +39,7 @@ class DeathScreenView(arcade.View):
         self.game_view.setup()
 
         arcade.set_viewport(0, self.window.width, 0, self.window.height)
-        self.background_texture = arcade.load_texture("assets/backgrounds/end_screen_background.png")
+        self.background_texture = arcade.load_texture("assets/backgrounds/death_screen_background.png")
 
     def on_draw(self):
         self.clear()
