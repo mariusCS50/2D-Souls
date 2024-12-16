@@ -35,7 +35,7 @@ class RangerEnemy(Enemy):
         ]
         self.set_hit_box(hitbox)
 
-    def walk(self, delta_time):
+    def follow_target(self, delta_time):
         diff_x = self.get_target().center_x - self.center_x
         diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
@@ -108,7 +108,7 @@ class RangerEnemy(Enemy):
             self.shoot(delta_time)
 
         elif self.has_line_of_sight():
-            self.walk(delta_time)
+            self.follow_target(delta_time)
 
             if self.can_shoot:
                 self.is_shooting = True

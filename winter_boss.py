@@ -114,7 +114,7 @@ class WinterBoss(arcade.Sprite):
             self.texture = self.boss_textures["walk"][self.current_facing_direction][self.walk_texture_index]
             self.animation_walk_timer = 0
 
-    def walk(self, delta_time):
+    def follow_target(self, delta_time):
         diff_x = self.get_target().center_x - self.center_x
         diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
@@ -200,7 +200,7 @@ class WinterBoss(arcade.Sprite):
             self.can_shoot = False
             self.shoot(delta_time)
         else:
-            self.walk(delta_time)
+            self.follow_target(delta_time)
 
         if arcade.check_for_collision(self, self.get_target()):
             self.get_target().take_damage(self.collision_damage)

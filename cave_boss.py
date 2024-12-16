@@ -103,7 +103,7 @@ class CaveBoss(arcade.Sprite):
             self.texture = self.boss_textures["fly"][self.current_facing_direction][self.fly_texture_index]
             self.animation_walk_timer = 0
 
-    def fly(self, delta_time):
+    def follow_target(self, delta_time):
         diff_x = self.get_target().center_x - self.center_x
         diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
@@ -177,7 +177,7 @@ class CaveBoss(arcade.Sprite):
         elif self.is_attacking:
             self.attack(delta_time)
         else:
-            self.fly(delta_time)
+            self.follow_target(delta_time)
 
             if self.can_attack and arcade.check_for_collision(self, self.get_target()):
                 self.is_attacking = True
