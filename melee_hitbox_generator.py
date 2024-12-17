@@ -30,8 +30,6 @@ class SwordHitboxGenerator():
 
         return sword_hitbox
 
-import arcade
-
 class SpearHitboxGenerator():
     def __init__(self):
         pass
