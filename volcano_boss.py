@@ -85,14 +85,14 @@ class VolcanoBoss(arcade.Sprite):
         self.is_dying = True
         self.texture = self.boss_textures["death"][self.current_facing_direction]
 
-    def get_facing_direction(self):
-        if abs(self.dir_x) > abs(self.dir_y):
-            if self.dir_x > 0:
+    def get_facing_direction(self, dir_x, dir_y):
+        if abs(dir_x) > abs(dir_y):
+            if dir_x > 0:
                 return "right"
             else:
                 return "left"
         else:
-            if self.dir_y > 0:
+            if dir_y > 0:
                 return "up"
             else:
                 return "down"
@@ -109,15 +109,22 @@ class VolcanoBoss(arcade.Sprite):
         diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
-        if distance > 40:
-            self.dir_x = diff_x / distance
-            self.dir_y = diff_y / distance
+        dir_x = diff_x / distance
+        dir_y = diff_y / distance
 
-            self.change_x = self.dir_x * (self.speed * self.stats_multiplier) * delta_time
-            self.change_y = self.dir_y * (self.speed * self.stats_multiplier) * delta_time
+        self.current_facing_direction = self.get_facing_direction(dir_x, dir_y)
 
-            self.current_facing_direction = self.get_facing_direction()
+        if distance > 60:
+            self.dir_x = dir_x
+            self.dir_y = dir_y
+
             self.animate_walk(delta_time)
+        else:
+            self.dir_x = self.dir_y = 0
+            self.texture = self.boss_textures["idle"][self.current_facing_direction]
+
+        self.change_x = self.dir_x * (self.speed * self.stats_multiplier) * delta_time
+        self.change_y = self.dir_y * (self.speed * self.stats_multiplier) * delta_time
 
         return distance
 

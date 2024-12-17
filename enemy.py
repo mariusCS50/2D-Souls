@@ -84,14 +84,14 @@ class Enemy(arcade.Sprite, ABC):
     def set_custom_hitbox(self):
         pass
 
-    def get_facing_direction(self):
-        if abs(self.dir_x) > abs(self.dir_y):
-            if self.dir_x > 0:
+    def get_facing_direction(self, dir_x, dir_y):
+        if abs(dir_x) > abs(dir_y):
+            if dir_x > 0:
                 return "right"
             else:
                 return "left"
         else:
-            if self.dir_y > 0:
+            if dir_y > 0:
                 return "up"
             else:
                 return "down"
@@ -116,7 +116,7 @@ class Enemy(arcade.Sprite, ABC):
                 self.timer = 0
                 self.is_idle = False
                 self.dir_x, self.dir_y = self.directions[random.randint(0, 3)]
-                self.current_facing_direction = self.get_facing_direction()
+                self.current_facing_direction = self.get_facing_direction(self.dir_x, self.dir_y)
 
         else:
             next_x = self.center_x + self.dir_x * 10
@@ -135,7 +135,7 @@ class Enemy(arcade.Sprite, ABC):
                 self.animate_walk(delta_time)
             else:
                 self.dir_x, self.dir_y = self.directions[random.randint(0, 3)]
-                self.current_facing_direction = self.get_facing_direction()
+                self.current_facing_direction = self.get_facing_direction(self.dir_x, self.dir_y)
 
             if self.timer > self.wandering_time:
                 self.timer = 0

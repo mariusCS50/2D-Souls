@@ -84,14 +84,14 @@ class CaveBoss(arcade.Sprite):
         self.is_dying = True
         self.texture = self.boss_textures["death"][self.current_facing_direction]
 
-    def get_facing_direction(self):
-        if abs(self.dir_x) > abs(self.dir_y):
-            if self.dir_x > 0:
+    def get_facing_direction(self, dir_x, dir_y):
+        if abs(dir_x) > abs(dir_y):
+            if dir_x > 0:
                 return "right"
             else:
                 return "left"
         else:
-            if self.dir_y > 0:
+            if dir_y > 0:
                 return "up"
             else:
                 return "down"
@@ -114,7 +114,7 @@ class CaveBoss(arcade.Sprite):
         self.change_x = self.dir_x * self.speed * delta_time
         self.change_y = self.dir_y * self.speed * delta_time
 
-        self.current_facing_direction = self.get_facing_direction()
+        self.current_facing_direction = self.get_facing_direction(self.dir_x, self.dir_y)
         self.animate_fly(delta_time)
 
     def attack(self, delta_time):

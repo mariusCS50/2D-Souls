@@ -43,14 +43,14 @@ class RangerEnemy(Enemy):
         self.shoot_dir_x = diff_x / distance
         self.shoot_dir_y = diff_y / distance
 
+        self.current_facing_direction = self.get_facing_direction(self.shoot_dir_x, self.shoot_dir_y)
+
         if abs(distance - self.avoidance_distance) < 10:
             self.dir_x = self.dir_y = 0
             self.texture = self.enemy_textures["idle"][self.current_facing_direction]
         else:
-            self.dir_x = diff_x / distance
-            self.dir_y = diff_y / distance
-
-            self.current_facing_direction = self.get_facing_direction()
+            self.dir_x = self.shoot_dir_x
+            self.dir_y = self.shoot_dir_y
 
             if distance <= self.avoidance_distance:
                 self.dir_x *= -1

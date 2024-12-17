@@ -51,18 +51,22 @@ class MeleeEnemy(Enemy):
         diff_y = self.get_target().center_y - self.center_y
         distance = math.sqrt(diff_x ** 2 + diff_y ** 2)
 
-        self.change_x = 0
-        self.change_y = 0
+        dir_x = diff_x / distance
+        dir_y = diff_y / distance
+
+        self.current_facing_direction = self.get_facing_direction(dir_x, dir_y)
 
         if distance > 40:
-            self.dir_x = diff_x / distance
-            self.dir_y = diff_y / distance
+            self.dir_x = dir_x
+            self.dir_y = dir_y
 
-            self.change_x = self.dir_x * self.speed * delta_time
-            self.change_y = self.dir_y * self.speed * delta_time
-
-            self.current_facing_direction = self.get_facing_direction()
             self.animate_walk(delta_time)
+        else:
+            self.dir_x = self.dir_y = 0
+            self.texture = self.enemy_textures["idle"][self.current_facing_direction]
+
+        self.change_x = self.dir_x * self.speed * delta_time
+        self.change_y = self.dir_y * self.speed * delta_time
 
         return distance
 
